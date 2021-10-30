@@ -57,7 +57,7 @@ export function TableRow(props: {person: Person, bg: string}) {
       </Button>
     </GridItem>
     <GridItem rowStart={1} rowSpan={2} colStart={11} display="flex" justifyContent="center" alignItems="center">
-      <Button h="60%" w="100%">
+      <Button h="60%" w="100%" bg="transparent">
         <Settings />
       </Button>
     </GridItem>
