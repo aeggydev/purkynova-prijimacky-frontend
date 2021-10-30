@@ -5,7 +5,7 @@ import * as React from "react"
 import MenuIcon from '@mui/icons-material/Menu';
 import { Link } from "react-router-dom";
 
-const menuItems = [["Hlavní stránka", "/dashboard"], ["Elektronická přihláška", "/form"], ["Kontakt", "/contact"]]
+const menuItems = [["Hlavní stránka", "/main"], ["Dashboard", "/dashboard"], ["Elektronická přihláška", "/form"], ["Kontakt", "/contact"]]
 
 function Menubar() {
     const [drawerState, setDrawerState] = React.useState(false)
