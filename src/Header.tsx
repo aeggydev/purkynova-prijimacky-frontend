@@ -1,5 +1,6 @@
 import spsLogo from "./icons/sspbrno.png";
 import "./styles/output.css";
+import React from "react"
 
 function Header() {
   return (

@@ -1,35 +1,29 @@
 import { Settings, Mail } from "@mui/icons-material";
-import { Person } from "./Person";
 import { Grid, GridItem, Center, Button } from "@chakra-ui/react";
+import { Person } from "./graphql/types";
+import {DateTime} from "luxon"
+import React from "react"
 
-const person: Person = {
-    id: "001",
-    applicantName: "Tomáš",
-    applicantSurname: "Jordan",
-    parentName: "Martina",
-    parentSurname: "Kolečková",
-    parentEmail: "koleckova.martina@centrum.cz",
-    schoolName: "Základní škola Želešice, Sadová, příspěvková organizace",
-    phone: "7088541066",
-    ip: "73.30.111.80",
-    signInDate: "4. 11. 2022. 16:03",
-    payTillDate: "19. 11. 2022",
-    paidDate: null,
-    variableSymbol: "2022001"
-}
-export function Table() {
+// TODO: Table guide
+// TODO: Use react-table
+
+export function Table(props: {people: Person[]}) {
   return (
     <div className="bg-white">
-      <TableRow person={person} bg="#fff" />
-      <TableRow person={person} bg="#eee" />
-      <TableRow person={person} bg="#fff" />
+      {props.people.map(x => <TableRow person={x} bg="#eee" />)}
     </div>
   );
 }
 export function TableRow(props: {person: Person, bg: string}) {
-  return <Grid bg={props.bg} templateColumns="1fr 4fr 3fr 4fr 4fr 2fr 2fr 2fr 2fr 1fr 1fr" templateRows="repeat(3, 1fr)">
+  const signInDate = DateTime.fromISO(props.person.signInDate).toFormat("dd. MM. yyyy hh:mm")
+  const payTillDate = DateTime.fromISO(props.person.payTillDate).toFormat("dd. MM. yyyy")
+  const paidDate = props.person.paidDate
+    ? DateTime.fromISO(props.person.paidDate).toFormat("dd. MM. yyyy")
+    : "...nothing"
+
+  return <Grid bg={props.bg} templateColumns="1fr 4fr 3fr 4fr 4fr 2fr 2.5fr 2fr 2fr 1fr 1fr" templateRows="repeat(3, 1fr)">
     <GridItem fontWeight="bold" pr="1px" rowSpan={2} colStart={1} fontSize="2xl">
-      <Center>{props.person.id}</Center>
+      <Center>{props.person.personalId}</Center>
     </GridItem>
     <GridItem colStart={2} fontWeight="bold">{props.person.applicantName} {props.person.applicantSurname}</GridItem>
     <GridItem colStart={2}>{props.person.parentName} {props.person.parentSurname}</GridItem>
@@ -43,13 +37,13 @@ export function TableRow(props: {person: Person, bg: string}) {
       {props.person.variableSymbol}
     </GridItem>
     <GridItem rowStart={1} rowSpan={2} colStart={7} fontSize="sm" display="flex" justifyContent="center" alignItems="center" fontWeight="bold" color="gray">
-      {props.person.signInDate}
+      {signInDate}
     </GridItem>
     <GridItem rowStart={1} rowSpan={2} colStart={8} fontWeight="bold" display="flex" justifyContent="center" alignItems="center">
-      {props.person.payTillDate}
+      {payTillDate}
     </GridItem>
     <GridItem rowStart={1} rowSpan={2} colStart={9} fontWeight="bold" display="flex" justifyContent="center" alignItems="center">
-      {props.person.paidDate}
+      {paidDate}
     </GridItem>
     <GridItem rowStart={1} rowSpan={2} colStart={10} display="flex" justifyContent="center" alignItems="center">
       <Button bg="rgb(185, 28, 28)" rounded="0.25rem" h="60%" w="100%" display="flex" justifyContent="center" alignItems="center">

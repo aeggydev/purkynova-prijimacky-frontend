@@ -1,5 +1,5 @@
 import "./styles/output.css";
-import { Link } from "@chakra-ui/react"
+import React from "react"
 
 type Props = {
   title: string;

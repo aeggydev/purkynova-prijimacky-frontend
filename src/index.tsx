@@ -5,14 +5,27 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import darkTheme from "./theme";
 import { ChakraProvider } from "@chakra-ui/react";
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+} from "@apollo/client";
+
+const client = new ApolloClient({
+  uri: "http://localhost:8080/query",
+  cache: new InMemoryCache(),
+  connectToDevTools: true
+});
 
 ReactDOM.render(
   <React.StrictMode>
-    <ChakraProvider>
-      <ThemeProvider theme={darkTheme}>
-        <App />
-      </ThemeProvider>
-    </ChakraProvider>
+    <ApolloProvider client={client}>
+      <ChakraProvider>
+        <ThemeProvider theme={darkTheme}>
+          <App />
+        </ThemeProvider>
+      </ChakraProvider>
+    </ApolloProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );

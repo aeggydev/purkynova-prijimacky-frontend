@@ -1,5 +1,6 @@
-import { Box, Text } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import styled from "styled-components"
+import React from "react"
 
 const Paragraph = styled.p`
   margin-bottom: 1em;
