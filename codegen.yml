@@ -1,0 +1,20 @@
+overwrite: true
+schema: "http://localhost:8080/query"
+documents: ./src/**/*.{ts,tsx,graphql}
+generates:
+  ./src/graphql/schema.graphql:
+    plugins:
+      - schema-ast
+  ./src/graphql/schema.json:
+    plugins:
+      - introspection
+  ./src/graphql/types.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-react-apollo
+    config:
+      scalars:
+        Time: string
+      flattenGeneratedTypes: true
+      strictScalars: true
