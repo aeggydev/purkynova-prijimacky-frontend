@@ -3,7 +3,15 @@ import { Dashboard } from "./Components/Dashboard";
 import Form from "./Components/Form";
 import Contact from "./Components/Contact";
 
-export default [
+export type Route = {
+  path: string
+  text: string
+  listed: boolean
+  shouldGenerateRoute: boolean
+  component: () => JSX.Element
+}
+
+const Routes: Route[] = [
   {
     path: "/main",
     text: "Hlavní stránka",
@@ -34,3 +42,4 @@ export default [
     component: Contact
   }
 ]
+export default Routes

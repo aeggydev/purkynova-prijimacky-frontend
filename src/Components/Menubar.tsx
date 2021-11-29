@@ -1,47 +1,46 @@
-import MenubarItem from "./MenubarButton"
-import { Drawer, Box, List, ListItemButton } from "@mui/material"
-import * as React from "react"
+import * as React from "react";
 // @ts-ignore
-import MenuIcon from "url:/src/icons/menu.svg";
-import { Link } from "react-router-dom";
+import MenuIcon from "url:/src/Icons/menu.svg";
+import { NavLink } from "react-router-dom";
+import { Box as ChakraBox } from "@chakra-ui/react";
+import { LightText, TopbarBg, TopbarDarkBg, TopbarLightBg } from "../theme";
+import Routes, { Route } from "../Routes";
 
-const menuItems = [["Hlavní stránka", "/main"], ["Dashboard", "/dashboard"], ["Elektronická přihláška", "/form"], ["Kontakt", "/contact"]]
+type Props = {
+  route: Route
+};
 
-function Menubar() {
-    const [drawerState, setDrawerState] = React.useState(false)
-    const toggleDrawer = (value?: boolean) => () => {
-      if (value) {
-        setDrawerState(value)
-      } else {
-        setDrawerState(!drawerState)
-      }
-    }
-
-    const list = () => (
-      <Box onClick={toggleDrawer(false)} role="presentation" sx={{width: 250}}>
-        <List>
-          {menuItems.map((text, index) => <ListItemButton key={index}><Link to={text[1]}>{text[0]}</Link></ListItemButton>)}
-        </List>
-      </Box>
-    )
-
-    return <div style={{marginBottom: "0.5rem"}}>
-        <div>
-          <button onClick={toggleDrawer()}>
-            <img src={MenuIcon} alt="Menu icon" />
-          </button>
-          <Drawer anchor="left" open={drawerState} onClose={toggleDrawer(false)}>
-            {list()}
-          </Drawer>
-        </div>
-        <div className="hidden px-2 mx-2 navbar-center md:flex">
-            <div className="flex items-stretch">
-              {menuItems.map((x, i) => <Link to={x[1]} key={i}>
-                  <MenubarItem title={x[0]} />
-                </Link>)}
-            </div>
-        </div>
-  </div>
+function MenubarItem({ route }: Props) {
+  return <NavLink to={route.path} style={isActive => ({
+    display: "inline-block",
+    background: isActive ? TopbarDarkBg : TopbarBg,
+    borderBottomWidth: isActive ? "4px" : "0px",
+    borderBottomColor: TopbarLightBg
+  })}>
+    <ChakraBox as={"span"}
+               textTransform={"uppercase"} display={"inline-block"}
+               fontSize={"18px"} height={"100%"} padding={".75rem"}
+               fontWeight={"500"}>
+      {route.text}
+    </ChakraBox>
+  </NavLink>;
 }
 
-export default Menubar
+function Menubar() {
+  const [drawerState, setDrawerState] = React.useState(false);
+  const toggleDrawer = (value?: boolean) => () => {
+    if (value) {
+      setDrawerState(value);
+    } else {
+      setDrawerState(!drawerState);
+    }
+  };
+
+  return <ChakraBox background={TopbarBg} color={LightText}
+                    display={"flex"} justifyContent={"center"}
+                    boxSizing={"border-box"}>
+    {Routes.map((x, i) => <MenubarItem route={x} key={i} />)}
+  </ChakraBox>;
+}
+
+export default Menubar;

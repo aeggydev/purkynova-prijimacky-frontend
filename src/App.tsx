@@ -1,5 +1,4 @@
 import Header from "./Components/Header";
-import Menubar from "./Components/Menubar";
 import { CssBaseline } from "@mui/material";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import { Dashboard } from "./Components/Dashboard";
@@ -24,7 +23,6 @@ function App() {
       <CssBaseline />
       <BrowserRouter>
         <Header />
-        <Menubar />
         <Switch>
           <Route path="/" exact>
             <Redirect to={"/main"} />

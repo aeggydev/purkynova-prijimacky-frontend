@@ -1,0 +1,6 @@
+export const TopbarBg = "#18AC6A"
+export const TopbarDarkBg = "#138A55"
+export const TopbarLightBg = "#2FE292"
+export const OldTopbarBg = "#333A42"
+export const LightText = "white"
+export const DarkText = "black"
