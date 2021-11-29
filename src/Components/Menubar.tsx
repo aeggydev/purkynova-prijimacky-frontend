@@ -34,16 +34,13 @@ function Menubar() {
             {list()}
           </Drawer>
         </div>
-{/*
         <div className="hidden px-2 mx-2 navbar-center md:flex">
             <div className="flex items-stretch">
-              {menuItems.map(x => <Link to={x[1]}>
+              {menuItems.map((x, i) => <Link to={x[1]} key={i}>
                   <MenubarItem title={x[0]} />
                 </Link>)}
             </div>
         </div>
-*/}
-        <div />
   </div>
 }
 

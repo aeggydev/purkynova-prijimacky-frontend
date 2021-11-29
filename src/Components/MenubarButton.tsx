@@ -5,7 +5,7 @@ type Props = {
 };
 
 function MenubarItem({ title }: Props) {
-  return <a /*className="btn btn-ghost btn-sm rounded-btn"*/>{title}</a>;
+  return <span /*className="btn btn-ghost btn-sm rounded-btn"*/>{title}</span>;
 }
 
 export default MenubarItem;
