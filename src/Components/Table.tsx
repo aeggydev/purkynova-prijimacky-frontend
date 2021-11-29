@@ -3,7 +3,7 @@ import Settings from "url:/src/icons/settings.svg";
 // @ts-ignore
 import Mail from "url:/src/icons/email.svg";
 import { Grid, GridItem, Center, Button } from "@chakra-ui/react";
-import { Person } from "./graphql/types";
+import { Person } from "../graphql/types";
 import {DateTime} from "luxon"
 import React from "react"
 

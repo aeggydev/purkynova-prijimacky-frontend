@@ -1,12 +1,12 @@
-import Contact from "./Contact";
-import Header from "./Header";
-import Menubar from "./Menubar";
-import Welcome from "./Welcome";
+import Contact from "./Components/Contact";
+import Header from "./Components/Header";
+import Menubar from "./Components/Menubar";
+import Welcome from "./Components/Welcome";
 import { CssBaseline } from "@mui/material";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
-import { Dashboard } from "./Dashboard";
+import { Dashboard } from "./Components/Dashboard";
 import { createGlobalStyle } from "styled-components";
-import Form from "./Form";
+import Form from "./Components/Form";
 import React from "react"
 
 const GlobalStyle = createGlobalStyle`

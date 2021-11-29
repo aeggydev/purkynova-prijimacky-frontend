@@ -1,5 +1,5 @@
 // @ts-ignore
-import spsLogo from "url:./icons/sspbrno.png";
+import spsLogo from "url:/src/icons/sspbrno.png";
 import React from "react"
 
 function Header() {

@@ -1,8 +1,8 @@
 import MenubarItem from "./MenubarButton"
 import { Drawer, Box, List, ListItemButton } from "@mui/material"
 import * as React from "react"
+// @ts-ignore
 import MenuIcon from "url:/src/icons/menu.svg";
-//import MenuIcon from '@mui/icons-material/Menu';
 import { Link } from "react-router-dom";
 
 const menuItems = [["Hlavní stránka", "/main"], ["Dashboard", "/dashboard"], ["Elektronická přihláška", "/form"], ["Kontakt", "/contact"]]
