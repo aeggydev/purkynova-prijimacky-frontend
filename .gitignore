@@ -3,3 +3,5 @@
 /.dist
 /.idea
 /src/styles/output.css
+/dist/
+/.parcel-cache/

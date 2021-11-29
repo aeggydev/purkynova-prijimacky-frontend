@@ -1,4 +1,3 @@
-import "./styles/output.css";
 import React from "react"
 
 type Props = {
@@ -6,7 +5,7 @@ type Props = {
 };
 
 function MenubarItem({ title }: Props) {
-  return <a className="btn btn-ghost btn-sm rounded-btn">{title}</a>;
+  return <a /*className="btn btn-ghost btn-sm rounded-btn"*/>{title}</a>;
 }
 
 export default MenubarItem;

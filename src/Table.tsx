@@ -1,4 +1,7 @@
-import { Settings, Mail } from "@mui/icons-material";
+// @ts-ignore
+import Settings from "url:/src/icons/settings.svg";
+// @ts-ignore
+import Mail from "url:/src/icons/email.svg";
 import { Grid, GridItem, Center, Button } from "@chakra-ui/react";
 import { Person } from "./graphql/types";
 import {DateTime} from "luxon"
@@ -9,7 +12,7 @@ import React from "react"
 
 export function Table(props: {people: Person[]}) {
   return (
-    <div className="bg-white">
+    <div style={{background: "white"}}>
       {props.people.map(x => <TableRow person={x} bg="#eee" />)}
     </div>
   );
@@ -47,7 +50,8 @@ export function TableRow(props: {person: Person, bg: string}) {
     </GridItem>
     <GridItem rowStart={1} rowSpan={2} colStart={10} display="flex" justifyContent="center" alignItems="center">
       <Button bg="rgb(185, 28, 28)" rounded="0.25rem" h="60%" w="100%" display="flex" justifyContent="center" alignItems="center">
-        <Mail style={{color: "white"}} />
+        <img src={Mail} alt="Mail icon" />
+        {/*<Mail style={{color: "white"}} />*/}
       </Button>
     </GridItem>
     <GridItem rowStart={1} rowSpan={2} colStart={11} display="flex" justifyContent="center" alignItems="center">

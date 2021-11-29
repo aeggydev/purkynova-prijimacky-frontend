@@ -3,7 +3,7 @@ import Header from "./Header";
 import Menubar from "./Menubar";
 import Welcome from "./Welcome";
 import { CssBaseline } from "@mui/material";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import { Dashboard } from "./Dashboard";
 import { createGlobalStyle } from "styled-components";
 import Form from "./Form";
@@ -19,13 +19,16 @@ const GlobalStyle = createGlobalStyle`
 
 function App() {
   return (
-    <div className="h-full">
+    <div style={{height: "100%"}}>
       <GlobalStyle />
       <CssBaseline />
       <BrowserRouter>
         <Header />
         <Menubar />
         <Switch>
+          <Route path="/" exact>
+            <Redirect to={"/main"} />
+          </Route>
           <Route path="/main">
             <Welcome />
           </Route>

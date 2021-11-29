@@ -1,5 +1,5 @@
-import spsLogo from "./icons/sspbrno.png";
-import "./styles/output.css";
+// @ts-ignore
+import spsLogo from "url:./icons/sspbrno.png";
 import React from "react"
 
 function Header() {
@@ -8,18 +8,19 @@ function Header() {
       href="http://sspbrno.cz"
       target="_blank"
       rel="noreferrer"
-      className="text-white w-full h-14 md:h-32 bg-[#333A42] items-center flex flex-row px-2 md:px-36"
+      style={{color: "white", width: "100%", height: "8rem", background: "#333A42",
+        alignItems: "center", display: "flex", flexDirection: "row", padding: "0 9rem"}}
     >
       <img
         src={spsLogo}
         alt="Logo školy"
-        className="h-auto w-auto max-h-10 md:max-h-20"
+        style={{height: "auto", width: "auto", maxHeight: "5rem"}}
       />
-      <div className="ml-12 flex flex-col">
-        <span className="md:text-xl md:mb-0.5 hidden md:block">
+      <div style={{marginLeft: "3rem", display: "flex", flexDirection: "column"}}>
+        <span style={{fontSize: "1.25rem", lineHeight: "1.75rem", marginBottom: "0.125rem", display: "block"}}>
           Střední průmyslová škola Brno, Purkyňova, příspěvková organizace
         </span>
-        <span className="text-lg md:text-2xl">PŘÍJMAČKY NANEČISTO</span>
+        <span style={{fontSize: "1.5rem", lineHeight: "2rem"}}>PŘÍJMAČKY NANEČISTO</span>
       </div>
     </a>
   );
