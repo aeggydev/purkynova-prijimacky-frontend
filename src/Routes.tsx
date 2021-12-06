@@ -1,7 +1,7 @@
-import Welcome from "./Components/Welcome";
-import { Dashboard } from "./Components/Dashboard";
-import Form from "./Components/Form";
-import Contact from "./Components/Contact";
+import Welcome from "./Components/Views/Welcome";
+import { Dashboard } from "./Components/Views/Dashboard";
+import Form from "./Components/Views/Form";
+import Contact from "./Components/Views/Contact";
 
 export type Route = {
   path: string

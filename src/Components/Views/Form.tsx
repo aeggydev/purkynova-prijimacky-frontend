@@ -1,7 +1,7 @@
 import { Box, FormControl, FormLabel, Input, Grid, GridItem } from "@chakra-ui/react";
 import React from "react"
-import { DummyApplicationCount } from "./ApplicationCount";
-import ContentContainer from "./StyleComponents/ContentContainer";
+import { DummyApplicationCount } from "../ApplicationCount";
+import ContentContainer from "../StyleComponents/ContentContainer";
 
 export default function Form() {
   // TODO: Add an option for people who are already 18

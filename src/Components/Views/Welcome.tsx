@@ -1,8 +1,8 @@
 import styled from "styled-components"
 import React from "react"
-import ContentContainer from "./StyleComponents/ContentContainer";
-import ShadowBox from "./StyleComponents/ShadowBox";
-import { DummyApplicationCount } from "./ApplicationCount";
+import ContentContainer from "../StyleComponents/ContentContainer";
+import ShadowBox from "../StyleComponents/ShadowBox";
+import { DummyApplicationCount } from "../ApplicationCount";
 
 const Paragraph = styled.p`
   margin-bottom: 1em;

@@ -1,5 +1,5 @@
-import { Table } from "./Table"
-import { useGetPeopleQuery } from "../graphql/types";
+import { Table } from "../Table"
+import { useGetPeopleQuery } from "../../graphql/types";
 import React from "react"
 
 export function Dashboard() {

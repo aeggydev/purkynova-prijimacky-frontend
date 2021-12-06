@@ -1,7 +1,7 @@
 import { Link, Text } from "@chakra-ui/react";
 import React from "react";
-import ShadowC from "./StyleComponents/ShadowBox";
-import Container from "./StyleComponents/ContentContainer"
+import ShadowC from "../StyleComponents/ShadowBox";
+import Container from "../StyleComponents/ContentContainer"
 
 function Contact() {
   return <Container>

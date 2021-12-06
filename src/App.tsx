@@ -1,7 +1,7 @@
 import Header from "./Components/Header";
 import { CssBaseline } from "@mui/material";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
-import { Dashboard } from "./Components/Dashboard";
+import { Dashboard } from "./Components/Views/Dashboard";
 import { createGlobalStyle } from "styled-components";
 import React from "react"
 import Routes from "./Routes"
