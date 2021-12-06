@@ -19,7 +19,7 @@ function MenubarItem({ route }: Props) {
   })}>
     <ChakraBox as={"span"}
                textTransform={"uppercase"} display={"inline-block"}
-               fontSize={"18px"} height={"100%"} padding={".75rem"}
+               fontSize={"17px"} height={"100%"} padding={".75rem"}
                fontWeight={"500"}>
       {route.text}
     </ChakraBox>
