@@ -5,7 +5,7 @@ import Container from "./StyleComponents/ContentContainer"
 
 function Contact() {
   return <Container>
-    <ShadowC>
+    <ShadowC textAlign="left">
       <Text fontWeight="900" mb="1em">Kontaktní osoba</Text>
       <Text fontWeight="500">Alena Klobásová<br />
         tel. 541 649 193<br />
