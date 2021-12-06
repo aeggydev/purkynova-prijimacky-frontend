@@ -1,14 +1,13 @@
-import { Box, Text, FormControl, FormLabel, Input, Grid, GridItem } from "@chakra-ui/react";
+import { Box, FormControl, FormLabel, Input, Grid, GridItem } from "@chakra-ui/react";
 import React from "react"
+import { DummyApplicationCount } from "./ApplicationCount";
+import ContentContainer from "./StyleComponents/ContentContainer";
 
 export default function Form() {
   // TODO: Add an option for people who are already 18
 
-  return <Box textAlign="center" my="2.5%" mx="3%" px="7em">
-    <Box boxShadow="0px 4px 4px rgba(0, 0, 0, 0.25)" rounded="5px" mb="2.5%" py="1em" bg="#F9F9F9" display="flex"
-         justifyContent="center" alignItems="center">
-      <Text>Přihlášky přijímáme od 1. 11. 2022. Kapacita je <b>112/250</b>.</Text>
-    </Box>
+  return <ContentContainer>
+    <DummyApplicationCount />
     <Box boxShadow="0px 4px 4px rgba(0, 0, 0, 0.25)" rounded="5px" mb="2.5%" py="1em" bg="#F9F9F9" display="flex"
          justifyContent="center" alignItems="center">
       <Grid templateColumns="1fr 1fr">
@@ -53,5 +52,5 @@ export default function Form() {
         </GridItem>
       </Grid>
     </Box>
-  </Box>;
+  </ContentContainer>;
 }
