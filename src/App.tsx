@@ -10,6 +10,7 @@ const GlobalStyle = createGlobalStyle`
   #root {
     font-family: 'Roboto', sans-serif;
     background: white;
+    width: 100vw; // Prevent resizing the app when the scrollbar appears
   }
 `
 
