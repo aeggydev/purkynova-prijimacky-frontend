@@ -1,7 +1,7 @@
 import styled from "styled-components"
 import React from "react"
-import ContentContainer from "../StyleComponents/ContentContainer";
-import ShadowBox from "../StyleComponents/ShadowBox";
+import ContentContainer from "../Containers/ContentContainer";
+import ShadowBox from "../Containers/ShadowBox";
 import { DummyApplicationCount } from "../ApplicationCount";
 
 const Paragraph = styled.p`
@@ -13,10 +13,6 @@ const Paragraph = styled.p`
 // TODO: Add support for narrower layouts
 export default function Welcome() {
   return <ContentContainer>
-{/*
-    <Box boxShadow="0px 4px 4px rgba(0, 0, 0, 0.25)" rounded="5px" mb="2.5%" py="1em" bg="#F9F9F9" textAlign="center"
-         display="flex" justifyContent="center" alignItems="center">
-*/}
     <DummyApplicationCount />
     <ShadowBox>
       <Paragraph style={{fontWeight: "bold", fontSize: "22px", marginBottom: "2em"}}>Přijímačky na střední školu? Bez obav.</Paragraph>

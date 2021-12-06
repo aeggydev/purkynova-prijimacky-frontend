@@ -1,5 +1,5 @@
 import React from "react";
-import ShadowBox from "./StyleComponents/ShadowBox";
+import ShadowBox from "./Containers/ShadowBox";
 import styled from "styled-components";
 
 const Paragraph = styled.p`
