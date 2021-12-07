@@ -5,6 +5,6 @@ import Settings from "../Icons/Settings";
 
 const AdminButton = (props: ChakraProps) => <Box display="flex" color={GrayText} {...props}>
   <Settings color={GrayText} />
-  <Text>ADMIN</Text>
+  <Text userSelect="none">ADMIN</Text>
 </Box>
 export default AdminButton
