@@ -39,7 +39,7 @@ export const InfoPopup = ({ children, show, x, y }: PropsWithChildren<PopupProps
 interface ButtonProps extends ChakraProps {
   icon: IconType
 }
-export const InfoButton = (props: ButtonProps) => {
+export const InfoButton = (props: PropsWithChildren<ButtonProps>) => {
   const [flag, setFlag] = useBoolean()
   const [position, setPosition] = useState({x: 0, y: 0})
   function positionExtract(e: MouseEvent<HTMLDivElement>) {
@@ -56,12 +56,14 @@ export const InfoButton = (props: ButtonProps) => {
       break
   }
 
-  return <Box position="relative" {...props}>
-    <div style={{display: "inline-block"}} onMouseEnter={setFlag.on} onMouseLeave={setFlag.off} onMouseMove={positionExtract}>
+  const whenMissing = <span style={{color: "red"}}>ERROR: NEBYLO VYPLNĚNO</span>
+
+  return <Box position="relative" display="grid" {...props}>
+    <div style={{display: "inline-block", justifySelf: "center"}} onMouseEnter={setFlag.on} onMouseLeave={setFlag.off} onMouseMove={positionExtract}>
       <Icon color="black" />
     </div>
     <InfoPopup show={flag} x={position.x} y={position.y}>
-      Telefonní číslo je pouze sekundární forma komunikace. Je možné zadat pouze čísla s českou předvolbou +420.
+      {props.children || whenMissing}
     </InfoPopup>
   </Box>;
 };
