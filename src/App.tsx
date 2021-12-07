@@ -17,8 +17,6 @@ const GlobalStyle = createGlobalStyle`
 `
 
 function App() {
-  console.log(Routes);
-
   return (
     <Box h="100%">
       <GlobalStyle />
