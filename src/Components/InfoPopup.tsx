@@ -1,8 +1,14 @@
 import { Box, useBoolean } from "@chakra-ui/react";
 import { PropsWithChildren, MouseEvent, useState } from "react";
-import Info from "../Icons/Info";
+import Info from "../Icons/Info"
+import Help from "../Icons/Help"
 import { FormSubmitBg } from "../theme";
 import ShadowBox from "./Containers/ShadowBox";
+
+export enum IconType {
+  questionMark,
+  exclamationPoint
+}
 
 interface PopupProps {
   onClose?: () => void;
@@ -20,6 +26,7 @@ export const InfoPopup = ({ children, show, x, y }: PropsWithChildren<PopupProps
 };
 
 interface ButtonProps {
+  icon: IconType
 }
 export const InfoButton = (props: ButtonProps) => {
   const [flag, setFlag] = useBoolean()
@@ -28,9 +35,19 @@ export const InfoButton = (props: ButtonProps) => {
     setPosition({x: e.clientX, y: e.clientY})
   }
 
+  let Icon
+  switch (props.icon) {
+    case IconType.exclamationPoint:
+      Icon = Info
+      break
+    case IconType.questionMark:
+      Icon = Help
+      break
+  }
+
   return <Box position="relative">
     <div style={{display: "inline-block"}} onMouseEnter={setFlag.on} onMouseLeave={setFlag.off} onMouseMove={positionExtract}>
-      <Info color="black" />
+      <Icon color="black" />
     </div>
     <InfoPopup show={flag} x={position.x} y={position.y}>
       Telefonní číslo je pouze sekundární forma komunikace. Je možné zadat pouze čísla s českou předvolbou +420.
