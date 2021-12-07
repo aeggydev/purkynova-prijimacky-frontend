@@ -9,8 +9,7 @@ export default ({ children }: PropsWithChildren<{}>) => {
       {children}
     </Box>
     <Grid templateColumns="1fr 1fr 1fr" position="absolute" bottom="1">
-      <Text color={GrayText} gridColumn="2">© Střední průmyslová škola Brno, Purkyňova, příspěvková
-        organizace</Text>
+      <Text color={GrayText} gridColumn="2">© Střední průmyslová škola Brno, Purkyňova, příspěvková organizace</Text>
       <AdminButton gridColumn="3" justifySelf="end" />
     </Grid>
   </Box>;
