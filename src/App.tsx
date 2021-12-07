@@ -13,6 +13,7 @@ const GlobalStyle = createGlobalStyle`
     background: white;
     width: 100vw; // Prevent resizing the app when the scrollbar appears
     overflow-x: hidden;
+    overflow-y: scroll; // Always show vertical scrollbar, to avoid needlessly resizing horizontally
   }
 `
 
