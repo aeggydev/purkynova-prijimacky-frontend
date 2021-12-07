@@ -8,7 +8,7 @@ export default ({ children }: PropsWithChildren<{}>) => {
     <Box pb="1%" px="7em" mx="3%">
       {children}
     </Box>
-    <Grid templateColumns="1fr 1fr 1fr" position="absolute" bottom="1">
+    <Grid templateColumns="1fr 1fr 1fr" w="100%" pr="6px" position="absolute" bottom="1">
       <Text color={GrayText} gridColumn="2">© Střední průmyslová škola Brno, Purkyňova, příspěvková organizace</Text>
       <AdminButton gridColumn="3" justifySelf="end" />
     </Grid>
