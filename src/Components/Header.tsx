@@ -7,7 +7,7 @@ import { Box } from "@chakra-ui/react";
 
 function Header() {
   return (
-    <Box background={TopbarBg} color={LightText} boxSizing={"content-box"}>
+    <Box background={TopbarBg} color={LightText}>
       <a
         href="http://sspbrno.cz"
         target="_blank"

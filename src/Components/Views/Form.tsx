@@ -1,56 +1,49 @@
-import { Box, FormControl, FormLabel, Input, Grid, GridItem } from "@chakra-ui/react";
-import React from "react"
+import { Box, Button } from "@chakra-ui/react";
+import React, { PropsWithChildren } from "react";
 import { DummyApplicationCount } from "../ApplicationCount";
 import ContentContainer from "../Containers/ContentContainer";
+import FormField from "../FormField";
+import ShadowBox from "../Containers/ShadowBox";
+import { FormSubmitBg, TopbarDarkBg } from "../../theme";
+
+interface RowProps {
+  row: number;
+}
+
+const Row = ({ children, row }: PropsWithChildren<RowProps>) => <>
+  <Box gridRow={row}
+       display="grid" gridAutoFlow="column" gridGap="12px">
+    {children}
+  </Box></>;
 
 export default function Form() {
   // TODO: Add an option for people who are already 18
 
   return <ContentContainer>
     <DummyApplicationCount />
-    <Box boxShadow="0px 4px 4px rgba(0, 0, 0, 0.25)" rounded="5px" mb="2.5%" py="1em" bg="#F9F9F9" display="flex"
-         justifyContent="center" alignItems="center">
-      <Grid templateColumns="1fr 1fr">
-        <GridItem gridRow={1} gridColumn={1}>
-          <FormControl>
-            <FormLabel>Jméno účastníka</FormLabel>
-            <Input type="text" />
-          </FormControl>
-        </GridItem>
-        <GridItem gridRow={1} gridColumn={2}>
-          <FormControl>
-            <FormLabel>Příjmení účastníka</FormLabel>
-            <Input type="text" />
-          </FormControl>
-        </GridItem>
-        <GridItem colSpan={2}>
-          <FormControl>
-            <FormLabel>Zákládní škola, obec</FormLabel>
-            <Input type="text" />
-          </FormControl>
-        </GridItem>
-        <FormControl>
-          <FormLabel>Jméno zákonného zástupce</FormLabel>
-          <Input type="text" />
-        </FormControl>
-        <FormControl>
-          <FormLabel>Příjmení zákonného zástupce</FormLabel>
-          <Input type="text" />
-        </FormControl>
-        <GridItem colSpan={2}>
-        <FormControl>
-          <FormLabel>E-Mail zákonného zástupce</FormLabel>
-          <Input type="email" />
-        </FormControl>
-        </GridItem>
-        <GridItem colSpan={2}>
-        <FormControl>
-          <FormLabel>Telefonní číslo zákonného zástupce</FormLabel>
+    <ShadowBox mx="4em">
+      <Box display="grid">
+        <Row row={1}>
+          <FormField label="Jméno účastníka" />
+          <FormField label="Příjmení účastníka" />
+          {/*<InfoPopup onClose={() => alert("clicked")} show={true}><b>Hello!</b></InfoPopup>*/}
+        </Row>
+        <Row row={2}>
+          <FormField label="Základní škola, obec" mb="2.5em" />
+        </Row>
+        <Row row={3}>
+          <FormField label="Jméno zákonného zástupce" />
+          <FormField label="Příjmení zákonného zástupce" />
+        </Row>
+        <Row row={4}>
+          <FormField label="E-Mail zákonného zástupce" />
+        </Row>
+        <Row row={5}>
+          <FormField label="Telefonní číslo zákonného zástupce" />
           {/* TODO: add checking of phone numbers */}
-          <Input type="text" />
-        </FormControl>
-        </GridItem>
-      </Grid>
-    </Box>
+        </Row>
+      </Box>
+      <Button bg={FormSubmitBg} mt="2em" _hover={{ bg: TopbarDarkBg }} color="white">ODESLAT PŘIHLÁŠKU</Button>
+    </ShadowBox>
   </ContentContainer>;
 }
