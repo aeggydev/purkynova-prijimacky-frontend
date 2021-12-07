@@ -4,11 +4,11 @@ import { GrayText } from "../../theme";
 import AdminButton from "../AdminButton";
 
 export default ({ children }: PropsWithChildren<{}>) => {
-  return <Box mt="2.5%" display="grid">
+  return <Box mt="2.5%" display="grid" position="relative" flexGrow={1}>
     <Box pb="1%" px="7em" mx="3%">
       {children}
     </Box>
-    <Grid templateColumns="1fr 1fr 1fr">
+    <Grid templateColumns="1fr 1fr 1fr" position="absolute" bottom="1">
       <Text color={GrayText} gridColumn="2">© Střední průmyslová škola Brno, Purkyňova, příspěvková
         organizace</Text>
       <AdminButton gridColumn="3" justifySelf="end" />

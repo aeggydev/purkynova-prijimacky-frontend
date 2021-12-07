@@ -21,7 +21,7 @@ function App() {
     <Box h="100%">
       <GlobalStyle />
       <CssBaseline />
-      <Box id="route-component" height="100%">
+      <Box id="route-component" height="100%" display="flex" flexDir="column">
         <BrowserRouter>
           <Header />
           <Switch>
