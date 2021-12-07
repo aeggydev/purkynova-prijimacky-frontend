@@ -1,4 +1,4 @@
-import { Box, useBoolean } from "@chakra-ui/react";
+import { Box, ChakraProps, useBoolean } from "@chakra-ui/react";
 import { PropsWithChildren, MouseEvent, useState } from "react";
 import Info from "../Icons/Info"
 import Help from "../Icons/Help"
@@ -17,15 +17,26 @@ interface PopupProps {
   y: number;
 }
 export const InfoPopup = ({ children, show, x, y }: PropsWithChildren<PopupProps>) => {
-  return show ? <Box position="fixed" zIndex="1" top={y + 20} left={x + 20}>
+  const remainingToRight = window.innerWidth - x
+  const remainingAtLeast = window.innerWidth / 3
+  const isLeftOfMouse = remainingToRight < remainingAtLeast
+
+  const left = isLeftOfMouse
+    ? x - 15 - ((window.innerWidth / 100) * 20) // Calculate 20vw
+    : x + 20
+  const top = y + 20
+
+  return show ? <div style={{position: "fixed", zIndex: 1, left, top}}>
+    {/* Not using Box because it generates class on every mouse movement */}
+
     <ShadowBox boxShadow="2xl" borderWidth="3.5px" borderColor={FormSubmitBg} // TODO: Change border color to something better
                w="20vw" p="0.75em" fontWeight="500" fontSize="14">
       {children}
     </ShadowBox>
-  </Box> : null;
+  </div> : null;
 };
 
-interface ButtonProps {
+interface ButtonProps extends ChakraProps {
   icon: IconType
 }
 export const InfoButton = (props: ButtonProps) => {
@@ -45,7 +56,7 @@ export const InfoButton = (props: ButtonProps) => {
       break
   }
 
-  return <Box position="relative">
+  return <Box position="relative" {...props}>
     <div style={{display: "inline-block"}} onMouseEnter={setFlag.on} onMouseLeave={setFlag.off} onMouseMove={positionExtract}>
       <Icon color="black" />
     </div>
