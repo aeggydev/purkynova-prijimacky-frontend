@@ -6,26 +6,103 @@ import { Button, Center, Grid, GridItem } from "@chakra-ui/react";
 import { DateTime } from "luxon";
 import React from "react";
 import { Person } from "../Types/Person";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { useTable } from "react-table";
 
 // TODO: Table guide
 // TODO: Use react-table
 
-const columns: GridColDef[] = [
-  { field: "id", headerName: "ID", flex: 1 },
-  { field: "applicantName", headerName: "Jméno", flex: 1 },
-  { field: "applicantSurname", headerName: "Příjmení", flex: 1 },
-  { field: "parentName", headerName: "Jméno rodiče", flex: 1 },
-  { field: "parentSurname", headerName: "Příjmení rodiče", flex: 1 },
-  { field: "phone", headerName: "Telefon", flex: 1 },
-  { field: "variableSymbol", headerName: "Variabilní symbol", flex: 1 },
-  { field: "schoolName", headerName: "Jméno školy", flex: 1 }
-];
-
 export function Table(props: { people: Person[] }) {
+  const columns = React.useMemo(
+    () => [
+      {
+        Header: "Info",
+        columns: [
+          {
+            Header: "Jméno účastníka",
+            accessor: "applicantName"
+          },
+          {
+            Header: "Přijmení účastníka",
+            accessor: "applicatSurname"
+          },
+          {
+            Header: "Základní škola",
+            accessor: "schoolName"
+          },
+          {
+            Header: "Jméno zákon. zást.",
+            accessor: "parentName"
+          },
+          {
+            Header: "Příjmení zákon. zást.",
+            accessor: "parentSurname"
+          },
+          {
+            Header: "Telefon",
+            accessor: "phone"
+          },
+          {
+            Header: "e-mail",
+            accessor: "parentEmail"
+          },
+          {
+            Header: "IP Adresa",
+            accessor: "ip"
+          },
+          {
+            Header: "Datum přihlášení",
+            accessor: "signInDate"
+          },
+          {
+            Header: "Datum splatnosti",
+            accessor: "payTillDate"
+          },
+          {
+            Header: "Datum úhrady",
+            accessor: "paidDate"
+          }
+        ]
+      }
+    ], []
+  );
+
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+  } = useTable({
+    columns,
+    data: props.people
+  })
+
   console.log(props.people);
-  return <div style={{ background: "white", height: "100%", width: "100%", display: "flex" }}>
-    <DataGrid autoHeight columns={columns} rows={props.people} />
+  return <div style={{ background: "white", height: "100%", width: "100%", display: "flex", fontSize: 12 }}>
+    <table>
+      <thead>
+      {headerGroups.map(headerGroup => (
+        <tr {...headerGroup.getHeaderGroupProps()}>
+          {headerGroup.headers.map(column => (
+            <th {...column.getHeaderProps()}>{column.render("Header")}</th>
+          ))}
+        </tr>
+      ))}
+      </thead>
+      <tbody {...getTableBodyProps()}>
+      {rows.map((row, i) => {
+        prepareRow(row)
+        console.log(row.getRowProps())
+        return (
+          <tr {...row.getRowProps()}>
+            {row.cells.map(cell => {
+              return <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+            })}
+          </tr>
+        )
+      })}
+      </tbody>
+    </table>
     {/*{props.people.map((x, i) => <TableRow person={x} key={i} bg="#eee" />)}*/}
   </div>;
 }
