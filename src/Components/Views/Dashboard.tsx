@@ -3,11 +3,12 @@ import { useGetPeopleQuery } from "../../graphql/types";
 import React from "react"
 import ContentContainer from "../Containers/ContentContainer";
 import ShadowBox from "../Containers/ShadowBox";
+import { PeopleTest } from "../../Types/Person";
 
 export function Dashboard() {
     return <ContentContainer>
         <ShadowBox>
-            TO BE DONE
+            <Table people={PeopleTest} />
         </ShadowBox>
     </ContentContainer>
 
