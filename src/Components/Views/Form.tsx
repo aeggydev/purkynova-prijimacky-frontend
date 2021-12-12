@@ -39,7 +39,7 @@ const Form = () => {
           <FormField label="Příjmení zákonného zástupce" />
         </Row>
         <InfoButton icon={IconType.exclamationPoint} pt="0.5em" gridRow={3}>
-          V případě, že už jste plnoletí, vyplňte do polí pro zákonného zástupce své jméno, e&#8209;mail a telefonní číslo.
+          V případě, že už jste plnoletí, vyplňte do polí pro zákonného zástupce své jméno, e&#8209;mail a telefonní číslo. {/* TODO: replace escape sequence with css solution */}
         </InfoButton>
         <Row row={4}>
           <FormField label="E-Mail zákonného zástupce" />
