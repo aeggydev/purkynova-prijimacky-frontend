@@ -7,8 +7,7 @@ import { DateTime } from "luxon";
 import React, { PropsWithChildren } from "react";
 import { Person } from "../Types/Person";
 
-// TODO: Table guide
-// TODO: Use react-table
+// TODO: Add scrolling instead of collapsing table
 
 const VerticalSplit = (props: PropsWithChildren<ChakraProps>) => (
   <Grid display="flex" flexDirection="column" {...props}>
@@ -40,12 +39,14 @@ export function TableHeader(props: TableHeaderProps) {
   );
 
   interface CellProps extends GridItemProps {
+    col?: number
   }
 
   const Cell = (props: PropsWithChildren<CellProps>) => (
     <GridItem display="grid" justifyContent="center" alignContent="center"
               border="solid 1px black" fontSize="13px" lineHeight="13px"
               textTransform="uppercase" fontWeight="bold"
+              colStart={props.col ? props.col : undefined}
               {...props}>{props.children}</GridItem>
   );
 
@@ -58,7 +59,7 @@ export function TableHeader(props: TableHeaderProps) {
       <CellSimple header="příjmení zákon. zást." />
     </Box>
     : <>
-      <Cell colStart={1}>ID</Cell>
+      <Cell col={1}>ID</Cell>
       <VerticalSplit gridColumnStart={2}>
         <Cell>jméno, příjmení účastn.</Cell>
         <Cell>jméno, příjmení zák. zást.</Cell>
@@ -71,20 +72,20 @@ export function TableHeader(props: TableHeaderProps) {
           <Cell>ip adresa</Cell>
         </HorizontalSplit>
       </VerticalSplit>
-      <Cell colStart={6}>
+      <Cell col={6}>
         variabilní symbol
       </Cell>
-      <Cell colStart={7}>
+      <Cell col={7}>
         datum přihlášení
       </Cell>
-      <Cell colStart={8}>
+      <Cell col={8}>
         datum splatnosti
       </Cell>
-      <Cell colStart={9}>
+      <Cell col={9}>
         datum úhrady
       </Cell>
-      <Cell colStart={10} />
-      <Cell colStart={11}>
+      <Cell col={10} />
+      <Cell col={11}>
         EXP
       </Cell>
     </>;
