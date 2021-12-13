@@ -1,11 +1,11 @@
-// @ts-ignore
-import Settings from "url:/src/Icons/settings.svg";
-// @ts-ignore
-import Mail from "url:/src/Icons/email.svg";
 import { Box, Button, ChakraProps, Grid, GridItem, GridItemProps } from "@chakra-ui/react";
 import { DateTime } from "luxon";
 import React, { PropsWithChildren } from "react";
 import { Person } from "../Types/Person";
+import CloseTable from "../Icons/CloseTable";
+import Filter from "../Icons/Filter";
+import Settings from "../Icons/Settings";
+import Email from "../Icons/Email";
 
 // TODO: Add scrolling instead of collapsing table
 
@@ -29,7 +29,7 @@ const HorizontalSplit = (props: PropsWithChildren<HorizontalSplitProps>) => (
   </Box>
 );
 
-const colString = "1fr 6.5fr 15fr 2.5fr 3fr 2.5fr 2.5fr 1.5fr 1.5fr";
+const colString = "1fr 6.5fr 15fr 2fr 3.5fr 2.5fr 2.5fr 1.5fr 1.5fr";
 
 interface TableHeaderProps extends ChakraProps {
   expanded: boolean
@@ -64,7 +64,9 @@ export function TableHeader(props: TableHeaderProps) {
       <CellSimple header="příjmení zákon. zást." />
     </Box>
     : <>
-      <Cell col={1}>ID</Cell>
+      <Cell col={1}>
+        <Filter color="black" />
+      </Cell>
       <VerticalSplit gridColumn={2}>
         <Cell>jméno, příjmení účastn.</Cell>
         <Cell>jméno, příjmení zák. zást.</Cell>
@@ -91,13 +93,13 @@ export function TableHeader(props: TableHeaderProps) {
       </Cell>
       <Cell col={8} />
       <Cell col={9}>
-        EXP
+        <CloseTable color="black" />
       </Cell>
     </>;
 }
 
 export function Table({ people }: { people: Person[] }) {
-  return <Box display="grid" gridTemplateColumns={colString}>
+  return <Box display="grid" gridTemplateColumns={colString} minW="950px">
     <TableHeader gridColumnStart={1} gridColumnEnd={12} expanded={false} bg="white" />
     {people.map((person, i) => <TableRow person={person} bg={isOdd(i) ? bgOdd : bgEven} expanded={false} key={i} />)}
   </Box>;
@@ -163,14 +165,15 @@ export function TableRow(props: { person: Person, bg: string, expanded: boolean 
       {paidDate}
     </Cell>
     <Cell colStart={8} bold overflow="hidden">
-      <Button bg="rgb(185, 28, 28)" rounded="0.25rem" h="60%" w="100%" display="flex" justifyContent="center"
-              alignItems="center">
-        <img src={Mail} alt="Mail icon" />
+      <Button bg="rgb(185, 28, 28)" rounded="0.25rem" h="100%" w="100%"
+              display="flex" justifyContent="center" alignItems="center"
+              p="3px">
+        <Email color="white" />
       </Button>
     </Cell>
     <Cell colStart={9} overflow="hidden">
-      <Button h="60%" w="100%" bg="transparent">
-        <img src={Settings} alt="Settings icon" /> {/* TODO: Fix color */}
+      <Button h="100%" w="100%" bg="transparent" _focus={{border: "none"}}>
+        <Settings color="black" />
       </Button>
     </Cell>
 {/*

@@ -12,7 +12,7 @@ export function Dashboard() {
         mx: "0"
     }
     return <ContentContainer insideBox={insideProps}>
-        <ShadowBox px="2em">
+        <ShadowBox px="1em" py="1em">
             <Table people={PeopleTest} />
         </ShadowBox>
     </ContentContainer>
