@@ -28,7 +28,11 @@ const HorizontalSplit = (props: PropsWithChildren<HorizontalSplitProps>) => (
 
 const colString = "1fr 4fr 4fr 7fr 4fr 2.5fr 2.5fr 2fr 2fr 1fr 1fr";
 
-export function TableHeader({ expanded, bg }: { expanded: boolean, bg: string }) {
+interface TableHeaderProps extends ChakraProps {
+  expanded: boolean
+  bg: string
+}
+export function TableHeader(props: TableHeaderProps) {
   const CellSimple = ({ header, flex = 0 }: { header: string, flex?: number }) => (
     <Box flexGrow={1} border="solid 1px black">
       {header}
@@ -45,7 +49,7 @@ export function TableHeader({ expanded, bg }: { expanded: boolean, bg: string })
               {...props}>{props.children}</GridItem>
   );
 
-  return expanded
+  return props.expanded
     ? <Box display="flex">
       <CellSimple header="jméno účastníka" />
       <CellSimple header="příjmení účastníka" />
@@ -53,7 +57,7 @@ export function TableHeader({ expanded, bg }: { expanded: boolean, bg: string })
       <CellSimple header="jméno zákon. zást." />
       <CellSimple header="příjmení zákon. zást." />
     </Box>
-    : <Grid bg={bg} templateColumns={colString}>
+    : <>
       <Cell colStart={1}>ID</Cell>
       <VerticalSplit gridColumnStart={2}>
         <Cell>jméno, příjmení účastn.</Cell>
@@ -83,12 +87,12 @@ export function TableHeader({ expanded, bg }: { expanded: boolean, bg: string })
       <Cell colStart={11}>
         EXP
       </Cell>
-    </Grid>
+    </>;
 }
 
 export function Table({ people }: { people: Person[] }) {
-  return <Box>
-    <TableHeader expanded={false} bg="white" />
+  return <Box display="grid" gridTemplateColumns={colString}>
+    <TableHeader gridColumnStart={1} gridColumnEnd={12} expanded={false} bg="white" />
     {people.map(person => <TableRow person={person} bg="white" expanded={false} />)}
   </Box>;
 }
@@ -102,19 +106,24 @@ export function TableRow(props: { person: Person, bg: string, expanded: boolean 
 
   interface CellProps extends GridItemProps {
     bold?: boolean;
+    gray?: boolean;
   }
 
-  const Cell = (props: PropsWithChildren<CellProps>) => (
-    <GridItem border="solid 1px black" fontSize="13px"
-              display="grid" justifyContent="center" alignContent="center"
-              fontWeight={props.bold ? "bold" : "normal"}
-              {...props}>
-      {props.children}
-    </GridItem>
-  );
+  const Cell = (props: PropsWithChildren<CellProps>) => {
+    const normal = "inherit"
+    const gray = "gray"
 
-  return <Grid bg={props.bg} templateColumns={colString}>
-    <Cell rowSpan={2} colStart={1} bold fontSize="14px">
+    return <GridItem border="solid 1px black" fontSize="13px"
+                     display="grid" justifyContent="center" alignContent="center"
+                     fontWeight={props.bold ? "bold" : "normal"}
+                     color={props.gray ? gray : normal}
+                     {...props}>
+      {props.children}
+    </GridItem>;
+  };
+
+  return <>
+    <Cell colStart={1} bold fontSize="14px">
       {props.person.personalId}
     </Cell>
     <VerticalSplit gridColumn={2}>
@@ -122,19 +131,19 @@ export function TableRow(props: { person: Person, bg: string, expanded: boolean 
       <Cell>{props.person.parentName} {props.person.parentSurname}</Cell>
     </VerticalSplit>
     <VerticalSplit gridColumnStart={3} gridColumnEnd={6}>
-      <Cell bold color="gray">{props.person.schoolName}</Cell>
+      <Cell bold gray>{props.person.schoolName}</Cell>
       <HorizontalSplit cols="4fr 7fr 4fr">
         <Cell bold>{props.person.phone}</Cell>
         <Cell bold>
           {props.person.parentEmail}
         </Cell>
-        <Cell bold color="gray">{props.person.ip}</Cell>
+        <Cell bold gray>{props.person.ip}</Cell>
       </HorizontalSplit>
     </VerticalSplit>
     <Cell colStart={6} bold>
       {props.person.variableSymbol}
     </Cell>
-    <Cell colStart={7} bold color="gray">
+    <Cell colStart={7} bold gray>
       {signInDate}
     </Cell>
     <Cell colStart={8} bold>
@@ -154,6 +163,8 @@ export function TableRow(props: { person: Person, bg: string, expanded: boolean 
         <img src={Settings} alt="Settings icon" /> {/* TODO: Fix color */}
       </Button>
     </Cell>
+{/*
     <Cell colStart={2} colEnd={12} fontStyle="italic">Platba přijde o den později</Cell>
-  </Grid>;
+*/}
+  </>;
 }
