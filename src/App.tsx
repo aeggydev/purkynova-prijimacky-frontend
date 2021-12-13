@@ -1,11 +1,11 @@
-import Header from "./Components/Header";
-import { CssBaseline } from "@mui/material";
-import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
-import { Dashboard } from "./Components/Views/Dashboard";
-import { createGlobalStyle } from "styled-components";
-import React from "react";
-import Routes from "./Routes";
-import { Box } from "@chakra-ui/react";
+import Header from "./Components/Header"
+import { CssBaseline } from "@mui/material"
+import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom"
+import { Dashboard } from "./Components/Views/Dashboard"
+import { createGlobalStyle } from "styled-components"
+import React from "react"
+import Routes from "./Routes"
+import { Box } from "@chakra-ui/react"
 
 const GlobalStyle = createGlobalStyle`
   #root {
@@ -38,7 +38,7 @@ function App() {
         </BrowserRouter>
       </Box>
     </Box>
-  );
+  )
 }
 
-export default App;
+export default App

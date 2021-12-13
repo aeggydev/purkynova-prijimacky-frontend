@@ -1,11 +1,12 @@
-import { Box, Text, Grid, ChakraProps } from "@chakra-ui/react";
-import { PropsWithChildren } from "react";
-import { GrayText } from "../../theme";
-import AdminButton from "../AdminButton";
+import { Box, ChakraProps, Grid, Text } from "@chakra-ui/react"
+import { PropsWithChildren } from "react"
+import { GrayText } from "../../theme"
+import AdminButton from "../AdminButton"
 
 interface Props {
   insideBox?: ChakraProps
 }
+
 export default (props: PropsWithChildren<Props>) => {
   return <Box mt="2.5%" display="grid" position="relative" flexGrow={1}>
     <Box pb="1%" px="7em" mx="3%" {...(props.insideBox || {})}>
@@ -15,5 +16,5 @@ export default (props: PropsWithChildren<Props>) => {
       <Text color={GrayText} gridColumn="2">© Střední průmyslová škola Brno, Purkyňova, příspěvková organizace</Text>
       <AdminButton gridColumn="3" justifySelf="end" />
     </Grid>
-  </Box>;
+  </Box>
 }

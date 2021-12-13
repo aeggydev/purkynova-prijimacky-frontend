@@ -1,11 +1,11 @@
-import { Box, Button } from "@chakra-ui/react";
-import React, { PropsWithChildren } from "react";
-import { DummyApplicationCount } from "../ApplicationCount";
-import ContentContainer from "../Containers/ContentContainer";
-import FormField from "../FormField";
-import ShadowBox from "../Containers/ShadowBox";
-import { FormSubmitBg, TopbarDarkBg } from "../../theme";
-import { IconType, InfoButton } from "../InfoPopup";
+import { Box, Button } from "@chakra-ui/react"
+import React, { PropsWithChildren } from "react"
+import { DummyApplicationCount } from "../ApplicationCount"
+import ContentContainer from "../Containers/ContentContainer"
+import FormField from "../FormField"
+import ShadowBox from "../Containers/ShadowBox"
+import { FormSubmitBg, TopbarDarkBg } from "../../theme"
+import { IconType, InfoButton } from "../InfoPopup"
 
 interface RowProps {
   row: number;
@@ -15,7 +15,7 @@ const Row = ({ children, row }: PropsWithChildren<RowProps>) => <>
   <Box gridRow={row} gridColumn={1}
        display="grid" gridGap="12px" gridAutoFlow="column">
     {children}
-  </Box></>;
+  </Box></>
 
 const Form = () => {
   // TODO: Add an option for people who are already 18
@@ -39,7 +39,8 @@ const Form = () => {
           <FormField label="Příjmení zákonného zástupce" />
         </Row>
         <InfoButton icon={IconType.exclamationPoint} pt="0.5em" gridRow={3}>
-          V případě, že už jste plnoletí, vyplňte do polí pro zákonného zástupce své jméno, e&#8209;mail a telefonní číslo. {/* TODO: replace escape sequence with css solution */}
+          V případě, že už jste plnoletí, vyplňte do polí pro zákonného zástupce své jméno, e&#8209;mail a telefonní
+          číslo. {/* TODO: replace escape sequence with css solution */}
         </InfoButton>
         <Row row={4}>
           <FormField label="E-Mail zákonného zástupce" />
@@ -55,6 +56,6 @@ const Form = () => {
       </Box>
       <Button bg={FormSubmitBg} mt="2em" _hover={{ bg: TopbarDarkBg }} color="white">ODESLAT PŘIHLÁŠKU</Button>
     </ShadowBox>
-  </ContentContainer>;
+  </ContentContainer>
 }
 export default Form

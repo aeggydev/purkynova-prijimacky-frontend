@@ -1,10 +1,11 @@
-import { gql } from '@apollo/client';
-import * as Apollo from '@apollo/client';
+import * as Apollo from "@apollo/client"
+import { gql } from "@apollo/client"
+
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-const defaultOptions =  {}
+const defaultOptions = {}
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -16,7 +17,7 @@ export type Scalars = {
 };
 
 export type Mutation = {
-  __typename?: 'Mutation';
+  __typename?: "Mutation";
   createPerson: Person;
 };
 
@@ -26,51 +27,51 @@ export type MutationCreatePersonArgs = {
 };
 
 export type NewPerson = {
-  applicantName: Scalars['String'];
-  applicantSurname: Scalars['String'];
-  createdAt: Scalars['Time'];
-  id: Scalars['ID'];
-  ip: Scalars['String'];
-  paidDate?: Maybe<Scalars['Time']>;
-  parentEmail: Scalars['String'];
-  parentName: Scalars['String'];
-  parentSurname: Scalars['String'];
-  payTillDate: Scalars['Time'];
-  personalId: Scalars['String'];
-  phone: Scalars['String'];
-  schoolName: Scalars['String'];
-  signInDate: Scalars['Time'];
-  variableSymbol: Scalars['String'];
+  applicantName: Scalars["String"];
+  applicantSurname: Scalars["String"];
+  createdAt: Scalars["Time"];
+  id: Scalars["ID"];
+  ip: Scalars["String"];
+  paidDate?: Maybe<Scalars["Time"]>;
+  parentEmail: Scalars["String"];
+  parentName: Scalars["String"];
+  parentSurname: Scalars["String"];
+  payTillDate: Scalars["Time"];
+  personalId: Scalars["String"];
+  phone: Scalars["String"];
+  schoolName: Scalars["String"];
+  signInDate: Scalars["Time"];
+  variableSymbol: Scalars["String"];
 };
 
 export type Person = {
-  __typename?: 'Person';
-  applicantName: Scalars['String'];
-  applicantSurname: Scalars['String'];
-  createdAt: Scalars['Time'];
-  id: Scalars['ID'];
-  ip: Scalars['String'];
-  paidDate?: Maybe<Scalars['Time']>;
-  parentEmail: Scalars['String'];
-  parentName: Scalars['String'];
-  parentSurname: Scalars['String'];
-  payTillDate: Scalars['Time'];
-  personalId: Scalars['String'];
-  phone: Scalars['String'];
-  schoolName: Scalars['String'];
-  signInDate: Scalars['Time'];
-  variableSymbol: Scalars['String'];
+  __typename?: "Person";
+  applicantName: Scalars["String"];
+  applicantSurname: Scalars["String"];
+  createdAt: Scalars["Time"];
+  id: Scalars["ID"];
+  ip: Scalars["String"];
+  paidDate?: Maybe<Scalars["Time"]>;
+  parentEmail: Scalars["String"];
+  parentName: Scalars["String"];
+  parentSurname: Scalars["String"];
+  payTillDate: Scalars["Time"];
+  personalId: Scalars["String"];
+  phone: Scalars["String"];
+  schoolName: Scalars["String"];
+  signInDate: Scalars["Time"];
+  variableSymbol: Scalars["String"];
 };
 
 export type Query = {
-  __typename?: 'Query';
+  __typename?: "Query";
   people: Array<Person>;
 };
 
 export type GetPeopleQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetPeopleQuery = { __typename?: 'Query', people: Array<{ __typename?: 'Person', id: string, personalId: string, createdAt: string, applicantName: string, applicantSurname: string, parentName: string, parentSurname: string, parentEmail: string, schoolName: string, phone: string, ip: string, variableSymbol: string, signInDate: string, payTillDate: string, paidDate?: string | null | undefined }> };
+export type GetPeopleQuery = { __typename?: "Query", people: Array<{ __typename?: "Person", id: string, personalId: string, createdAt: string, applicantName: string, applicantSurname: string, parentName: string, parentSurname: string, parentEmail: string, schoolName: string, phone: string, ip: string, variableSymbol: string, signInDate: string, payTillDate: string, paidDate?: string | null | undefined }> };
 
 
 export const GetPeopleDocument = gql`
@@ -93,7 +94,7 @@ export const GetPeopleDocument = gql`
     paidDate
   }
 }
-    `;
+    `
 
 /**
  * __useGetPeopleQuery__
@@ -111,13 +112,15 @@ export const GetPeopleDocument = gql`
  * });
  */
 export function useGetPeopleQuery(baseOptions?: Apollo.QueryHookOptions<GetPeopleQuery, GetPeopleQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetPeopleQuery, GetPeopleQueryVariables>(GetPeopleDocument, options);
-      }
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<GetPeopleQuery, GetPeopleQueryVariables>(GetPeopleDocument, options)
+}
+
 export function useGetPeopleLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetPeopleQuery, GetPeopleQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetPeopleQuery, GetPeopleQueryVariables>(GetPeopleDocument, options);
-        }
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<GetPeopleQuery, GetPeopleQueryVariables>(GetPeopleDocument, options)
+}
+
 export type GetPeopleQueryHookResult = ReturnType<typeof useGetPeopleQuery>;
 export type GetPeopleLazyQueryHookResult = ReturnType<typeof useGetPeopleLazyQuery>;
 export type GetPeopleQueryResult = Apollo.QueryResult<GetPeopleQuery, GetPeopleQueryVariables>;

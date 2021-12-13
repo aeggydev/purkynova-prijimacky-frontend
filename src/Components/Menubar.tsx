@@ -1,10 +1,10 @@
-import * as React from "react";
+import * as React from "react"
 // @ts-ignore
-import MenuIcon from "url:/src/Icons/menu.svg";
-import { NavLink } from "react-router-dom";
-import { Box as ChakraBox } from "@chakra-ui/react";
-import { LightText, TopbarBg, TopbarDarkBg, TopbarLightBg } from "../theme";
-import Routes, { Route } from "../Routes";
+import MenuIcon from "url:/src/Icons/menu.svg"
+import { NavLink } from "react-router-dom"
+import { Box as ChakraBox } from "@chakra-ui/react"
+import { LightText, TopbarBg, TopbarDarkBg, TopbarLightBg } from "../theme"
+import Routes, { Route } from "../Routes"
 
 type Props = {
   route: Route
@@ -23,24 +23,24 @@ function MenubarItem({ route }: Props) {
                fontWeight={"500"}>
       {route.text}
     </ChakraBox>
-  </NavLink>;
+  </NavLink>
 }
 
 function Menubar() {
-  const [drawerState, setDrawerState] = React.useState(false);
+  const [drawerState, setDrawerState] = React.useState(false)
   const toggleDrawer = (value?: boolean) => () => {
     if (value) {
-      setDrawerState(value);
+      setDrawerState(value)
     } else {
-      setDrawerState(!drawerState);
+      setDrawerState(!drawerState)
     }
-  };
+  }
 
   return <ChakraBox background={TopbarBg} color={LightText}
                     display={"flex"} justifyContent={"center"}
                     boxSizing={"border-box"}>
     {Routes.map((x, i) => <MenubarItem route={x} key={i} />)}
-  </ChakraBox>;
+  </ChakraBox>
 }
 
-export default Menubar;
+export default Menubar

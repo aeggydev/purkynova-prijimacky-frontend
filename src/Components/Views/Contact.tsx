@@ -1,6 +1,6 @@
-import { Link, Text } from "@chakra-ui/react";
-import React from "react";
-import ShadowC from "../Containers/ShadowBox";
+import { Link, Text } from "@chakra-ui/react"
+import React from "react"
+import ShadowC from "../Containers/ShadowBox"
 import Container from "../Containers/ContentContainer"
 
 function Contact() {
@@ -17,9 +17,9 @@ function Contact() {
         <Link href="http://sspbrno.cz" target="_blank" textDecoration="underline">www.sspbrno.cz</Link></Text>
       <iframe src="https://en.frame.mapy.cz/s/jefujozome" frameBorder="0"
               width="700" height="333"
-              style={{border: "none", justifySelf: "center", marginTop: "1.5em"}} />
+              style={{ border: "none", justifySelf: "center", marginTop: "1.5em" }} />
     </ShadowC>
   </Container>
 }
 
-export default Contact;
+export default Contact

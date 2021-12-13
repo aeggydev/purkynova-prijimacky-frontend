@@ -1,6 +1,6 @@
-import React from "react";
-import ShadowBox from "./Containers/ShadowBox";
-import styled from "styled-components";
+import React from "react"
+import ShadowBox from "./Containers/ShadowBox"
+import styled from "styled-components"
 
 const Paragraph = styled.p`
   margin-bottom: 1em;
@@ -20,9 +20,10 @@ const DefaultProps: ApplicationCountProps = {
   totalAmount: 250
 }
 
-export const PureApplicationCount = ({date, filled, totalAmount}: ApplicationCountProps) => {
+export const PureApplicationCount = ({ date, filled, totalAmount }: ApplicationCountProps) => {
   return <ShadowBox py="1em">
-    <Paragraph style={{marginBottom: 0}}>Přihlášky přijímáme od {date}. Kapacita je <b>{filled}/{totalAmount}</b>.</Paragraph>
+    <Paragraph style={{ marginBottom: 0 }}>Přihlášky přijímáme od {date}. Kapacita
+      je <b>{filled}/{totalAmount}</b>.</Paragraph>
   </ShadowBox>
 }
 export const DummyApplicationCount = () => <PureApplicationCount {...DefaultProps} />

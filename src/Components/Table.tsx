@@ -1,23 +1,23 @@
-import { Box, Button, ChakraProps, Grid, GridItem, GridItemProps, Input } from "@chakra-ui/react";
-import { DateTime } from "luxon";
-import React, { PropsWithChildren } from "react";
-import { Person } from "../Types/Person";
-import CloseTable from "../Icons/CloseTable";
-import Filter from "../Icons/Filter";
-import Settings from "../Icons/Settings";
-import Email from "../Icons/Email";
+import { Box, Button, ChakraProps, Grid, GridItem, GridItemProps, Input } from "@chakra-ui/react"
+import { DateTime } from "luxon"
+import React, { PropsWithChildren } from "react"
+import { Person } from "../Types/Person"
+import CloseTable from "../Icons/CloseTable"
+import Filter from "../Icons/Filter"
+import Settings from "../Icons/Settings"
+import Email from "../Icons/Email"
 
 // TODO: Add scrolling instead of collapsing table
 
-const bgOdd = "#EAEAEA";
-const bgEven = "#E0E0E0";
-const isOdd = (i: number): boolean => i % 2 == 0;
+const bgOdd = "#EAEAEA"
+const bgEven = "#E0E0E0"
+const isOdd = (i: number): boolean => i % 2 == 0
 
 const VerticalSplit = (props: PropsWithChildren<ChakraProps>) => (
   <Grid display="flex" flexDirection="column" {...props}>
     {props.children}
   </Grid>
-);
+)
 
 interface HorizontalSplitProps extends ChakraProps {
   cols: string;
@@ -27,9 +27,9 @@ const HorizontalSplit = (props: PropsWithChildren<HorizontalSplitProps>) => (
   <Box display="grid" gridAutoFlow="column" gridTemplateColumns={props.cols} {...props}>
     {props.children}
   </Box>
-);
+)
 
-const colString = "1fr 6.5fr 15fr 2fr 3.5fr 2.5fr 2.5fr 1.5fr 1.5fr";
+const colString = "1fr 6.5fr 15fr 2fr 3.5fr 2.5fr 2.5fr 1.5fr 1.5fr"
 
 interface TableHeaderProps extends ChakraProps {
   expanded: boolean;
@@ -41,7 +41,7 @@ export function TableHeader(props: TableHeaderProps) {
     <Box flexGrow={1}>
       {header}
     </Box>
-  );
+  )
 
   interface CellProps extends GridItemProps {
     col?: number;
@@ -56,7 +56,7 @@ export function TableHeader(props: TableHeaderProps) {
               textTransform="uppercase" fontWeight="bold"
               colStart={props.col ? props.col : undefined}
               {...props}>{props.children}</GridItem>
-  );
+  )
 
   return props.expanded
     ? <Box display="flex">
@@ -98,24 +98,24 @@ export function TableHeader(props: TableHeaderProps) {
       <Cell col={9} noDecor>
         <CloseTable color="black" />
       </Cell>
-    </>;
+    </>
 }
 
 export function Table({ people }: { people: Person[] }) {
   return <Box display="grid" gridTemplateColumns={colString} minW="950px">
     <TableHeader gridColumnStart={1} gridColumnEnd={12} expanded={false} bg="white" />
     {people.map((person, i) => <TableRow person={person} bg={isOdd(i) ? bgOdd : bgEven} expanded={false} key={i} />)}
-  </Box>;
+  </Box>
 }
 
 export function TableRow(props: { person: Person, bg: string, expanded: boolean }) {
-  const signInDate = DateTime.fromISO(props.person.signInDate).toFormat("dd. MM. yyyy hh:mm");
-  const payTillDate = DateTime.fromISO(props.person.payTillDate).toFormat("dd. MM. yyyy");
+  const signInDate = DateTime.fromISO(props.person.signInDate).toFormat("dd. MM. yyyy hh:mm")
+  const payTillDate = DateTime.fromISO(props.person.payTillDate).toFormat("dd. MM. yyyy")
   const paidDate = props.person.paidDate
     ? DateTime.fromISO(props.person.paidDate).toFormat("dd. MM. yyyy")
-    : "...nothing";
+    : "...nothing"
 
-  const CellBg = props.bg;
+  const CellBg = props.bg
 
   interface CellProps extends GridItemProps {
     bold?: boolean;
@@ -126,8 +126,8 @@ export function TableRow(props: { person: Person, bg: string, expanded: boolean 
   }
 
   const Cell = (props: PropsWithChildren<CellProps>) => {
-    const normal = "inherit";
-    const gray = "gray";
+    const normal = "inherit"
+    const gray = "gray"
 
     const inside = props.input
       ? <Input value={props.inputStr}
@@ -151,8 +151,8 @@ export function TableRow(props: { person: Person, bg: string, expanded: boolean 
                      color={props.gray ? gray : normal}
                      {...props}>
       {inside}
-    </GridItem>;
-  };
+    </GridItem>
+  }
 
   return <>
     <Cell colStart={1} bold fontSize="14px">
@@ -199,5 +199,5 @@ export function TableRow(props: { person: Person, bg: string, expanded: boolean 
     {/*
     <Cell colStart={2} colEnd={12} fontStyle="italic">Platba přijde o den později</Cell>
 */}
-  </>;
+  </>
 }

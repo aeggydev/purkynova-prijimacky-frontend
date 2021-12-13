@@ -1,9 +1,9 @@
 // @ts-ignore
-import spsLogo from "url:/src/Icons/sspbrno.png";
-import React from "react";
-import { LightText, TopbarBg } from "../theme";
-import Menubar from "./Menubar";
-import { Box } from "@chakra-ui/react";
+import spsLogo from "url:/src/Icons/sspbrno.png"
+import React from "react"
+import { LightText, TopbarBg } from "../theme"
+import Menubar from "./Menubar"
+import { Box } from "@chakra-ui/react"
 
 function Header() {
   return (
@@ -31,7 +31,7 @@ function Header() {
       </a>
       <Menubar />
     </Box>
-  );
+  )
 }
 
-export default Header;
+export default Header
