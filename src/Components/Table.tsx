@@ -25,7 +25,7 @@ const HorizontalSplit = (props: PropsWithChildren<HorizontalSplitProps>) => (
   </Box>
 );
 
-const colString = "1fr 4fr 4fr 7fr 4fr 2.5fr 2.5fr 2fr 2fr 1fr 1fr";
+const colString = "1fr 4fr 15fr 2.5fr 2.5fr 2fr 2fr 1fr 1fr";
 
 interface TableHeaderProps extends ChakraProps {
   expanded: boolean
@@ -60,11 +60,11 @@ export function TableHeader(props: TableHeaderProps) {
     </Box>
     : <>
       <Cell col={1}>ID</Cell>
-      <VerticalSplit gridColumnStart={2}>
+      <VerticalSplit gridColumn={2}>
         <Cell>jméno, příjmení účastn.</Cell>
         <Cell>jméno, příjmení zák. zást.</Cell>
       </VerticalSplit>
-      <VerticalSplit gridColumnStart={3} gridColumnEnd={6}>
+      <VerticalSplit gridColumn={3}>
         <Cell flexGrow={1}>základní škola</Cell>
         <HorizontalSplit cols="4fr 7fr 4fr" flexGrow={1}>
           <Cell>telefon</Cell>
@@ -72,20 +72,20 @@ export function TableHeader(props: TableHeaderProps) {
           <Cell>ip adresa</Cell>
         </HorizontalSplit>
       </VerticalSplit>
-      <Cell col={6}>
+      <Cell col={4}>
         variabilní symbol
       </Cell>
-      <Cell col={7}>
+      <Cell col={5}>
         datum přihlášení
       </Cell>
-      <Cell col={8}>
+      <Cell col={6}>
         datum splatnosti
       </Cell>
-      <Cell col={9}>
+      <Cell col={7}>
         datum úhrady
       </Cell>
-      <Cell col={10} />
-      <Cell col={11}>
+      <Cell col={8} />
+      <Cell col={9}>
         EXP
       </Cell>
     </>;
@@ -131,7 +131,7 @@ export function TableRow(props: { person: Person, bg: string, expanded: boolean 
       <Cell bold>{props.person.applicantName} {props.person.applicantSurname}</Cell>
       <Cell>{props.person.parentName} {props.person.parentSurname}</Cell>
     </VerticalSplit>
-    <VerticalSplit gridColumnStart={3} gridColumnEnd={6}>
+    <VerticalSplit gridColumn={3}>
       <Cell bold gray>{props.person.schoolName}</Cell>
       <HorizontalSplit cols="4fr 7fr 4fr">
         <Cell bold>{props.person.phone}</Cell>
@@ -141,25 +141,25 @@ export function TableRow(props: { person: Person, bg: string, expanded: boolean 
         <Cell bold gray>{props.person.ip}</Cell>
       </HorizontalSplit>
     </VerticalSplit>
-    <Cell colStart={6} bold>
+    <Cell colStart={4} bold>
       {props.person.variableSymbol}
     </Cell>
-    <Cell colStart={7} bold gray>
+    <Cell colStart={5} bold gray>
       {signInDate}
     </Cell>
-    <Cell colStart={8} bold>
+    <Cell colStart={6} bold>
       {payTillDate}
     </Cell>
-    <Cell colStart={9} bold>
+    <Cell colStart={7} bold>
       {paidDate}
     </Cell>
-    <Cell colStart={10} bold overflow="hidden">
+    <Cell colStart={8} bold overflow="hidden">
       <Button bg="rgb(185, 28, 28)" rounded="0.25rem" h="60%" w="100%" display="flex" justifyContent="center"
               alignItems="center">
         <img src={Mail} alt="Mail icon" />
       </Button>
     </Cell>
-    <Cell colStart={11} overflow="hidden">
+    <Cell colStart={9} overflow="hidden">
       <Button h="60%" w="100%" bg="transparent">
         <img src={Settings} alt="Settings icon" /> {/* TODO: Fix color */}
       </Button>
