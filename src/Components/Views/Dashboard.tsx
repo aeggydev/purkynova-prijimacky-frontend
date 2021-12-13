@@ -4,10 +4,15 @@ import React from "react"
 import ContentContainer from "../Containers/ContentContainer";
 import ShadowBox from "../Containers/ShadowBox";
 import { PeopleTest } from "../../Types/Person";
+import { ChakraProps } from "@chakra-ui/react";
 
 export function Dashboard() {
-    return <ContentContainer>
-        <ShadowBox>
+    const insideProps: ChakraProps = {
+        px: "2em",
+        mx: "0"
+    }
+    return <ContentContainer insideBox={insideProps}>
+        <ShadowBox px="2em">
             <Table people={PeopleTest} />
         </ShadowBox>
     </ContentContainer>

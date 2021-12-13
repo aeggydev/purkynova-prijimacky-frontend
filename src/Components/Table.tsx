@@ -9,6 +9,10 @@ import { Person } from "../Types/Person";
 
 // TODO: Add scrolling instead of collapsing table
 
+const bgOdd = "#EAEAEA"
+const bgEven = "#E0E0E0"
+const isOdd = (i: number): boolean => i % 2 == 0
+
 const VerticalSplit = (props: PropsWithChildren<ChakraProps>) => (
   <Grid display="flex" flexDirection="column" {...props}>
     {props.children}
@@ -25,7 +29,7 @@ const HorizontalSplit = (props: PropsWithChildren<HorizontalSplitProps>) => (
   </Box>
 );
 
-const colString = "1fr 4fr 15fr 2.5fr 2.5fr 2fr 2fr 1fr 1fr";
+const colString = "1fr 6.5fr 15fr 2.5fr 3fr 2.5fr 2.5fr 1.5fr 1.5fr";
 
 interface TableHeaderProps extends ChakraProps {
   expanded: boolean
@@ -33,7 +37,7 @@ interface TableHeaderProps extends ChakraProps {
 }
 export function TableHeader(props: TableHeaderProps) {
   const CellSimple = ({ header, flex = 0 }: { header: string, flex?: number }) => (
-    <Box flexGrow={1} border="solid 1px black">
+    <Box flexGrow={1}>
       {header}
     </Box>
   );
@@ -44,7 +48,8 @@ export function TableHeader(props: TableHeaderProps) {
 
   const Cell = (props: PropsWithChildren<CellProps>) => (
     <GridItem display="grid" justifyContent="center" alignContent="center"
-              border="solid 1px black" fontSize="13px" lineHeight="13px"
+              fontSize="12px" lineHeight="18px" bg={bgOdd}
+              boxShadow="inset 0 0 2px #000000"
               textTransform="uppercase" fontWeight="bold"
               colStart={props.col ? props.col : undefined}
               {...props}>{props.children}</GridItem>
@@ -94,7 +99,7 @@ export function TableHeader(props: TableHeaderProps) {
 export function Table({ people }: { people: Person[] }) {
   return <Box display="grid" gridTemplateColumns={colString}>
     <TableHeader gridColumnStart={1} gridColumnEnd={12} expanded={false} bg="white" />
-    {people.map(person => <TableRow person={person} bg="white" expanded={false} />)}
+    {people.map((person, i) => <TableRow person={person} bg={isOdd(i) ? bgOdd : bgEven} expanded={false} key={i} />)}
   </Box>;
 }
 
@@ -105,18 +110,22 @@ export function TableRow(props: { person: Person, bg: string, expanded: boolean 
     ? DateTime.fromISO(props.person.paidDate).toFormat("dd. MM. yyyy")
     : "...nothing";
 
+  const CellBg = props.bg
+
   interface CellProps extends GridItemProps {
     bold?: boolean;
     gray?: boolean;
+    small?: boolean;
   }
 
   const Cell = (props: PropsWithChildren<CellProps>) => {
     const normal = "inherit"
     const gray = "gray"
 
-    return <GridItem border="solid 1px black" fontSize="13px"
+    return <GridItem fontSize={props.small ? "11px" : "13px"}
                      display="grid" justifyContent="center" alignContent="center"
                      fontWeight={props.bold ? "bold" : "normal"}
+                     bg={CellBg}
                      color={props.gray ? gray : normal}
                      {...props}>
       {props.children}
@@ -144,13 +153,13 @@ export function TableRow(props: { person: Person, bg: string, expanded: boolean 
     <Cell colStart={4} bold>
       {props.person.variableSymbol}
     </Cell>
-    <Cell colStart={5} bold gray>
+    <Cell colStart={5} bold gray small>
       {signInDate}
     </Cell>
-    <Cell colStart={6} bold>
+    <Cell colStart={6} bold small>
       {payTillDate}
     </Cell>
-    <Cell colStart={7} bold>
+    <Cell colStart={7} bold small>
       {paidDate}
     </Cell>
     <Cell colStart={8} bold overflow="hidden">
