@@ -4,9 +4,9 @@ import { useDispatch } from "react-redux"
 import { Person } from "../../Types/Person"
 import React, { PropsWithChildren } from "react"
 import { flipLowestToHighest, setKey, setSortLowestToHighest } from "../../store/table"
-import { bgOdd } from "./shared"
 import CloseTable from "../../Icons/CloseTable"
 import { HorizontalSplit, VerticalSplit } from "./LayoutComponents"
+import { TableBgOdd } from "../../theme"
 
 export interface TableHeaderProps extends ChakraProps {
   expanded: boolean;
@@ -48,7 +48,7 @@ export function TableHeader(props: TableHeaderProps) {
       : sortLowestToHighest ? "▲" : "▼"
 
     return <GridItem display="grid" justifyContent="center" alignContent="center"
-                     bg={props.noDecor ? "transparent" : bgOdd}
+                     bg={props.noDecor ? "transparent" : TableBgOdd}
                      boxShadow={props.noDecor ? undefined : "inset 0 0 2px #000000"}
                      fontSize="12px" lineHeight="18px"
                      onClick={props.dbKey ? handleKey : undefined}
