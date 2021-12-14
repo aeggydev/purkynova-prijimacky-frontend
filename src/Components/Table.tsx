@@ -1,6 +1,6 @@
 import { Box, Button, ChakraProps, Grid, GridItem, GridItemProps, Input } from "@chakra-ui/react"
 import { DateTime } from "luxon"
-import React, { PropsWithChildren } from "react"
+import React, { MutableRefObject, PropsWithChildren, useLayoutEffect, useRef, useState } from "react"
 import { Person } from "../Types/Person"
 import CloseTable from "../Icons/CloseTable"
 import Filter from "../Icons/Filter"
@@ -132,6 +132,16 @@ export function TableRow(props: { person: Person, bg: string, expanded: boolean 
     ? DateTime.fromISO(props.person.paidDate).toFormat("dd. MM. yyyy")
     : "...nothing"
 
+  const [splitHeight, setSplitHeight] = useState("100%")
+  const splitExampleRef = useRef<HTMLInputElement>(null)
+  // TODO: Fix this horrible hack
+  function refreshSplitHeight() {
+    if (!splitExampleRef.current) return
+    const computedStyle = window.getComputedStyle(splitExampleRef.current)
+    setSplitHeight(computedStyle.height)
+  }
+  useLayoutEffect(refreshSplitHeight)
+
   const CellBg = props.bg
 
   interface CellProps extends GridItemProps {
@@ -140,6 +150,7 @@ export function TableRow(props: { person: Person, bg: string, expanded: boolean 
     small?: boolean;
     input?: boolean; // TODO: Change to its own element
     inputStr?: string
+    ref?: MutableRefObject<any>
   }
 
   const Cell = (props: PropsWithChildren<CellProps>) => {
@@ -153,6 +164,7 @@ export function TableRow(props: { person: Person, bg: string, expanded: boolean 
                w="100%" h="100%"
                display="inline-grid" justifyContent="center" alignItems="center"
                fontWeight="inherit" fontSize="inherit" fontFamily="inherit"
+               ref={splitExampleRef} // TODO: Why does this even work?
                borderRadius="0" border="none" />
       : props.children
 
@@ -175,7 +187,7 @@ export function TableRow(props: { person: Person, bg: string, expanded: boolean 
     </Cell>
     <VerticalSplit gridColumn={2} h="100%">
       <HorizontalSplit cols="1fr 1fr">
-        <Cell bold input inputStr={props.person.applicantName}>{props.person.applicantName}</Cell>
+        <Cell bold h={splitHeight} input inputStr={props.person.applicantName}>{props.person.applicantName}</Cell>
         <Cell bold input inputStr={props.person.applicantSurname}>{props.person.applicantSurname}</Cell>
       </HorizontalSplit>
       <HorizontalSplit cols="1fr 1fr">
@@ -187,7 +199,8 @@ export function TableRow(props: { person: Person, bg: string, expanded: boolean 
       <Cell bold gray input inputStr={props.person.schoolName}>{props.person.schoolName}</Cell>
       <HorizontalSplit cols="4fr 7fr 4fr">
         <Cell bold input inputStr={props.person.phone}>{props.person.phone}</Cell>
-        <Cell bold input inputStr={props.person.parentEmail}>
+        <Cell bold input inputStr={props.person.parentEmail}
+              ref={splitExampleRef}>
           {props.person.parentEmail}
         </Cell>
         <Cell bold gray>{props.person.ip}</Cell>
