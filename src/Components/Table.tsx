@@ -6,9 +6,8 @@ import CloseTable from "../Icons/CloseTable"
 import Filter from "../Icons/Filter"
 import Settings from "../Icons/Settings"
 import Email from "../Icons/Email"
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from "react-redux"
 import { useAppSelector } from "../store/hooks"
-import table from "../store/table"
 
 
 // TODO: Add scrolling instead of collapsing table
@@ -41,26 +40,29 @@ interface TableHeaderProps extends ChakraProps {
 }
 
 export function TableHeader(props: TableHeaderProps) {
+  const [sortKey, sortLowestToHighest] = useAppSelector(({ table }) => [table.sortKey, table.sortLowestToHighest])
+
   const CellSimple = ({ header, flex = 0 }: { header: string, flex?: number }) => (
     <Box flexGrow={1}>
       {header}
     </Box>
   )
 
-  interface CellProps extends GridItemProps {
+  interface HeaderCellProps extends GridItemProps {
     col?: number;
     noDecor?: boolean;
+    key?: keyof Person
   }
 
-  const Cell = (props: PropsWithChildren<CellProps>) => (
-    <GridItem display="grid" justifyContent="center" alignContent="center"
+  const HeaderCell = (props: PropsWithChildren<HeaderCellProps>) => {
+    return <GridItem display="grid" justifyContent="center" alignContent="center"
               bg={props.noDecor ? "transparent" : bgOdd}
               boxShadow={props.noDecor ? undefined : "inset 0 0 2px #000000"}
               fontSize="12px" lineHeight="18px"
               textTransform="uppercase" fontWeight="bold"
               colStart={props.col ? props.col : undefined}
               {...props}>{props.children}</GridItem>
-  )
+  }
 
   return props.expanded
     ? <Box display="flex">
@@ -71,47 +73,48 @@ export function TableHeader(props: TableHeaderProps) {
       <CellSimple header="příjmení zákon. zást." />
     </Box>
     : <>
-      <Cell col={1} noDecor>
+      <HeaderCell col={1} noDecor>
         <Filter color="black" />
-      </Cell>
+      </HeaderCell>
       <VerticalSplit gridColumn={2}>
-        <Cell>jméno, příjmení účastn.</Cell>
-        <Cell>jméno, příjmení zák. zást.</Cell>
+        <HeaderCell>jméno, příjmení účastn.</HeaderCell>
+        <HeaderCell>jméno, příjmení zák. zást.</HeaderCell>
       </VerticalSplit>
       <VerticalSplit gridColumn={3}>
-        <Cell flexGrow={1}>základní škola</Cell>
+        <HeaderCell flexGrow={1}>základní škola</HeaderCell>
         <HorizontalSplit cols="4fr 7fr 4fr" flexGrow={1}>
-          <Cell>telefon</Cell>
-          <Cell>e-mail zák. zástupce</Cell>
-          <Cell>ip adresa</Cell>
+          <HeaderCell>telefon</HeaderCell>
+          <HeaderCell>e-mail zák. zástupce</HeaderCell>
+          <HeaderCell>ip adresa</HeaderCell>
         </HorizontalSplit>
       </VerticalSplit>
-      <Cell col={4}>
+      <HeaderCell col={4}>
         variabilní symbol
-      </Cell>
-      <Cell col={5}>
+      </HeaderCell>
+      <HeaderCell col={5}>
         datum přihlášení
-      </Cell>
-      <Cell col={6}>
+      </HeaderCell>
+      <HeaderCell col={6}>
         datum splatnosti
-      </Cell>
-      <Cell col={7}>
+      </HeaderCell>
+      <HeaderCell col={7}>
         datum úhrady
-      </Cell>
-      <Cell col={8} noDecor />
-      <Cell col={9} noDecor>
+      </HeaderCell>
+      <HeaderCell col={8} noDecor />
+      <HeaderCell col={9} noDecor>
         <CloseTable color="black" />
-      </Cell>
+      </HeaderCell>
     </>
 }
 
 export function Table() {
-  const people = useAppSelector(({table}) => table.people)
+  const people = useAppSelector(({ table }) => table.people)
   const dispatch = useDispatch()
 
   return <Box display="grid" gridTemplateColumns={colString} minW="950px">
     <TableHeader gridColumnStart={1} gridColumnEnd={12} expanded={false} bg="white" />
-    {people.map((person: Person, i: number) => <TableRow person={person} bg={isOdd(i) ? bgOdd : bgEven} expanded={false} key={i} />)}
+    {people.map((person: Person, i: number) => <TableRow person={person} bg={isOdd(i) ? bgOdd : bgEven} expanded={false}
+                                                         key={i} />)}
   </Box>
 }
 
