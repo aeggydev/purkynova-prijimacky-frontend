@@ -1,8 +1,8 @@
-import { Table } from "../Table"
 import React from "react"
 import ContentContainer from "../Containers/ContentContainer"
 import ShadowBox from "../Containers/ShadowBox"
 import { ChakraProps } from "@chakra-ui/react"
+import { Table } from "../Table/Table"
 
 export function Dashboard() {
   const insideProps: ChakraProps = {
