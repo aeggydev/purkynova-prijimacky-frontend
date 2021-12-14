@@ -52,14 +52,21 @@ export function TableHeader(props: TableHeaderProps) {
   interface HeaderCellProps extends GridItemProps {
     col?: number;
     noDecor?: boolean;
-    key?: keyof Person
+    dbKey?: keyof Person
   }
 
   const HeaderCell = (props: PropsWithChildren<HeaderCellProps>) => {
+    function handleKey() {
+      if (!props.dbKey) return
+
+      console.log(props.dbKey)
+    }
+
     return <GridItem display="grid" justifyContent="center" alignContent="center"
                      bg={props.noDecor ? "transparent" : bgOdd}
                      boxShadow={props.noDecor ? undefined : "inset 0 0 2px #000000"}
                      fontSize="12px" lineHeight="18px"
+                     onClick={props.dbKey ? handleKey : undefined}
                      textTransform="uppercase" fontWeight="bold"
                      colStart={props.col ? props.col : undefined}
                      {...props}>{props.children}</GridItem>
@@ -79,32 +86,32 @@ export function TableHeader(props: TableHeaderProps) {
       </HeaderCell>
       <VerticalSplit gridColumn={2}>
         <HorizontalSplit cols="1fr 1fr">
-          <HeaderCell>jméno účast.</HeaderCell>
-          <HeaderCell>příjmení účast.</HeaderCell>
+          <HeaderCell dbKey="applicantName">jméno účast.</HeaderCell>
+          <HeaderCell dbKey="applicantSurname">příjmení účast.</HeaderCell>
         </HorizontalSplit>
         <HorizontalSplit cols="1fr 1fr">
-          <HeaderCell>jméno zák. zást.</HeaderCell>
-          <HeaderCell>příjmení zák. zást.</HeaderCell>
+          <HeaderCell dbKey="parentName">jméno zák. zást.</HeaderCell>
+          <HeaderCell dbKey="parentSurname">příjmení zák. zást.</HeaderCell>
         </HorizontalSplit>
       </VerticalSplit>
       <VerticalSplit gridColumn={3}>
-        <HeaderCell flexGrow={1}>základní škola</HeaderCell>
+        <HeaderCell flexGrow={1} dbKey="schoolName">základní škola</HeaderCell>
         <HorizontalSplit cols="4fr 7fr 4fr" flexGrow={1}>
-          <HeaderCell>telefon</HeaderCell>
-          <HeaderCell>e-mail zák. zástupce</HeaderCell>
-          <HeaderCell>ip adresa</HeaderCell>
+          <HeaderCell dbKey="phone">telefon</HeaderCell>
+          <HeaderCell dbKey="parentEmail">e-mail zák. zástupce</HeaderCell>
+          <HeaderCell dbKey="ip">ip adresa</HeaderCell>
         </HorizontalSplit>
       </VerticalSplit>
-      <HeaderCell col={4}>
+      <HeaderCell col={4} dbKey="variableSymbol">
         variabilní symbol
       </HeaderCell>
-      <HeaderCell col={5}>
+      <HeaderCell col={5} dbKey="signInDate">
         datum přihlášení
       </HeaderCell>
-      <HeaderCell col={6}>
+      <HeaderCell col={6} dbKey="payTillDate">
         datum splatnosti
       </HeaderCell>
-      <HeaderCell col={7}>
+      <HeaderCell col={7} dbKey="paidDate">
         datum úhrady
       </HeaderCell>
       <HeaderCell col={8} noDecor />
