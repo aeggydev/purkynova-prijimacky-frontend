@@ -21,6 +21,7 @@ export function Table() {
     <TableHeader gridColumnStart={1} gridColumnEnd={12} expanded={false} bg="white" />
     {shallowCopy.map((person: Person, i: number) => <TableRow person={person} bg={isOdd(i) ? TableBgOdd : TableBgEven}
                                                               expanded={false}
+                                                              id={person.id}
                                                               key={i} />)}
   </Box>
 }

@@ -14,16 +14,35 @@ import Email from "../../Icons/Email"
 import Settings from "../../Icons/Settings"
 import { HorizontalSplit, VerticalSplit } from "./LayoutComponents"
 import { TableCellEdited } from "../../theme"
+import { useDispatch } from "react-redux"
+import { setProperty } from "../../store/table"
+import { useAppSelector } from "../../store/hooks"
+import _ from "lodash"
 
-export function TableRow(props: { person: Person, bg: string, expanded: boolean }) {
-  const signInDate = DateTime.fromISO(props.person.signInDate).toFormat("dd. MM. yyyy hh:mm")
-  const payTillDate = DateTime.fromISO(props.person.payTillDate).toFormat("dd. MM. yyyy")
-  const paidDate = props.person.paidDate
-    ? DateTime.fromISO(props.person.paidDate).toFormat("dd. MM. yyyy")
+const DoesntExistError = ({id}: {id: string}) => {
+  return <GridItem bg="red.300" colStart={1} colEnd={9}>
+    ERROR: {id} doesn't exist
+  </GridItem>
+}
+
+export function TableRow(props: { bg: string, expanded: boolean, id: string }) {
+  const current = useAppSelector(({table}) => _.find(table.workingCopy, {id: props.id}))
+  const saved = useAppSelector(({table}) => _.find(table.people, {id: props.id}))
+
+  if (!current) {
+    return <DoesntExistError id={props.id} />
+  }
+
+  const signInDate = DateTime.fromISO(current.signInDate).toFormat("dd. MM. yyyy hh:mm")
+  const payTillDate = DateTime.fromISO(current.payTillDate).toFormat("dd. MM. yyyy")
+  const paidDate = current.paidDate
+    ? DateTime.fromISO(current.paidDate).toFormat("dd. MM. yyyy")
     : "...nothing"
 
   const [splitHeight, setSplitHeight] = useState("100%")
   const splitExampleRef = useRef<HTMLInputElement>(null)
+
+  const dispatch = useDispatch()
 
   // TODO: Fix this horrible hack
   function refreshSplitHeight() {
@@ -41,7 +60,7 @@ export function TableRow(props: { person: Person, bg: string, expanded: boolean 
     gray?: boolean;
     small?: boolean;
     input?: boolean; // TODO: Change to its own element
-    inputStr?: string
+    keyDb?: keyof Person
     ref?: MutableRefObject<any>
   }
 
@@ -49,7 +68,7 @@ export function TableRow(props: { person: Person, bg: string, expanded: boolean 
     const normal = "inherit"
     const gray = "gray"
 
-    const [insideValue, setInsideValue] = useState(props.inputStr)
+    const [insideValue, setInsideValue] = useState(current[props.keyDb!]!)
     const [temporaryValue, setTemporaryValue] = useState(insideValue)
 
     function onChange(e: ChangeEvent<HTMLInputElement>) {
@@ -58,9 +77,11 @@ export function TableRow(props: { person: Person, bg: string, expanded: boolean 
 
     function onBlur(e: FocusEvent<HTMLInputElement>) {
       setInsideValue(temporaryValue)
+      // const payload = {property: props.keyDb!, id: current!.id, value: insideValue!}
+      // dispatch(setProperty(payload))
     }
 
-    const edited = !(props.inputStr === insideValue)
+    const edited = !(saved![props.keyDb!]! === insideValue)
 
     const inside = props.input
       ? <Input value={temporaryValue} type="text"
@@ -91,30 +112,29 @@ export function TableRow(props: { person: Person, bg: string, expanded: boolean 
   }
 
   return <>
-    <Cell colStart={1} bold fontSize="14px">
-      {props.person.personalId}
+    <Cell colStart={1} bold fontSize="14px" keyDb="id">
+      {current.personalId}
     </Cell>
     <VerticalSplit gridColumn={2} h="100%">
       <HorizontalSplit cols="1fr 1fr">
-        <Cell bold h={splitHeight} input inputStr={props.person.applicantName} />
-        <Cell bold input inputStr={props.person.applicantSurname} />
+        <Cell bold h={splitHeight} input keyDb="applicantName" />
+        <Cell bold input keyDb="applicantSurname" />
       </HorizontalSplit>
       <HorizontalSplit cols="1fr 1fr">
-        <Cell input inputStr={props.person.parentName} />
-        <Cell input inputStr={props.person.parentSurname} />
+        <Cell input keyDb="parentName" />
+        <Cell input keyDb="parentSurname" />
       </HorizontalSplit>
     </VerticalSplit>
     <VerticalSplit gridColumn={3}>
-      <Cell bold gray input inputStr={props.person.schoolName} />
+      <Cell bold gray input keyDb="schoolName" />
       <HorizontalSplit cols="4fr 7fr 4fr">
-        <Cell bold input inputStr={props.person.phone} />
-        <Cell bold input inputStr={props.person.parentEmail}
-              ref={splitExampleRef} />
-        <Cell bold gray>{props.person.ip}</Cell>
+        <Cell bold input keyDb="phone" />
+        <Cell bold input keyDb="parentEmail" ref={splitExampleRef} />
+        <Cell bold gray keyDb="ip">{current.ip}</Cell>
       </HorizontalSplit>
     </VerticalSplit>
-    <Cell colStart={4} bold>
-      {props.person.variableSymbol}
+    <Cell colStart={4} bold keyDb="variableSymbol">
+      {current.variableSymbol}
     </Cell>
     <Cell colStart={5} bold gray small>
       {signInDate}
