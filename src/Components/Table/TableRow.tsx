@@ -1,10 +1,19 @@
 import { Person } from "../../Types/Person"
 import { DateTime } from "luxon"
-import React, { MutableRefObject, PropsWithChildren, useLayoutEffect, useRef, useState } from "react"
+import React, {
+  ChangeEvent,
+  FocusEvent,
+  MutableRefObject,
+  PropsWithChildren,
+  useLayoutEffect,
+  useRef,
+  useState
+} from "react"
 import { Button, GridItem, GridItemProps, Input } from "@chakra-ui/react"
 import Email from "../../Icons/Email"
 import Settings from "../../Icons/Settings"
 import { HorizontalSplit, VerticalSplit } from "./LayoutComponents"
+import { TableCellEdited } from "../../theme"
 
 export function TableRow(props: { person: Person, bg: string, expanded: boolean }) {
   const signInDate = DateTime.fromISO(props.person.signInDate).toFormat("dd. MM. yyyy hh:mm")
@@ -40,14 +49,30 @@ export function TableRow(props: { person: Person, bg: string, expanded: boolean 
     const normal = "inherit"
     const gray = "gray"
 
+    const [insideValue, setInsideValue] = useState(props.inputStr)
+    const [temporaryValue, setTemporaryValue] = useState(insideValue)
+
+    function onChange(e: ChangeEvent<HTMLInputElement>) {
+      setTemporaryValue(e.target.value)
+    }
+
+    function onBlur(e: FocusEvent<HTMLInputElement>) {
+      setInsideValue(temporaryValue)
+    }
+    const edited = !(props.inputStr === insideValue)
+
     const inside = props.input
-      ? <Input value={props.inputStr} type="text"
+      ? <Input value={temporaryValue} type="text"
                p="0" m="0" pl="1ex"
-               color="inherit" bg="inherit"
+               color="inherit" bg={edited ? TableCellEdited : "inherit"}
                w="100%" h="100%"
                display="inline-grid" justifyContent="center" alignItems="center"
                fontWeight="inherit" fontSize="inherit" fontFamily="inherit"
                ref={splitExampleRef} // TODO: Why does this even work?
+
+               onChange={onChange}
+               onBlur={onBlur}
+
                borderRadius="0" border="none" />
       : props.children
 

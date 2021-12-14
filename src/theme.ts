@@ -8,5 +8,7 @@ export const BoxBg = "#F9F9F9"
 export const GrayText = "#B0B0B0"
 export const FormFieldBg = "#D9D9D9"
 export const FormSubmitBg = "#5DC496"
+
 export const TableBgOdd = "#EAEAEA"
 export const TableBgEven = "#E0E0E0"
+export const TableCellEdited = "#97e38e"
