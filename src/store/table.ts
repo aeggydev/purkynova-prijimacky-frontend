@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { PeopleTest, Person } from "../Types/Person"
 
 export interface TableState {
@@ -16,10 +16,20 @@ const initialState: TableState = {
 export const tableSlice = createSlice({
   name: "table",
   initialState,
-  reducers: {}
+  reducers: {
+    setKey: (state, action: PayloadAction<keyof Person>) => {
+      state.sortKey = action.payload
+    },
+    setSortLowestToHighest: (state, action: PayloadAction<boolean>) => {
+      state.sortLowestToHighest = action.payload
+    },
+    flipLowestToHighest: (state) => {
+      state.sortLowestToHighest = !state.sortLowestToHighest
+    }
+  }
 })
 
 // Action creators are generated for each case reducer function
-export const {} = tableSlice.actions
+export const {flipLowestToHighest, setSortLowestToHighest, setKey} = tableSlice.actions
 
 export default tableSlice.reducer

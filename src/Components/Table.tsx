@@ -8,6 +8,7 @@ import Settings from "../Icons/Settings"
 import Email from "../Icons/Email"
 import { useDispatch } from "react-redux"
 import { useAppSelector } from "../store/hooks"
+import { flipLowestToHighest, setKey, setSortLowestToHighest } from "../store/table"
 
 
 // TODO: Add scrolling instead of collapsing table
@@ -42,6 +43,7 @@ interface TableHeaderProps extends ChakraProps {
 
 export function TableHeader(props: TableHeaderProps) {
   const [sortKey, sortLowestToHighest] = useAppSelector(({ table }) => [table.sortKey, table.sortLowestToHighest])
+  const dispatch = useDispatch()
 
   const CellSimple = ({ header, flex = 0 }: { header: string, flex?: number }) => (
     <Box flexGrow={1}>
@@ -59,8 +61,18 @@ export function TableHeader(props: TableHeaderProps) {
     function handleKey() {
       if (!props.dbKey) return
 
-      console.log(props.dbKey)
+      const isCurrent = props.dbKey === sortKey
+
+      if (!isCurrent) {
+        dispatch(setKey(props.dbKey))
+        dispatch(setSortLowestToHighest(true))
+      } else {
+        dispatch(flipLowestToHighest())
+      }
     }
+    const sortSign = !(props.dbKey === sortKey)
+      ? null
+      : sortLowestToHighest ? "▲" : "▼"
 
     return <GridItem display="grid" justifyContent="center" alignContent="center"
                      bg={props.noDecor ? "transparent" : bgOdd}
@@ -68,8 +80,9 @@ export function TableHeader(props: TableHeaderProps) {
                      fontSize="12px" lineHeight="18px"
                      onClick={props.dbKey ? handleKey : undefined}
                      textTransform="uppercase" fontWeight="bold"
+                     userSelect="none"
                      colStart={props.col ? props.col : undefined}
-                     {...props}>{props.children}</GridItem>
+                     {...props}>{props.children} {sortSign}</GridItem>
   }
 
   return props.expanded
@@ -81,17 +94,18 @@ export function TableHeader(props: TableHeaderProps) {
       <CellSimple header="příjmení zákon. zást." />
     </Box>
     : <>
-      <HeaderCell col={1} noDecor>
-        <Filter color="black" />
+      <HeaderCell col={1} dbKey="id">
+        ID
+        {/*<Filter color="black" />*/}
       </HeaderCell>
       <VerticalSplit gridColumn={2}>
         <HorizontalSplit cols="1fr 1fr">
           <HeaderCell dbKey="applicantName">jméno účast.</HeaderCell>
-          <HeaderCell dbKey="applicantSurname">příjmení účast.</HeaderCell>
+          <HeaderCell dbKey="applicantSurname">příjm. účast.</HeaderCell>
         </HorizontalSplit>
         <HorizontalSplit cols="1fr 1fr">
           <HeaderCell dbKey="parentName">jméno zák. zást.</HeaderCell>
-          <HeaderCell dbKey="parentSurname">příjmení zák. zást.</HeaderCell>
+          <HeaderCell dbKey="parentSurname">příjm. zák. zást.</HeaderCell>
         </HorizontalSplit>
       </VerticalSplit>
       <VerticalSplit gridColumn={3}>
@@ -123,11 +137,18 @@ export function TableHeader(props: TableHeaderProps) {
 
 export function Table() {
   const people = useAppSelector(({ table }) => table.people)
+  const [sortKey, sortLowestToHighest] = useAppSelector(({table}) => [table.sortKey, table.sortLowestToHighest])
+  const shallowCopy = [...people]
+  shallowCopy.sort((a, b ) => a[sortKey]!.localeCompare(b[sortKey]!))
+  if (!sortLowestToHighest) {
+    shallowCopy.reverse()
+  }
+
   const dispatch = useDispatch()
 
   return <Box display="grid" gridTemplateColumns={colString} minW="950px">
     <TableHeader gridColumnStart={1} gridColumnEnd={12} expanded={false} bg="white" />
-    {people.map((person: Person, i: number) => <TableRow person={person} bg={isOdd(i) ? bgOdd : bgEven} expanded={false}
+    {shallowCopy.map((person: Person, i: number) => <TableRow person={person} bg={isOdd(i) ? bgOdd : bgEven} expanded={false}
                                                          key={i} />)}
   </Box>
 }
