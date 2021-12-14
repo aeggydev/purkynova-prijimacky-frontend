@@ -59,6 +59,7 @@ export function TableRow(props: { person: Person, bg: string, expanded: boolean 
     function onBlur(e: FocusEvent<HTMLInputElement>) {
       setInsideValue(temporaryValue)
     }
+
     const edited = !(props.inputStr === insideValue)
 
     const inside = props.input
@@ -95,22 +96,20 @@ export function TableRow(props: { person: Person, bg: string, expanded: boolean 
     </Cell>
     <VerticalSplit gridColumn={2} h="100%">
       <HorizontalSplit cols="1fr 1fr">
-        <Cell bold h={splitHeight} input inputStr={props.person.applicantName}>{props.person.applicantName}</Cell>
-        <Cell bold input inputStr={props.person.applicantSurname}>{props.person.applicantSurname}</Cell>
+        <Cell bold h={splitHeight} input inputStr={props.person.applicantName} />
+        <Cell bold input inputStr={props.person.applicantSurname} />
       </HorizontalSplit>
       <HorizontalSplit cols="1fr 1fr">
-        <Cell input inputStr={props.person.parentName}>{props.person.parentName}</Cell>
-        <Cell input inputStr={props.person.parentSurname}>{props.person.parentSurname}</Cell>
+        <Cell input inputStr={props.person.parentName} />
+        <Cell input inputStr={props.person.parentSurname} />
       </HorizontalSplit>
     </VerticalSplit>
     <VerticalSplit gridColumn={3}>
-      <Cell bold gray input inputStr={props.person.schoolName}>{props.person.schoolName}</Cell>
+      <Cell bold gray input inputStr={props.person.schoolName} />
       <HorizontalSplit cols="4fr 7fr 4fr">
-        <Cell bold input inputStr={props.person.phone}>{props.person.phone}</Cell>
+        <Cell bold input inputStr={props.person.phone} />
         <Cell bold input inputStr={props.person.parentEmail}
-              ref={splitExampleRef}>
-          {props.person.parentEmail}
-        </Cell>
+              ref={splitExampleRef} />
         <Cell bold gray>{props.person.ip}</Cell>
       </HorizontalSplit>
     </VerticalSplit>
