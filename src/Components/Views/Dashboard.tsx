@@ -2,7 +2,6 @@ import { Table } from "../Table"
 import React from "react"
 import ContentContainer from "../Containers/ContentContainer"
 import ShadowBox from "../Containers/ShadowBox"
-import { PeopleTest } from "../../Types/Person"
 import { ChakraProps } from "@chakra-ui/react"
 
 export function Dashboard() {
@@ -12,7 +11,7 @@ export function Dashboard() {
   }
   return <ContentContainer insideBox={insideProps}>
     <ShadowBox px="1em" py="1em">
-      <Table people={PeopleTest} />
+      <Table />
     </ShadowBox>
   </ContentContainer>
 

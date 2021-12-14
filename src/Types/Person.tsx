@@ -16,8 +16,7 @@ export class Person {
     public signInDate: string, // TODO: Change to a date
     public payTillDate: string, // TODO: Change to a date
     public paidDate: string | null // TODO: Change to a date
-  ) {
-  }
+  ) {}
 }
 
 const luxonCzToDate = (str: string) => {

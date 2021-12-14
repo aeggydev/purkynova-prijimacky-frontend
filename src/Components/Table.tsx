@@ -6,6 +6,10 @@ import CloseTable from "../Icons/CloseTable"
 import Filter from "../Icons/Filter"
 import Settings from "../Icons/Settings"
 import Email from "../Icons/Email"
+import { useSelector, useDispatch } from 'react-redux'
+import { useAppSelector } from "../store/hooks"
+import table from "../store/table"
+
 
 // TODO: Add scrolling instead of collapsing table
 
@@ -101,10 +105,13 @@ export function TableHeader(props: TableHeaderProps) {
     </>
 }
 
-export function Table({ people }: { people: Person[] }) {
+export function Table() {
+  const people = useAppSelector(({table}) => table.people)
+  const dispatch = useDispatch()
+
   return <Box display="grid" gridTemplateColumns={colString} minW="950px">
     <TableHeader gridColumnStart={1} gridColumnEnd={12} expanded={false} bg="white" />
-    {people.map((person, i) => <TableRow person={person} bg={isOdd(i) ? bgOdd : bgEven} expanded={false} key={i} />)}
+    {people.map((person: Person, i: number) => <TableRow person={person} bg={isOdd(i) ? bgOdd : bgEven} expanded={false} key={i} />)}
   </Box>
 }
 
