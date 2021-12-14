@@ -27,7 +27,8 @@ interface HorizontalSplitProps extends ChakraProps {
 }
 
 const HorizontalSplit = (props: PropsWithChildren<HorizontalSplitProps>) => (
-  <Box display="grid" gridAutoFlow="column" gridTemplateColumns={props.cols} {...props}>
+  <Box display="grid" gridAutoFlow="column" gridTemplateColumns={props.cols}
+       {...props}>
     {props.children}
   </Box>
 )
@@ -56,12 +57,12 @@ export function TableHeader(props: TableHeaderProps) {
 
   const HeaderCell = (props: PropsWithChildren<HeaderCellProps>) => {
     return <GridItem display="grid" justifyContent="center" alignContent="center"
-              bg={props.noDecor ? "transparent" : bgOdd}
-              boxShadow={props.noDecor ? undefined : "inset 0 0 2px #000000"}
-              fontSize="12px" lineHeight="18px"
-              textTransform="uppercase" fontWeight="bold"
-              colStart={props.col ? props.col : undefined}
-              {...props}>{props.children}</GridItem>
+                     bg={props.noDecor ? "transparent" : bgOdd}
+                     boxShadow={props.noDecor ? undefined : "inset 0 0 2px #000000"}
+                     fontSize="12px" lineHeight="18px"
+                     textTransform="uppercase" fontWeight="bold"
+                     colStart={props.col ? props.col : undefined}
+                     {...props}>{props.children}</GridItem>
   }
 
   return props.expanded
@@ -77,8 +78,14 @@ export function TableHeader(props: TableHeaderProps) {
         <Filter color="black" />
       </HeaderCell>
       <VerticalSplit gridColumn={2}>
-        <HeaderCell>jméno, příjmení účastn.</HeaderCell>
-        <HeaderCell>jméno, příjmení zák. zást.</HeaderCell>
+        <HorizontalSplit cols="1fr 1fr">
+          <HeaderCell>jméno účast.</HeaderCell>
+          <HeaderCell>příjmení účast.</HeaderCell>
+        </HorizontalSplit>
+        <HorizontalSplit cols="1fr 1fr">
+          <HeaderCell>jméno zák. zást.</HeaderCell>
+          <HeaderCell>příjmení zák. zást.</HeaderCell>
+        </HorizontalSplit>
       </VerticalSplit>
       <VerticalSplit gridColumn={3}>
         <HeaderCell flexGrow={1}>základní škola</HeaderCell>
@@ -140,14 +147,12 @@ export function TableRow(props: { person: Person, bg: string, expanded: boolean 
     const gray = "gray"
 
     const inside = props.input
-      ? <Input value={props.inputStr}
-               p="0" m="0"
+      ? <Input value={props.inputStr} type="text"
+               p="0" m="0" pl="1ex"
                color="inherit" bg="inherit"
                w="100%" h="100%"
-               pl="1ex"
-               display="grid" justifyContent="center" alignItems="center"
-               fontWeight="inherit"
-               lineHeight="inherit" fontSize="inherit"
+               display="inline-grid" justifyContent="center" alignItems="center"
+               fontWeight="inherit" fontSize="inherit" fontFamily="inherit"
                borderRadius="0" border="none" />
       : props.children
 
@@ -168,9 +173,15 @@ export function TableRow(props: { person: Person, bg: string, expanded: boolean 
     <Cell colStart={1} bold fontSize="14px">
       {props.person.personalId}
     </Cell>
-    <VerticalSplit gridColumn={2}>
-      <Cell bold>{props.person.applicantName} {props.person.applicantSurname}</Cell>
-      <Cell>{props.person.parentName} {props.person.parentSurname}</Cell>
+    <VerticalSplit gridColumn={2} h="100%">
+      <HorizontalSplit cols="1fr 1fr">
+        <Cell bold input inputStr={props.person.applicantName}>{props.person.applicantName}</Cell>
+        <Cell bold input inputStr={props.person.applicantSurname}>{props.person.applicantSurname}</Cell>
+      </HorizontalSplit>
+      <HorizontalSplit cols="1fr 1fr">
+        <Cell input inputStr={props.person.parentName}>{props.person.parentName}</Cell>
+        <Cell input inputStr={props.person.parentSurname}>{props.person.parentSurname}</Cell>
+      </HorizontalSplit>
     </VerticalSplit>
     <VerticalSplit gridColumn={3}>
       <Cell bold gray input inputStr={props.person.schoolName}>{props.person.schoolName}</Cell>
