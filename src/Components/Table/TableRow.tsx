@@ -107,6 +107,7 @@ export function TableRow(props: { bg: string, expanded: boolean, id: string }) {
                borderRadius="0" border="none" />
         <Box as="span" display={edited ? "block" : "none"}
              userSelect="none" cursor="pointer"
+             fontWeight="bold" color="black"
              onClick={onReset}>x</Box>
       </Grid>
       : props.keyDb ? current[props.keyDb] : props.children
