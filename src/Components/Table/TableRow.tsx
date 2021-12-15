@@ -4,12 +4,13 @@ import React, {
   ChangeEvent,
   FocusEvent,
   MutableRefObject,
-  PropsWithChildren, useEffect,
+  PropsWithChildren,
+  useEffect,
   useLayoutEffect,
   useRef,
   useState
 } from "react"
-import { Button, GridItem, GridItemProps, Input } from "@chakra-ui/react"
+import { Box, Button, Grid, GridItem, GridItemProps, Input } from "@chakra-ui/react"
 import Email from "../../Icons/Email"
 import Settings from "../../Icons/Settings"
 import { HorizontalSplit, VerticalSplit } from "./LayoutComponents"
@@ -19,15 +20,15 @@ import { useAppSelector } from "../../store/hooks"
 import _ from "lodash"
 import { mutateCopyProperty } from "../../store/table"
 
-const DoesntExistError = ({id}: {id: string}) => {
+const DoesntExistError = ({ id }: { id: string }) => {
   return <GridItem bg="red.300" colStart={1} colEnd={9}>
     ERROR: {id} doesn't exist
   </GridItem>
 }
 
 export function TableRow(props: { bg: string, expanded: boolean, id: string }) {
-  const current = useAppSelector(({table}) => _.find(table.workingCopy, {id: props.id}))
-  const saved = useAppSelector(({table}) => _.find(table.people, {id: props.id}))
+  const current = useAppSelector(({ table }) => _.find(table.workingCopy, { id: props.id }))
+  const saved = useAppSelector(({ table }) => _.find(table.people, { id: props.id }))
 
   if (!current) {
     return <DoesntExistError id={props.id} />
@@ -78,17 +79,24 @@ export function TableRow(props: { bg: string, expanded: boolean, id: string }) {
     }
 
     function onBlur(e: FocusEvent<HTMLInputElement>) {
-      const payload = {property: props.keyDb!, id: current!.id, value: formValue!}
+      const payload = { property: props.keyDb!, id: current!.id, value: formValue! }
+      if (formValue === current![props.keyDb!]) return
       dispatch(mutateCopyProperty(payload))
     }
 
     const edited = !(saved![props.keyDb!]! === formValue)
 
+    function onReset() {
+      const payload = { property: props.keyDb!, id: current!.id, value: saved![props.keyDb!]! }
+      dispatch(mutateCopyProperty(payload))
+    }
+
     const inside = props.input
-      ? <Input value={formValue} type="text"
+      ? <Grid templateColumns="1fr 2ex" bg={edited ? TableCellEdited : "inherit"}>
+        <Input value={formValue} type="text"
                p="0" m="0" pl="1ex"
-               color="inherit" bg={edited ? TableCellEdited : "inherit"}
-               w="100%" h="100%"
+               color="inherit"
+               w="100%" h="19.5px"
                display="inline-grid" justifyContent="center" alignItems="center"
                fontWeight="inherit" fontSize="inherit" fontFamily="inherit"
                ref={splitExampleRef} // TODO: Why does this even work?
@@ -97,12 +105,17 @@ export function TableRow(props: { bg: string, expanded: boolean, id: string }) {
                onBlur={onBlur}
 
                borderRadius="0" border="none" />
+        <Box as="span" display={edited ? "block" : "none"}
+             userSelect="none" cursor="pointer"
+             onClick={onReset}>x</Box>
+      </Grid>
       : props.keyDb ? current[props.keyDb] : props.children
 
     const justifyAlign = props.input ? "stretch" : "center"
 
     return <GridItem fontSize={props.small ? "11px" : "13px"}
                      display="grid" justifyContent={justifyAlign} alignContent={justifyAlign}
+                     gridAutoFlow="columns"
                      fontWeight={props.bold ? "bold" : "normal"}
                      flexGrow={1}
                      bg={CellBg}
