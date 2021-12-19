@@ -14,6 +14,7 @@ function InfoBoxRow({ left, right }: { left: string, right: string }) {
 export function Dashboard() {
   const insideProps: ChakraProps = {
     px: "0",
+    pb: "2.5em",
     mx: "0"
   }
   return <ContentContainer insideBox={insideProps}>
