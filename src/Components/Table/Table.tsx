@@ -1,5 +1,5 @@
 import { useAppSelector } from "../../store/hooks"
-import { Box } from "@chakra-ui/react"
+import { Box, Grid } from "@chakra-ui/react"
 import { Person } from "../../Types/Person"
 import React from "react"
 import { colString, isOdd } from "./shared"
@@ -18,12 +18,16 @@ export function Table() {
     shallowCopy.reverse()
   }
 
-  return <Box display="grid" gridTemplateColumns={colString} minW="950px">
-    <Topbar />
-    <TableHeader gridColumnStart={1} gridColumnEnd={12} expanded={false} bg="white" />
-    {shallowCopy.map((person: Person, i: number) => <TableRow bg={isOdd(i) ? TableBgOdd : TableBgEven}
-                                                              expanded={false}
-                                                              id={person.id}
-                                                              key={i} />)}
-  </Box>
+  return (
+    <Box minW="950px">
+      <Topbar />
+      <Grid templateColumns={colString}>
+        <TableHeader gridColumnStart={1} gridColumnEnd={12} expanded={false} bg="white" />
+        {shallowCopy.map((person: Person, i: number) => <TableRow bg={isOdd(i) ? TableBgOdd : TableBgEven}
+                                                                  expanded={false}
+                                                                  id={person.id}
+                                                                  key={i} />)}
+      </Grid>
+    </Box>
+  )
 }
