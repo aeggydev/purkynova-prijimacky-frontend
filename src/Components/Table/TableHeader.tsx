@@ -53,6 +53,7 @@ export function TableHeader(props: TableHeaderProps) {
                      fontSize="12px" lineHeight="20px"
                      onClick={props.dbKey ? handleKey : undefined}
                      borderX="solid 0.5px white"
+                     pl={props.dbKey ? "3px" : "0"}
                      textTransform="uppercase" fontWeight="bold"
                      userSelect="none"
                      colStart={props.col ? props.col : undefined}
