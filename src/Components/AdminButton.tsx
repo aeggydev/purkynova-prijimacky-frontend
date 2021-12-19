@@ -3,8 +3,10 @@ import { Box, ChakraProps, Text } from "@chakra-ui/react"
 import { GrayText } from "../theme"
 import Settings from "../Icons/Settings"
 
-const AdminButton = (props: ChakraProps) => <Box display="flex" color={GrayText} {...props}>
-  <Settings color={GrayText} />
-  <Text userSelect="none">ADMIN</Text>
-</Box>
+const AdminButton = (props: ChakraProps) => (
+  <Box display="flex" color={GrayText} cursor="pointer" {...props}>
+    <Settings color={GrayText} />
+    <Text userSelect="none">ADMIN</Text>
+  </Box>
+)
 export default AdminButton
