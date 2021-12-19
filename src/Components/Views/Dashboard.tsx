@@ -6,13 +6,11 @@ import { Table } from "../Table/Table"
 
 export function Dashboard() {
   const insideProps: ChakraProps = {
-    px: "2em",
+    px: "0",
     mx: "0"
   }
   return <ContentContainer insideBox={insideProps}>
-    <ShadowBox px="1em" py="1em">
       <Table />
-    </ShadowBox>
   </ContentContainer>
 
   /*
