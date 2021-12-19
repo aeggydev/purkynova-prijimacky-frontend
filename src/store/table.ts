@@ -14,7 +14,7 @@ const initialState: TableState = {
   people: PeopleTest,
   workingCopy: PeopleTest,
   sortLowestToHighest: true,
-  sortKey: "id",
+  sortKey: "id"
 }
 
 export const tableSlice = createSlice({
@@ -64,11 +64,22 @@ export const tableSlice = createSlice({
     },
     merge: (state) => {
       state.people = state.workingCopy
+    },
+
+    createPersonInCopy: (state, action: PayloadAction<{ person: Person }>) => {
+      state.workingCopy = [...state.workingCopy, action.payload.person]
     }
   }
 })
 
 // Action creators are generated for each case reducer function
-export const { flipLowestToHighest, setSortLowestToHighest, setKey, mutateCopyProperty, merge } = tableSlice.actions
+export const {
+  flipLowestToHighest,
+  setSortLowestToHighest,
+  setKey,
+  mutateCopyProperty,
+  merge,
+  createPersonInCopy
+} = tableSlice.actions
 
 export default tableSlice.reducer
