@@ -6,7 +6,7 @@ import React, { PropsWithChildren } from "react"
 import { flipLowestToHighest, setKey, setSortLowestToHighest } from "../../store/table"
 import CloseTable from "../../Icons/CloseTable"
 import { HorizontalSplit, VerticalSplit } from "./LayoutComponents"
-import { TableBgOdd } from "../../theme"
+import { TableBgOdd, TopbarBg } from "../../theme"
 
 export interface TableHeaderProps extends ChakraProps {
   expanded: boolean;
@@ -48,10 +48,11 @@ export function TableHeader(props: TableHeaderProps) {
       : sortLowestToHighest ? "▲" : "▼"
 
     return <GridItem display="grid" justifyContent="center" alignContent="center"
-                     bg={props.noDecor ? "transparent" : TableBgOdd}
-                     boxShadow={props.noDecor ? undefined : "inset 0 0 2px #000000"}
-                     fontSize="12px" lineHeight="18px"
+                     color="white"
+                     bg={props.noDecor ? "transparent" : TopbarBg}
+                     fontSize="12px" lineHeight="20px"
                      onClick={props.dbKey ? handleKey : undefined}
+                     borderX="solid 0.5px white"
                      textTransform="uppercase" fontWeight="bold"
                      userSelect="none"
                      colStart={props.col ? props.col : undefined}
@@ -67,23 +68,23 @@ export function TableHeader(props: TableHeaderProps) {
       <CellSimple header="příjmení zákon. zást." />
     </Box>
     : <>
-      <HeaderCell col={1} dbKey="id">
+      <HeaderCell col={1} dbKey="id" borderLeftWidth="0">
         ID
         {/*<Filter color="black" />*/}
       </HeaderCell>
       <VerticalSplit gridColumn={2}>
-        <HorizontalSplit cols="1fr 1fr">
+        <HorizontalSplit cols="1fr 1fr" borderBottom=".5px solid white">
           <HeaderCell dbKey="applicantName">jméno účast.</HeaderCell>
           <HeaderCell dbKey="applicantSurname">příjm. účast.</HeaderCell>
         </HorizontalSplit>
-        <HorizontalSplit cols="1fr 1fr">
+        <HorizontalSplit cols="1fr 1fr" borderTop=".5px solid white">
           <HeaderCell dbKey="parentName">jméno zák. zást.</HeaderCell>
           <HeaderCell dbKey="parentSurname">příjm. zák. zást.</HeaderCell>
         </HorizontalSplit>
       </VerticalSplit>
       <VerticalSplit gridColumn={3}>
-        <HeaderCell flexGrow={1} dbKey="schoolName">základní škola</HeaderCell>
-        <HorizontalSplit cols="4fr 7fr 4fr" flexGrow={1}>
+        <HeaderCell flexGrow={1} dbKey="schoolName" borderBottom=".5px solid white">základní škola</HeaderCell>
+        <HorizontalSplit cols="4fr 7fr 4fr" flexGrow={1} borderTop=".5px solid white">
           <HeaderCell dbKey="phone">telefon</HeaderCell>
           <HeaderCell dbKey="parentEmail">e-mail zák. zástupce</HeaderCell>
           <HeaderCell dbKey="ip">ip adresa</HeaderCell>
@@ -101,9 +102,9 @@ export function TableHeader(props: TableHeaderProps) {
       <HeaderCell col={7} dbKey="paidDate">
         datum úhrady
       </HeaderCell>
-      <HeaderCell col={8} noDecor />
-      <HeaderCell col={9} noDecor>
-        <CloseTable color="black" />
+      <HeaderCell col={8} borderRight="0" />
+      <HeaderCell col={9} borderX="0">
+        <CloseTable color="white" />
       </HeaderCell>
     </>
 }
