@@ -5,23 +5,36 @@ import FormField from "./FormField"
 import { FormSubmitBg, TopbarDarkBg } from "../theme"
 import React, { useState } from "react"
 import { Row } from "./Views/Form"
+import { useAddParticipantMutation } from "../graphql/graphql"
 
 export const StateDefault = {
   participantName: "",
   participantSurname: "",
-  schoolName: "",
+  school: "",
   parentName: "",
   parentSurname: "",
-  parentEmail: "",
-  parentPhone: ""
+  email: "",
+  phone: ""
 }
-export const FormContext = React.createContext([StateDefault, (x: typeof StateDefault) => {}]);
+export const FormContext = React.createContext([StateDefault, (x: typeof StateDefault) => {
+}])
 
 export default function InfoForm() {
   const [state, setState] = useState(StateDefault)
-  function submit() {
-    console.log(state)
+
+  const [addMutation, _] = useAddParticipantMutation({
+    variables: {
+      email: state.email, phone: state.phone, school: state.school,
+      participantName: state.participantName, participantSurname: state.participantSurname,
+      parentName: state.parentName, parentSurname: state.parentSurname
+    }
+  })
+
+  async function submit() {
+    const mutation = await addMutation()
+    console.log(`id: ${mutation.data?.addParticipant.id}`)
   }
+
 
   return <FormContext.Provider value={[state, setState]}>
     <ShadowBox mx="4em" position="relative" alignContent="center">
@@ -30,11 +43,11 @@ export default function InfoForm() {
       </InfoButton>
       <Box display="grid" gridTemplateColumns="1fr 5%">
         <Row row={1}>
-          <FormField label="Jméno účastníka" fieldName="participantName"  />
+          <FormField label="Jméno účastníka" fieldName="participantName" />
           <FormField label="Příjmení účastníka" fieldName="participantSurname" />
         </Row>
         <Row row={2}>
-          <FormField label="Základní škola, obec" mb="2.5em" fieldName="schoolName" />
+          <FormField label="Základní škola, obec" mb="2.5em" fieldName="school" />
         </Row>
         <Row row={3}>
           <FormField label="Jméno zákonného zástupce" fieldName="parentName" />
@@ -45,10 +58,10 @@ export default function InfoForm() {
           číslo. {/* TODO: replace escape sequence with css solution */}
         </InfoButton>
         <Row row={4}>
-          <FormField label="E-Mail zákonného zástupce" fieldName="parentEmail" />
+          <FormField label="E-Mail zákonného zástupce" fieldName="email" />
         </Row>
         <Row row={5}>
-          <FormField label="Telefonní číslo zákonného zástupce" fieldName="parentPhone" />
+          <FormField label="Telefonní číslo zákonného zástupce" fieldName="phone" />
           {/* TODO: add checking of phone numbers */}
           {/* TODO: should automatically fill in +420 */}
         </Row>
@@ -56,7 +69,8 @@ export default function InfoForm() {
           Telefonní číslo je pouze sekundární forma komunikace. Je možné zadat pouze čísla s českou předvolbou +420.
         </InfoButton>
       </Box>
-      <Button bg={FormSubmitBg} mt="2em" _hover={{ bg: TopbarDarkBg }} color="white" onClick={submit}>ODESLAT PŘIHLÁŠKU</Button>
+      <Button bg={FormSubmitBg} mt="2em" _hover={{ bg: TopbarDarkBg }} color="white" onClick={submit}>ODESLAT
+        PŘIHLÁŠKU</Button>
     </ShadowBox>
   </FormContext.Provider>
 }

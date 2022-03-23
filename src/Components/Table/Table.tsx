@@ -7,8 +7,63 @@ import { TableHeader } from "./TableHeader"
 import { TableRow } from "./TableRow"
 import { TableBgEven, TableBgOdd } from "../../theme"
 import { Topbar } from "./Topbar"
+import { gql } from "@apollo/client"
+import { useParticipantsQuery } from "../../graphql/graphql"
+
+gql`
+    query Participants {
+        participants {
+            dueDate,
+            paidDate,
+            signUpDate,
+            email,
+            id,
+            ip,
+            phone,
+            variableSymbol,
+            parentName, parentSurname,
+            participantName, participantSurname,
+        }
+    }
+    mutation addParticipant(
+        $participantSurname: String!,
+        $participantName: String!,
+        $parentSurname: String!,
+        $parentName: String!
+        $phone: String!,
+        $email: String!,
+        $school: String!
+    ) {
+        addParticipant(newParticipant: {participantSurname: $participantSurname, participantName: $participantName,
+            parentSurname: $parentSurname, parentName: $parentName
+            phone: $phone, email: $email, school: $school
+        }) {
+            id
+        }
+    }
+    mutation updateParticipant(
+        $id: Int!,
+        $participantSurname: String,
+        $participantName: String,
+        $parentSurname: String,
+        $parentName: String,
+        $phone: String,
+        $email: String,
+        $school: String
+    ) {
+        updateParticipant(id: $id, updateParticipant: {participantSurname: $participantSurname, participantName: $participantName,
+            parentSurname: $parentSurname, parentName: $parentName
+            phone: $phone, email: $email, school: $school
+        }) {
+            id
+        }
+    }
+`
 
 export function Table() {
+  const { error, data, loading } = useParticipantsQuery()
+  console.log(data)
+
   const people = useAppSelector(({ table }) => table.people)
   const [sortKey, sortLowestToHighest] = useAppSelector(({ table }) => [table.sortKey, table.sortLowestToHighest])
 

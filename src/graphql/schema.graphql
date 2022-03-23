@@ -1,0 +1,68 @@
+type Query {
+    participants: [Participant!]!
+    settings: Settings!
+}
+
+type Mutation {
+    addParticipant(newParticipant: NewParticipantInput!): Participant!
+    updateParticipant(
+        id: Int!
+        updateParticipant: UpdateParticipantInput!
+    ): Participant!
+    updateSettings(updateSettings: UpdateSettingsInput!): Settings!
+}
+
+type Settings {
+    id: Int!
+    signUpAllowed: Boolean!
+    capacity: Int!
+    allowedOver: Int!
+}
+
+type Participant {
+    id: Int!
+    participantName: String!
+    participantSurname: String!
+    parentName: String!
+    parentSurname: String!
+    school: String!
+    phone: String!
+    email: String!
+    ip: String!
+    variableSymbol: String!
+    signUpDate: DateTime!
+    dueDate: DateTime!
+    paidDate: DateTime
+}
+
+input NewParticipantInput {
+    participantName: String!
+    participantSurname: String!
+    parentName: String!
+    parentSurname: String!
+    school: String!
+    phone: String!
+    email: String!
+}
+
+input UpdateParticipantInput {
+    participantName: String
+    participantSurname: String
+    parentName: String
+    parentSurname: String
+    school: String
+    phone: String
+    email: String
+    paidDate: DateTime
+}
+
+input UpdateSettingsInput {
+    signUpAllowed: Boolean
+    capacity: Int
+    allowedOver: Int
+}
+
+"""
+The `DateTime` scalar represents an ISO-8601 compliant date time type.
+"""
+scalar DateTime

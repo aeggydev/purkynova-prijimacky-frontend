@@ -12,8 +12,6 @@ const FormField = (props: Props) => {
   // @ts-ignore
   const value = state[props.fieldName]
   function onChange(e: ChangeEvent<HTMLInputElement>) {
-    console.log(e.target.value)
-    console.log(state)
     const change = {} as any
     change[props.fieldName] = e.target.value
     // @ts-ignore
