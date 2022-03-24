@@ -5,9 +5,9 @@ import FormField from "./FormField"
 import { FormSubmitBg, TopbarDarkBg } from "../theme"
 import React, { useState } from "react"
 import { Row } from "./Views/Form"
-import { useAddParticipantMutation } from "../graphql/graphql"
+import { NewParticipantInput, useNewParticipantMutation } from "../graphql/graphql"
 
-export const StateDefault = {
+export const StateDefault: NewParticipantInput = {
   participantName: "",
   participantSurname: "",
   school: "",
@@ -22,12 +22,8 @@ export const FormContext = React.createContext([StateDefault, (x: typeof StateDe
 export default function InfoForm() {
   const [state, setState] = useState(StateDefault)
 
-  const [addMutation, _] = useAddParticipantMutation({
-    variables: {
-      email: state.email, phone: state.phone, school: state.school,
-      participantName: state.participantName, participantSurname: state.participantSurname,
-      parentName: state.parentName, parentSurname: state.parentSurname
-    }
+  const [addMutation, _] = useNewParticipantMutation({
+    variables: { addParticipant: state }
   })
 
   async function submit() {

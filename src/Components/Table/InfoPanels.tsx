@@ -23,7 +23,7 @@ export function InfoPanels() {
         <InfoBoxRow left="Maximální kapacita" right={settings.capacity} />
         <InfoBoxRow left="Povolená místa pod čarou" right={settings.allowedOver} />
         <InfoBoxRow left="Celkový počet míst" right={settings.capacity + settings.allowedOver} />
-        <InfoBoxRow left="Přihlášení v provozu" right="Ano" />
+        <InfoBoxRow left="Přihlášení v provozu" right={settings.signUpAllowed ? "Ano" : "Ne"} />
       </ShadowBox>
       <ShadowBox p=".75rem">
         <InfoBoxRow left="Celkem přihlášek" right="16" />
