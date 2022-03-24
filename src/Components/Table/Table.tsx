@@ -15,4 +15,6 @@ export function Table() {
     </TableRoot>
 }
 
-const TableRoot = styled.table``
+const TableRoot = styled.table`
+    table-layout: fixed;
+`

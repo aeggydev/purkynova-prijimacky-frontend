@@ -10,8 +10,8 @@ export function TableRow({ i, participant }: { i: number, participant: Participa
     const [context, setContext] = useState<ContextType>({ participant })
 
     return <RowContext.Provider value={context}>
-        <tr>
-            <BindCell index="id" />
+        <tr style={{ background: (i % 2 == 0) ? "#E0E0E0" : "#EAEAEA" }}>
+            <BindCellStatic index="id" />
             <BindCell index="participantName" />
             <BindCell index="participantSurname" />
             <BindCell index="parentName" />
@@ -59,4 +59,5 @@ export function Cell({ children, style }: PropsWithChildren<{ style?: CSSPropert
 
 const RowInput = styled.input`
     width: 100%;
+    background: transparent;
 `
