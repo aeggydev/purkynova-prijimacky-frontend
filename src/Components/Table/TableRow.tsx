@@ -1,5 +1,7 @@
 import { Participant } from "../../graphql/graphql"
-import React, { PropsWithChildren, useContext, useState } from "react"
+import React, { ChangeEvent, CSSProperties, PropsWithChildren, useContext, useState } from "react"
+import styled from "styled-components"
+import { Box } from "@chakra-ui/react"
 
 type ContextType = { participant: Participant }
 const RowContext = React.createContext<ContextType>({} as ContextType)
@@ -17,23 +19,44 @@ export function TableRow({ i, participant }: { i: number, participant: Participa
             <BindCell index="email" />
             <BindCell index="phone" />
             <BindCell index="school" />
-            <BindCell index="ip" changeable={false} />
-            <BindCell index="variableSymbol" changeable={false} />
+            <BindCellStatic index="ip" />
+            <BindCellStatic index="variableSymbol" />
 
-            <BindCell index="signUpDate" changeable={false} />
-            <BindCell index="dueDate" changeable={false} />
-            <BindCell index="paidDate" changeable={false} />
+            <BindCellStatic index="signUpDate" />
+            <BindCellStatic index="dueDate" />
+            <BindCellStatic index="paidDate" />
         </tr>
     </RowContext.Provider>
 }
 
-export function BindCell({ index, changeable = true }: { index: keyof Participant, changeable?: boolean }) {
+export function BindCell({ index }: { index: keyof Participant }) {
     const context = useContext(RowContext)
     const participant = context.participant
 
-    return <Cell>{participant[index]}</Cell>
+    const [localValue, setLocalValue] = useState(participant[index])
+
+    function onChange(e: ChangeEvent<HTMLInputElement>) {
+        setLocalValue(e.target.value)
+    }
+
+    return <Cell>
+        <RowInput type="text" value={localValue} onChange={onChange} />
+    </Cell>
 }
 
-export function Cell({ children }: PropsWithChildren<{}>) {
-    return <td>{children}</td>
+export function BindCellStatic({ index }: { index: keyof Participant }) {
+    const context = useContext(RowContext)
+    const participant = context.participant
+
+    return <Cell style={{ textAlign: "center" }}>{participant[index] ??
+        <Box width="7ex" borderBottom="1.75px solid black" />}</Cell>
+    // TODO: Center empty field
 }
+
+export function Cell({ children, style }: PropsWithChildren<{ style?: CSSProperties }>) {
+    return <td style={style}>{children}</td>
+}
+
+const RowInput = styled.input`
+    width: 100%;
+`
