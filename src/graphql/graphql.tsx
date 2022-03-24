@@ -98,135 +98,140 @@ export type UpdateSettingsInput = {
   signUpAllowed?: InputMaybe<Scalars['Boolean']>;
 };
 
-export type ParticipantsQueryVariables = Exact<{ [key: string]: never; }>;
+export type TableParticipantFragment = { __typename?: 'Participant', id: number, ip: string, school: string, email: string, phone: string, variableSymbol: string, parentName: string, parentSurname: string, participantName: string, participantSurname: string, signUpDate: any, paidDate?: any | null, dueDate: any };
+
+export type GetParticipantsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ParticipantsQuery = { __typename?: 'Query', participants: Array<{ __typename?: 'Participant', dueDate: any, paidDate?: any | null, signUpDate: any, email: string, id: number, ip: string, phone: string, variableSymbol: string, parentName: string, parentSurname: string, participantName: string, participantSurname: string }> };
+export type GetParticipantsQuery = { __typename?: 'Query', participants: Array<{ __typename?: 'Participant', id: number, ip: string, school: string, email: string, phone: string, variableSymbol: string, parentName: string, parentSurname: string, participantName: string, participantSurname: string, signUpDate: any, paidDate?: any | null, dueDate: any }> };
 
-export type AddParticipantMutationVariables = Exact<{
-  participantSurname: Scalars['String'];
-  participantName: Scalars['String'];
-  parentSurname: Scalars['String'];
-  parentName: Scalars['String'];
-  phone: Scalars['String'];
-  email: Scalars['String'];
-  school: Scalars['String'];
+export type NewParticipantMutationVariables = Exact<{
+  addParticipant: NewParticipantInput;
 }>;
 
 
-export type AddParticipantMutation = { __typename?: 'Mutation', addParticipant: { __typename?: 'Participant', id: number } };
+export type NewParticipantMutation = { __typename?: 'Mutation', addParticipant: { __typename?: 'Participant', id: number, ip: string, school: string, email: string, phone: string, variableSymbol: string, parentName: string, parentSurname: string, participantName: string, participantSurname: string, signUpDate: any, paidDate?: any | null, dueDate: any } };
 
 export type UpdateParticipantMutationVariables = Exact<{
   id: Scalars['Int'];
-  participantSurname?: InputMaybe<Scalars['String']>;
-  participantName?: InputMaybe<Scalars['String']>;
-  parentSurname?: InputMaybe<Scalars['String']>;
-  parentName?: InputMaybe<Scalars['String']>;
-  phone?: InputMaybe<Scalars['String']>;
-  email?: InputMaybe<Scalars['String']>;
-  school?: InputMaybe<Scalars['String']>;
+  updateParticipant: UpdateParticipantInput;
 }>;
 
 
-export type UpdateParticipantMutation = { __typename?: 'Mutation', updateParticipant: { __typename?: 'Participant', id: number } };
+export type UpdateParticipantMutation = { __typename?: 'Mutation', updateParticipant: { __typename?: 'Participant', id: number, ip: string, school: string, email: string, phone: string, variableSymbol: string, parentName: string, parentSurname: string, participantName: string, participantSurname: string, signUpDate: any, paidDate?: any | null, dueDate: any } };
+
+export type SettingsFragment = { __typename?: 'Settings', allowedOver: number, capacity: number, signUpAllowed: boolean };
+
+export type GetSettingsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export const ParticipantsDocument = gql`
-    query Participants {
-  participants {
-    dueDate
-    paidDate
-    signUpDate
-    email
-    id
-    ip
-    phone
-    variableSymbol
-    parentName
-    parentSurname
-    participantName
-    participantSurname
-  }
+export type GetSettingsQuery = { __typename?: 'Query', settings: { __typename?: 'Settings', allowedOver: number, capacity: number, signUpAllowed: boolean } };
+
+export type UpdateSettingsMutationVariables = Exact<{
+  updateSettings: UpdateSettingsInput;
+}>;
+
+
+export type UpdateSettingsMutation = { __typename?: 'Mutation', updateSettings: { __typename?: 'Settings', allowedOver: number, capacity: number, signUpAllowed: boolean } };
+
+export const TableParticipantFragmentDoc = gql`
+    fragment TableParticipant on Participant {
+  id
+  ip
+  school
+  email
+  phone
+  variableSymbol
+  parentName
+  parentSurname
+  participantName
+  participantSurname
+  signUpDate
+  paidDate
+  dueDate
 }
     `;
+export const SettingsFragmentDoc = gql`
+    fragment Settings on Settings {
+  allowedOver
+  capacity
+  signUpAllowed
+}
+    `;
+export const GetParticipantsDocument = gql`
+    query GetParticipants {
+  participants {
+    ...TableParticipant
+  }
+}
+    ${TableParticipantFragmentDoc}`;
 
 /**
- * __useParticipantsQuery__
+ * __useGetParticipantsQuery__
  *
- * To run a query within a React component, call `useParticipantsQuery` and pass it any options that fit your needs.
- * When your component renders, `useParticipantsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetParticipantsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetParticipantsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useParticipantsQuery({
+ * const { data, loading, error } = useGetParticipantsQuery({
  *   variables: {
  *   },
  * });
  */
-export function useParticipantsQuery(baseOptions?: Apollo.QueryHookOptions<ParticipantsQuery, ParticipantsQueryVariables>) {
+export function useGetParticipantsQuery(baseOptions?: Apollo.QueryHookOptions<GetParticipantsQuery, GetParticipantsQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<ParticipantsQuery, ParticipantsQueryVariables>(ParticipantsDocument, options);
+        return Apollo.useQuery<GetParticipantsQuery, GetParticipantsQueryVariables>(GetParticipantsDocument, options);
       }
-export function useParticipantsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ParticipantsQuery, ParticipantsQueryVariables>) {
+export function useGetParticipantsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetParticipantsQuery, GetParticipantsQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<ParticipantsQuery, ParticipantsQueryVariables>(ParticipantsDocument, options);
+          return Apollo.useLazyQuery<GetParticipantsQuery, GetParticipantsQueryVariables>(GetParticipantsDocument, options);
         }
-export type ParticipantsQueryHookResult = ReturnType<typeof useParticipantsQuery>;
-export type ParticipantsLazyQueryHookResult = ReturnType<typeof useParticipantsLazyQuery>;
-export type ParticipantsQueryResult = Apollo.QueryResult<ParticipantsQuery, ParticipantsQueryVariables>;
-export const AddParticipantDocument = gql`
-    mutation addParticipant($participantSurname: String!, $participantName: String!, $parentSurname: String!, $parentName: String!, $phone: String!, $email: String!, $school: String!) {
-  addParticipant(
-    newParticipant: {participantSurname: $participantSurname, participantName: $participantName, parentSurname: $parentSurname, parentName: $parentName, phone: $phone, email: $email, school: $school}
-  ) {
-    id
+export type GetParticipantsQueryHookResult = ReturnType<typeof useGetParticipantsQuery>;
+export type GetParticipantsLazyQueryHookResult = ReturnType<typeof useGetParticipantsLazyQuery>;
+export type GetParticipantsQueryResult = Apollo.QueryResult<GetParticipantsQuery, GetParticipantsQueryVariables>;
+export const NewParticipantDocument = gql`
+    mutation NewParticipant($addParticipant: NewParticipantInput!) {
+  addParticipant(newParticipant: $addParticipant) {
+    ...TableParticipant
   }
 }
-    `;
-export type AddParticipantMutationFn = Apollo.MutationFunction<AddParticipantMutation, AddParticipantMutationVariables>;
+    ${TableParticipantFragmentDoc}`;
+export type NewParticipantMutationFn = Apollo.MutationFunction<NewParticipantMutation, NewParticipantMutationVariables>;
 
 /**
- * __useAddParticipantMutation__
+ * __useNewParticipantMutation__
  *
- * To run a mutation, you first call `useAddParticipantMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useAddParticipantMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useNewParticipantMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useNewParticipantMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [addParticipantMutation, { data, loading, error }] = useAddParticipantMutation({
+ * const [newParticipantMutation, { data, loading, error }] = useNewParticipantMutation({
  *   variables: {
- *      participantSurname: // value for 'participantSurname'
- *      participantName: // value for 'participantName'
- *      parentSurname: // value for 'parentSurname'
- *      parentName: // value for 'parentName'
- *      phone: // value for 'phone'
- *      email: // value for 'email'
- *      school: // value for 'school'
+ *      addParticipant: // value for 'addParticipant'
  *   },
  * });
  */
-export function useAddParticipantMutation(baseOptions?: Apollo.MutationHookOptions<AddParticipantMutation, AddParticipantMutationVariables>) {
+export function useNewParticipantMutation(baseOptions?: Apollo.MutationHookOptions<NewParticipantMutation, NewParticipantMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<AddParticipantMutation, AddParticipantMutationVariables>(AddParticipantDocument, options);
+        return Apollo.useMutation<NewParticipantMutation, NewParticipantMutationVariables>(NewParticipantDocument, options);
       }
-export type AddParticipantMutationHookResult = ReturnType<typeof useAddParticipantMutation>;
-export type AddParticipantMutationResult = Apollo.MutationResult<AddParticipantMutation>;
-export type AddParticipantMutationOptions = Apollo.BaseMutationOptions<AddParticipantMutation, AddParticipantMutationVariables>;
+export type NewParticipantMutationHookResult = ReturnType<typeof useNewParticipantMutation>;
+export type NewParticipantMutationResult = Apollo.MutationResult<NewParticipantMutation>;
+export type NewParticipantMutationOptions = Apollo.BaseMutationOptions<NewParticipantMutation, NewParticipantMutationVariables>;
 export const UpdateParticipantDocument = gql`
-    mutation updateParticipant($id: Int!, $participantSurname: String, $participantName: String, $parentSurname: String, $parentName: String, $phone: String, $email: String, $school: String) {
-  updateParticipant(
-    id: $id
-    updateParticipant: {participantSurname: $participantSurname, participantName: $participantName, parentSurname: $parentSurname, parentName: $parentName, phone: $phone, email: $email, school: $school}
-  ) {
-    id
+    mutation UpdateParticipant($id: Int!, $updateParticipant: UpdateParticipantInput!) {
+  updateParticipant(id: $id, updateParticipant: $updateParticipant) {
+    ...TableParticipant
   }
 }
-    `;
+    ${TableParticipantFragmentDoc}`;
 export type UpdateParticipantMutationFn = Apollo.MutationFunction<UpdateParticipantMutation, UpdateParticipantMutationVariables>;
 
 /**
@@ -243,13 +248,7 @@ export type UpdateParticipantMutationFn = Apollo.MutationFunction<UpdateParticip
  * const [updateParticipantMutation, { data, loading, error }] = useUpdateParticipantMutation({
  *   variables: {
  *      id: // value for 'id'
- *      participantSurname: // value for 'participantSurname'
- *      participantName: // value for 'participantName'
- *      parentSurname: // value for 'parentSurname'
- *      parentName: // value for 'parentName'
- *      phone: // value for 'phone'
- *      email: // value for 'email'
- *      school: // value for 'school'
+ *      updateParticipant: // value for 'updateParticipant'
  *   },
  * });
  */
@@ -260,3 +259,70 @@ export function useUpdateParticipantMutation(baseOptions?: Apollo.MutationHookOp
 export type UpdateParticipantMutationHookResult = ReturnType<typeof useUpdateParticipantMutation>;
 export type UpdateParticipantMutationResult = Apollo.MutationResult<UpdateParticipantMutation>;
 export type UpdateParticipantMutationOptions = Apollo.BaseMutationOptions<UpdateParticipantMutation, UpdateParticipantMutationVariables>;
+export const GetSettingsDocument = gql`
+    query GetSettings {
+  settings {
+    ...Settings
+  }
+}
+    ${SettingsFragmentDoc}`;
+
+/**
+ * __useGetSettingsQuery__
+ *
+ * To run a query within a React component, call `useGetSettingsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetSettingsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetSettingsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetSettingsQuery(baseOptions?: Apollo.QueryHookOptions<GetSettingsQuery, GetSettingsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetSettingsQuery, GetSettingsQueryVariables>(GetSettingsDocument, options);
+      }
+export function useGetSettingsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetSettingsQuery, GetSettingsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetSettingsQuery, GetSettingsQueryVariables>(GetSettingsDocument, options);
+        }
+export type GetSettingsQueryHookResult = ReturnType<typeof useGetSettingsQuery>;
+export type GetSettingsLazyQueryHookResult = ReturnType<typeof useGetSettingsLazyQuery>;
+export type GetSettingsQueryResult = Apollo.QueryResult<GetSettingsQuery, GetSettingsQueryVariables>;
+export const UpdateSettingsDocument = gql`
+    mutation UpdateSettings($updateSettings: UpdateSettingsInput!) {
+  updateSettings(updateSettings: $updateSettings) {
+    ...Settings
+  }
+}
+    ${SettingsFragmentDoc}`;
+export type UpdateSettingsMutationFn = Apollo.MutationFunction<UpdateSettingsMutation, UpdateSettingsMutationVariables>;
+
+/**
+ * __useUpdateSettingsMutation__
+ *
+ * To run a mutation, you first call `useUpdateSettingsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateSettingsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateSettingsMutation, { data, loading, error }] = useUpdateSettingsMutation({
+ *   variables: {
+ *      updateSettings: // value for 'updateSettings'
+ *   },
+ * });
+ */
+export function useUpdateSettingsMutation(baseOptions?: Apollo.MutationHookOptions<UpdateSettingsMutation, UpdateSettingsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateSettingsMutation, UpdateSettingsMutationVariables>(UpdateSettingsDocument, options);
+      }
+export type UpdateSettingsMutationHookResult = ReturnType<typeof useUpdateSettingsMutation>;
+export type UpdateSettingsMutationResult = Apollo.MutationResult<UpdateSettingsMutation>;
+export type UpdateSettingsMutationOptions = Apollo.BaseMutationOptions<UpdateSettingsMutation, UpdateSettingsMutationVariables>;

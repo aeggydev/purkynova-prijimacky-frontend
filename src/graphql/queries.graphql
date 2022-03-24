@@ -1,0 +1,41 @@
+fragment TableParticipant on Participant {
+    id,
+    ip,
+    school,
+    email,
+    phone,
+    variableSymbol,
+    parentName, parentSurname,
+    participantName, participantSurname,
+    signUpDate, paidDate, dueDate,
+}
+
+query GetParticipants {
+    participants {
+        ...TableParticipant
+    }
+}
+mutation NewParticipant($addParticipant: NewParticipantInput!) {
+    addParticipant(newParticipant: $addParticipant) {
+        ...TableParticipant
+    }
+}
+mutation UpdateParticipant($id: Int!, $updateParticipant: UpdateParticipantInput!) {
+    updateParticipant(id: $id, updateParticipant: $updateParticipant) {
+        ...TableParticipant
+    }
+}
+
+fragment Settings on Settings {
+    allowedOver, capacity, signUpAllowed
+}
+query GetSettings {
+    settings {
+        ...Settings
+    }
+}
+mutation UpdateSettings($updateSettings: UpdateSettingsInput!) {
+    updateSettings(updateSettings: $updateSettings) {
+        ...Settings
+    }
+}
