@@ -4,25 +4,11 @@ import styled from "styled-components"
 import { Box } from "@chakra-ui/react"
 import { TableContext } from "../Views/Dashboard"
 
-type updatePropertyStringType = (prop: keyof Participant, value: string) => void
-type ContextType = { participant: Participant, changes: { [id: number]: Partial<Participant> }, updatePropertyString: updatePropertyStringType }
+type ContextType = { participant: Participant }
 const RowContext = React.createContext<ContextType>({} as ContextType)
 
 export function TableRow({ i, participant }: { i: number, participant: Participant }) {
-    const { updateRowProperty } = useContext(TableContext)
-
-    useEffect(() => {
-        setContext({...context, changes: {}})
-    }, [participant])
-
-    type StateType = Omit<ContextType, "participant">
-    const [context, setContext] = useState<StateType>({ changes: {}, updatePropertyString })
-
-    function updatePropertyString(prop: keyof Participant, value: string) {
-        updateRowProperty(participant.id, prop, value)
-    }
-
-    return <RowContext.Provider value={{ ...context, participant }}>
+    return <RowContext.Provider value={{ participant }}>
         <RowStyle style={{ background: (i % 2 != 0) ? "#E0E0E0" : "#EAEAEA" }}>
             <BindCellStatic index="id" />
             <BindCell index="participantName" />
@@ -43,8 +29,8 @@ export function TableRow({ i, participant }: { i: number, participant: Participa
 }
 
 export function BindCell({ index }: { index: keyof Participant }) {
-    const context = useContext(RowContext)
-    const participant = context.participant
+    const { participant } = useContext(RowContext)
+    const tableContext = useContext(TableContext)
 
     const [localValue, setLocalValue] = useState(participant[index])
     const edited = localValue != participant[index]
@@ -55,7 +41,7 @@ export function BindCell({ index }: { index: keyof Participant }) {
 
     function saveValue() {
         if (localValue == participant[index]) return;
-        context.updatePropertyString(index, localValue)
+        tableContext.updateRowProperty(participant.id, index, localValue)
     }
 
     return <Cell>
