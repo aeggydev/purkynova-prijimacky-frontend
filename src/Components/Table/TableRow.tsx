@@ -69,7 +69,8 @@ const RowInput = styled.input<{edited: boolean}>`
     transition: all 250ms ease-in-out;
 `
 const RowStyle = styled.tr`
-    height: 1px; // Get around CSS problems
+    height: 2em;
+    white-space: nowrap;
 `
 const DataStyle = styled.td`
     height: inherit;
