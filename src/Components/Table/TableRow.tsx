@@ -1,15 +1,28 @@
 import { Participant } from "../../graphql/graphql"
-import React, { ChangeEvent, CSSProperties, PropsWithChildren, useContext, useState } from "react"
+import React, { ChangeEvent, CSSProperties, PropsWithChildren, useContext, useEffect, useState } from "react"
 import styled from "styled-components"
 import { Box } from "@chakra-ui/react"
+import { TableContext } from "../Views/Dashboard"
 
-type ContextType = { participant: Participant }
+type updatePropertyStringType = (prop: keyof Participant, value: string) => void
+type ContextType = { participant: Participant, changes: { [id: number]: Partial<Participant> }, updatePropertyString: updatePropertyStringType }
 const RowContext = React.createContext<ContextType>({} as ContextType)
 
 export function TableRow({ i, participant }: { i: number, participant: Participant }) {
-    const [context, setContext] = useState<ContextType>({ participant })
+    const { updateRowProperty } = useContext(TableContext)
 
-    return <RowContext.Provider value={context}>
+    useEffect(() => {
+        setContext({...context, changes: {}})
+    }, [participant])
+
+    type StateType = Omit<ContextType, "participant">
+    const [context, setContext] = useState<StateType>({ changes: {}, updatePropertyString })
+
+    function updatePropertyString(prop: keyof Participant, value: string) {
+        updateRowProperty(participant.id, prop, value)
+    }
+
+    return <RowContext.Provider value={{ ...context, participant }}>
         <RowStyle style={{ background: (i % 2 == 0) ? "#E0E0E0" : "#EAEAEA" }}>
             <BindCellStatic index="id" />
             <BindCell index="participantName" />
@@ -40,8 +53,13 @@ export function BindCell({ index }: { index: keyof Participant }) {
         setLocalValue(e.target.value)
     }
 
+    function saveValue() {
+        if (localValue == participant[index]) return;
+        context.updatePropertyString(index, localValue)
+    }
+
     return <Cell>
-        <RowInput type="text" edited={edited} value={localValue} onChange={onChange} />
+        <RowInput type="text" edited={edited} value={localValue} onChange={onChange} onBlur={saveValue} />
     </Cell>
 }
 
@@ -60,7 +78,7 @@ export function Cell({ children, style }: PropsWithChildren<{ style?: CSSPropert
     return <DataStyle style={style}>{children}</DataStyle>
 }
 
-const RowInput = styled.input<{edited: boolean}>`
+const RowInput = styled.input<{ edited: boolean }>`
     width: 100%;
     height: 100%;
     background: ${props => props.edited ? "#fdfebc" : "inherit"};
