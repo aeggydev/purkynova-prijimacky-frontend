@@ -8,7 +8,7 @@ import { TableContext } from "../Views/Dashboard"
 export function Table() {
     const {setChanges} = useContext(TableContext)
 
-    const { error, data, loading } = useGetParticipantsQuery()
+    const { error, data, loading } = useGetParticipantsQuery({fetchPolicy: "no-cache"})
     useEffect(() => {
         setChanges({})
         console.log("done fetching!", data)
