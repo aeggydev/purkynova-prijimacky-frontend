@@ -19,6 +19,7 @@ export function ButtonArea() {
     })
 
     function onClick() {
+        alert("Error: function is not implemented")
     }
 
     function saveChanges() {
