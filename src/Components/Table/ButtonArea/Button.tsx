@@ -35,4 +35,9 @@ const StyledButton = styled.button<StyledButtonProps>`
     font-weight: 500;
     box-shadow: 0 2px 2px rgba(0, 0, 0, 0.25);
     border-radius: 5px;
+
+    &:active {
+        box-shadow: inset 0 2px 2px rgba(0, 0, 0, 0.25);
+        background-image: linear-gradient(rgba(0, 0, 0, 0.4) 0 0);
+    }
 `
