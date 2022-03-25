@@ -23,7 +23,7 @@ export function TableRow({ i, participant }: { i: number, participant: Participa
     }
 
     return <RowContext.Provider value={{ ...context, participant }}>
-        <RowStyle style={{ background: (i % 2 == 0) ? "#E0E0E0" : "#EAEAEA" }}>
+        <RowStyle style={{ background: (i % 2 != 0) ? "#E0E0E0" : "#EAEAEA" }}>
             <BindCellStatic index="id" />
             <BindCell index="participantName" />
             <BindCell index="participantSurname" />
