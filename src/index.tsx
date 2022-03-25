@@ -6,21 +6,24 @@ import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client"
 import { Provider } from "react-redux"
 import { store } from "./store/store"
 
+const cache: InMemoryCache = new InMemoryCache({
+    typePolicies: {}
+})
 const client = new ApolloClient({
-  uri: "https://localhost:7141/graphql",
-  cache: new InMemoryCache(),
-  connectToDevTools: true
+    uri: "https://localhost:7141/graphql",
+    cache,
+    connectToDevTools: true
 })
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <ApolloProvider client={client}>
-        <ChakraProvider>
-          <App />
-        </ChakraProvider>
-      </ApolloProvider>
-    </Provider>
-  </React.StrictMode>,
-  document.getElementById("root")
+    <React.StrictMode>
+        <Provider store={store}>
+            <ApolloProvider client={client}>
+                <ChakraProvider>
+                    <App />
+                </ChakraProvider>
+            </ApolloProvider>
+        </Provider>
+    </React.StrictMode>,
+    document.getElementById("root")
 )
