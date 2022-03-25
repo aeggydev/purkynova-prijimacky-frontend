@@ -47,9 +47,11 @@ export function BindCell({ index }: { index: keyof Participant }) {
 export function BindCellStatic({ index }: { index: keyof Participant }) {
     const context = useContext(RowContext)
     const participant = context.participant
+    const emptyLine = <span style={{ display: "flex", placeContent: "center" }}>
+        <Box width="7ex" borderBottom="1.75px solid black" />
+    </span>
 
-    return <Cell style={{ textAlign: "center" }}>{participant[index] ??
-        <Box width="7ex" borderBottom="1.75px solid black" />}</Cell>
+    return <Cell style={{ textAlign: "center" }}>{participant[index] ?? emptyLine}</Cell>
     // TODO: Center empty field
 }
 
