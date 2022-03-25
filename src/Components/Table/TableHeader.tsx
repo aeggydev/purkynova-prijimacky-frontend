@@ -37,9 +37,14 @@ function Header({ children }: PropsWithChildren<{}>) {
 }
 
 const StyledHeader = styled.th`
+    position: sticky;
+    top: 0;
+
     background: #18AC6A;
     color: #FFFFFF;
-    border: white 0.5px solid;
+    border: white 0 solid;
+    border-left-width: 0.5px;
+    border-right-width: 0.5px;
     padding: 0.5ex 1ex;
 
     &:first-child, &:last-child {
