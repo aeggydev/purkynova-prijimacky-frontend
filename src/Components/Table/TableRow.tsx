@@ -34,13 +34,14 @@ export function BindCell({ index }: { index: keyof Participant }) {
     const participant = context.participant
 
     const [localValue, setLocalValue] = useState(participant[index])
+    const edited = localValue != participant[index]
 
     function onChange(e: ChangeEvent<HTMLInputElement>) {
         setLocalValue(e.target.value)
     }
 
     return <Cell>
-        <RowInput type="text" value={localValue} onChange={onChange} />
+        <RowInput type="text" edited={edited} value={localValue} onChange={onChange} />
     </Cell>
 }
 
@@ -59,14 +60,18 @@ export function Cell({ children, style }: PropsWithChildren<{ style?: CSSPropert
     return <DataStyle style={style}>{children}</DataStyle>
 }
 
-const RowInput = styled.input`
+const RowInput = styled.input<{edited: boolean}>`
     width: 100%;
     height: 100%;
-    background: transparent;
+    background: ${props => props.edited ? "#fdfebc" : "inherit"};
+    color: black;
+
+    transition: all 250ms ease-in-out;
 `
 const RowStyle = styled.tr`
     height: 1px; // Get around CSS problems
 `
 const DataStyle = styled.td`
     height: inherit;
+    padding: 0;
 `
