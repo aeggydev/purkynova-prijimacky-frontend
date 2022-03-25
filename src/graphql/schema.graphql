@@ -1,6 +1,7 @@
 type Query {
     participants: [Participant!]!
     settings: Settings!
+    statistics: Statistics!
 }
 
 type Mutation {
@@ -33,6 +34,13 @@ type Participant {
     signUpDate: DateTime!
     dueDate: DateTime!
     paidDate: DateTime
+}
+
+type Statistics {
+    totalSignups: Int!
+    remainingCapacity: Int!
+    remainingCapacityOver: Int!
+    removedSignups: Int!
 }
 
 input NewParticipantInput {

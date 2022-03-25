@@ -39,3 +39,12 @@ mutation UpdateSettings($updateSettings: UpdateSettingsInput!) {
         ...Settings
     }
 }
+
+fragment Statistics on Statistics {
+    remainingCapacity, remainingCapacityOver, removedSignups, totalSignups
+}
+query GetStatistics {
+    statistics {
+        ...Statistics
+    }
+}

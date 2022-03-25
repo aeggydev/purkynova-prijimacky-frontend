@@ -71,6 +71,7 @@ export type Query = {
   __typename?: 'Query';
   participants: Array<Participant>;
   settings: Settings;
+  statistics: Statistics;
 };
 
 export type Settings = {
@@ -79,6 +80,14 @@ export type Settings = {
   capacity: Scalars['Int'];
   id: Scalars['Int'];
   signUpAllowed: Scalars['Boolean'];
+};
+
+export type Statistics = {
+  __typename?: 'Statistics';
+  remainingCapacity: Scalars['Int'];
+  remainingCapacityOver: Scalars['Int'];
+  removedSignups: Scalars['Int'];
+  totalSignups: Scalars['Int'];
 };
 
 export type UpdateParticipantInput = {
@@ -134,6 +143,13 @@ export type UpdateSettingsMutationVariables = Exact<{
 
 export type UpdateSettingsMutation = { __typename?: 'Mutation', updateSettings: { __typename?: 'Settings', allowedOver: number, capacity: number, signUpAllowed: boolean } };
 
+export type StatisticsFragment = { __typename?: 'Statistics', remainingCapacity: number, remainingCapacityOver: number, removedSignups: number, totalSignups: number };
+
+export type GetStatisticsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetStatisticsQuery = { __typename?: 'Query', statistics: { __typename?: 'Statistics', remainingCapacity: number, remainingCapacityOver: number, removedSignups: number, totalSignups: number } };
+
 export const TableParticipantFragmentDoc = gql`
     fragment TableParticipant on Participant {
   id
@@ -156,6 +172,14 @@ export const SettingsFragmentDoc = gql`
   allowedOver
   capacity
   signUpAllowed
+}
+    `;
+export const StatisticsFragmentDoc = gql`
+    fragment Statistics on Statistics {
+  remainingCapacity
+  remainingCapacityOver
+  removedSignups
+  totalSignups
 }
     `;
 export const GetParticipantsDocument = gql`
@@ -326,3 +350,37 @@ export function useUpdateSettingsMutation(baseOptions?: Apollo.MutationHookOptio
 export type UpdateSettingsMutationHookResult = ReturnType<typeof useUpdateSettingsMutation>;
 export type UpdateSettingsMutationResult = Apollo.MutationResult<UpdateSettingsMutation>;
 export type UpdateSettingsMutationOptions = Apollo.BaseMutationOptions<UpdateSettingsMutation, UpdateSettingsMutationVariables>;
+export const GetStatisticsDocument = gql`
+    query GetStatistics {
+  statistics {
+    ...Statistics
+  }
+}
+    ${StatisticsFragmentDoc}`;
+
+/**
+ * __useGetStatisticsQuery__
+ *
+ * To run a query within a React component, call `useGetStatisticsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetStatisticsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetStatisticsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetStatisticsQuery(baseOptions?: Apollo.QueryHookOptions<GetStatisticsQuery, GetStatisticsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetStatisticsQuery, GetStatisticsQueryVariables>(GetStatisticsDocument, options);
+      }
+export function useGetStatisticsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetStatisticsQuery, GetStatisticsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetStatisticsQuery, GetStatisticsQueryVariables>(GetStatisticsDocument, options);
+        }
+export type GetStatisticsQueryHookResult = ReturnType<typeof useGetStatisticsQuery>;
+export type GetStatisticsLazyQueryHookResult = ReturnType<typeof useGetStatisticsLazyQuery>;
+export type GetStatisticsQueryResult = Apollo.QueryResult<GetStatisticsQuery, GetStatisticsQueryVariables>;
