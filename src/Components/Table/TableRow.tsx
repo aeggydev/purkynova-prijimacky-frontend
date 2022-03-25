@@ -10,7 +10,7 @@ export function TableRow({ i, participant }: { i: number, participant: Participa
     const [context, setContext] = useState<ContextType>({ participant })
 
     return <RowContext.Provider value={context}>
-        <tr style={{ background: (i % 2 == 0) ? "#E0E0E0" : "#EAEAEA" }}>
+        <RowStyle style={{ background: (i % 2 == 0) ? "#E0E0E0" : "#EAEAEA" }}>
             <BindCellStatic index="id" />
             <BindCell index="participantName" />
             <BindCell index="participantSurname" />
@@ -25,7 +25,7 @@ export function TableRow({ i, participant }: { i: number, participant: Participa
             <BindCellStatic index="signUpDate" />
             <BindCellStatic index="dueDate" />
             <BindCellStatic index="paidDate" />
-        </tr>
+        </RowStyle>
     </RowContext.Provider>
 }
 
@@ -56,10 +56,17 @@ export function BindCellStatic({ index }: { index: keyof Participant }) {
 }
 
 export function Cell({ children, style }: PropsWithChildren<{ style?: CSSProperties }>) {
-    return <td style={style}>{children}</td>
+    return <DataStyle style={style}>{children}</DataStyle>
 }
 
 const RowInput = styled.input`
     width: 100%;
+    height: 100%;
     background: transparent;
+`
+const RowStyle = styled.tr`
+    height: 1px; // Get around CSS problems
+`
+const DataStyle = styled.td`
+    height: inherit;
 `
