@@ -1,11 +1,11 @@
-import ShadowBox from "./Containers/ShadowBox"
+import ShadowBox from "../Containers/ShadowBox"
 import { IconType, InfoButton } from "./InfoPopup"
 import { Box, Button } from "@chakra-ui/react"
 import FormField from "./FormField"
-import { FormSubmitBg, TopbarDarkBg } from "../theme"
+import { FormSubmitBg, TopbarDarkBg } from "../../theme"
 import React, { useState } from "react"
-import { Row } from "./Views/Form"
-import { NewParticipantInput, useNewParticipantMutation } from "../graphql/graphql"
+import { Row } from "../Views/Form"
+import { NewParticipantInput, useNewParticipantMutation } from "../../graphql/graphql"
 
 export const StateDefault: NewParticipantInput = {
   participantName: "",
@@ -19,7 +19,7 @@ export const StateDefault: NewParticipantInput = {
 export const FormContext = React.createContext([StateDefault, (x: typeof StateDefault) => {
 }])
 
-export default function InfoForm() {
+export default function Form() {
   const [state, setState] = useState(StateDefault)
 
   const [addMutation, _] = useNewParticipantMutation({

@@ -1,5 +1,5 @@
 import { ChakraProps, Input } from "@chakra-ui/react"
-import { FormContext, StateDefault } from "./InfoForm"
+import { FormContext, StateDefault } from "./Form"
 import { ChangeEvent, useContext } from "react"
 
 interface Props extends ChakraProps {
