@@ -25,6 +25,11 @@ mutation UpdateParticipant($id: Int!, $updateParticipant: UpdateParticipantInput
         ...TableParticipant
     }
 }
+mutation UpdateParticipants($updateParticipants: [UpdateParticipantsItemInput!]!) {
+    updateParticipants(updateParticipants: $updateParticipants) {
+        ...TableParticipant
+    }
+}
 
 fragment Settings on Settings {
     allowedOver, capacity, signUpAllowed

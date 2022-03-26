@@ -10,6 +10,9 @@ type Mutation {
         id: Int!
         updateParticipant: UpdateParticipantInput!
     ): Participant!
+    updateParticipants(
+        updateParticipants: [UpdateParticipantsItemInput!]!
+    ): [Participant!]!
     updateSettings(updateSettings: UpdateSettingsInput!): Settings!
 }
 
@@ -62,6 +65,11 @@ input UpdateParticipantInput {
     phone: String
     email: String
     paidDate: DateTime
+}
+
+input UpdateParticipantsItemInput {
+    id: Int!
+    data: UpdateParticipantInput!
 }
 
 input UpdateSettingsInput {

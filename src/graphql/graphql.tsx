@@ -21,6 +21,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   addParticipant: Participant;
   updateParticipant: Participant;
+  updateParticipants: Array<Participant>;
   updateSettings: Settings;
 };
 
@@ -33,6 +34,11 @@ export type MutationAddParticipantArgs = {
 export type MutationUpdateParticipantArgs = {
   id: Scalars['Int'];
   updateParticipant: UpdateParticipantInput;
+};
+
+
+export type MutationUpdateParticipantsArgs = {
+  updateParticipants: Array<UpdateParticipantsItemInput>;
 };
 
 
@@ -101,6 +107,11 @@ export type UpdateParticipantInput = {
   school?: InputMaybe<Scalars['String']>;
 };
 
+export type UpdateParticipantsItemInput = {
+  data: UpdateParticipantInput;
+  id: Scalars['Int'];
+};
+
 export type UpdateSettingsInput = {
   allowedOver?: InputMaybe<Scalars['Int']>;
   capacity?: InputMaybe<Scalars['Int']>;
@@ -128,6 +139,13 @@ export type UpdateParticipantMutationVariables = Exact<{
 
 
 export type UpdateParticipantMutation = { __typename?: 'Mutation', updateParticipant: { __typename?: 'Participant', id: number, ip: string, school: string, email: string, phone: string, variableSymbol: string, parentName: string, parentSurname: string, participantName: string, participantSurname: string, signUpDate: any, paidDate?: any | null, dueDate: any } };
+
+export type UpdateParticipantsMutationVariables = Exact<{
+  updateParticipants: Array<UpdateParticipantsItemInput> | UpdateParticipantsItemInput;
+}>;
+
+
+export type UpdateParticipantsMutation = { __typename?: 'Mutation', updateParticipants: Array<{ __typename?: 'Participant', id: number, ip: string, school: string, email: string, phone: string, variableSymbol: string, parentName: string, parentSurname: string, participantName: string, participantSurname: string, signUpDate: any, paidDate?: any | null, dueDate: any }> };
 
 export type SettingsFragment = { __typename?: 'Settings', allowedOver: number, capacity: number, signUpAllowed: boolean };
 
@@ -283,6 +301,39 @@ export function useUpdateParticipantMutation(baseOptions?: Apollo.MutationHookOp
 export type UpdateParticipantMutationHookResult = ReturnType<typeof useUpdateParticipantMutation>;
 export type UpdateParticipantMutationResult = Apollo.MutationResult<UpdateParticipantMutation>;
 export type UpdateParticipantMutationOptions = Apollo.BaseMutationOptions<UpdateParticipantMutation, UpdateParticipantMutationVariables>;
+export const UpdateParticipantsDocument = gql`
+    mutation UpdateParticipants($updateParticipants: [UpdateParticipantsItemInput!]!) {
+  updateParticipants(updateParticipants: $updateParticipants) {
+    ...TableParticipant
+  }
+}
+    ${TableParticipantFragmentDoc}`;
+export type UpdateParticipantsMutationFn = Apollo.MutationFunction<UpdateParticipantsMutation, UpdateParticipantsMutationVariables>;
+
+/**
+ * __useUpdateParticipantsMutation__
+ *
+ * To run a mutation, you first call `useUpdateParticipantsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateParticipantsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateParticipantsMutation, { data, loading, error }] = useUpdateParticipantsMutation({
+ *   variables: {
+ *      updateParticipants: // value for 'updateParticipants'
+ *   },
+ * });
+ */
+export function useUpdateParticipantsMutation(baseOptions?: Apollo.MutationHookOptions<UpdateParticipantsMutation, UpdateParticipantsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateParticipantsMutation, UpdateParticipantsMutationVariables>(UpdateParticipantsDocument, options);
+      }
+export type UpdateParticipantsMutationHookResult = ReturnType<typeof useUpdateParticipantsMutation>;
+export type UpdateParticipantsMutationResult = Apollo.MutationResult<UpdateParticipantsMutation>;
+export type UpdateParticipantsMutationOptions = Apollo.BaseMutationOptions<UpdateParticipantsMutation, UpdateParticipantsMutationVariables>;
 export const GetSettingsDocument = gql`
     query GetSettings {
   settings {

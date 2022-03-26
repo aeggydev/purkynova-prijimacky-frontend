@@ -6,13 +6,19 @@ import EmailConfirm from "../../../Icons/EmailConfirm"
 import EmailCancel from "../../../Icons/EmailCancel"
 import ForceAdd from "../../../Icons/ForceAdd"
 import DownloadExport from "../../../Icons/DownloadExport"
-import { useContext } from "react"
-import { TableContext } from "../../Views/Dashboard"
-import { GetParticipantsDocument, useUpdateParticipantMutation } from "../../../graphql/graphql"
+import {
+    GetParticipantsDocument,
+    UpdateParticipantsItemInput,
+    useUpdateParticipantsMutation
+} from "../../../graphql/graphql"
+import { useDispatch, useSelector } from "react-redux"
+import { clear } from "../../../store/table"
+import { RootState } from "../../../store/store"
 
 export function ButtonArea() {
-    const table = useContext(TableContext)
-    const [updateParticipantMutation, _] = useUpdateParticipantMutation({
+    const tableChanges = useSelector((state: RootState) => state.table.changes)
+    const dispatch = useDispatch()
+    const [updateParticipantsMutation] = useUpdateParticipantsMutation({
         refetchQueries: [
             GetParticipantsDocument
         ]
@@ -23,18 +29,25 @@ export function ButtonArea() {
     }
 
     function saveChanges() {
-        const entries = Object.entries(table.changes)
-        const promises = entries.map(entry => {
-            return updateParticipantMutation({ variables: { id: parseInt(entry[0], 10), updateParticipant: entry[1] } })
+        const entries = Object.entries(tableChanges)
+        const updateData: UpdateParticipantsItemInput[] = entries.map(([id, data]) => ({ id: parseInt(id, 10), data }))
+        const promise = updateParticipantsMutation({
+            variables: { updateParticipants: updateData },
+            onCompleted: () => {
+                console.log("done syncing!", entries)
+            }
         })
-        Promise.all(promises).then(() => console.log("done syncing!", entries))
+    }
+
+    function discardChanges() {
+        dispatch(clear())
     }
 
     return (
         <ButtonAreaEl>
             <ButtonRowEl>
                 <Button text="Potvrdit změny" bg="#46BC87" click={saveChanges} icon={<Save color="white" />} />
-                <Button text="Zahodit změny" bg="#AC1821" click={onClick} icon={<Cancel color="white" />} />
+                <Button text="Zahodit změny" bg="#AC1821" click={discardChanges} icon={<Cancel color="white" />} />
                 <EditStatusEl>Do ukončení režimu úpravy zbývá 05:16. Úprava zahájena 28.11.2021 08:12.</EditStatusEl>
             </ButtonRowEl>
             <ButtonRowEl>
@@ -44,7 +57,7 @@ export function ButtonArea() {
                 <Button text="Přidat přihlášku" bg="#46BC87" click={onClick} icon={<ForceAdd color="white" />} />
                 <Button text="Stáhnout" bg="#46BC87" click={onClick} icon={<DownloadExport color="white" />} />
             </ButtonRowEl>
-            <div></div>
+            <div />
         </ButtonAreaEl>
     )
 }
