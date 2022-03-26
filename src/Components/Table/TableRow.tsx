@@ -1,10 +1,11 @@
 import { Participant } from "../../graphql/graphql"
-import React, { ChangeEvent, CSSProperties, PropsWithChildren, useContext} from "react"
+import React, { ChangeEvent, CSSProperties, PropsWithChildren, useContext, useEffect, useState } from "react"
 import styled from "styled-components"
 import { Box } from "@chakra-ui/react"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "../../store/store"
 import { setProperty } from "../../store/table"
+import { usePrevious } from "../../hooks/usePrevious"
 
 type ContextType = { participant: Participant }
 const RowContext = React.createContext<ContextType>({} as ContextType)
@@ -35,16 +36,27 @@ export function BindCell({ index }: { index: keyof Participant }) {
     const changes = useSelector((state: RootState) => state.table.changes)
     const dispatch = useDispatch()
 
+    useEffect(() => {
+        if (changesValue) setLocalValue(changesValue)
+        else if (prevChangesValue && !changesValue) setLocalValue(staticValue)
+    }, [changes])
+
     const changesValue = changes[participant.id]?.[index]
+    const prevChangesValue = usePrevious(changesValue as string)
     const staticValue = participant[index]
-    const edited = (!!changesValue && changesValue != staticValue) || (changesValue == "" && staticValue != "")
+    const [localValue, setLocalValue] = useState(staticValue)
+    const edited = localValue != staticValue
 
     function onChange(e: ChangeEvent<HTMLInputElement>) {
-        dispatch(setProperty({value: e.target.value, prop: index, id: participant.id}))
+        setLocalValue(e.target.value)
+    }
+
+    function onBlur() {
+        dispatch(setProperty({ value: localValue, prop: index, id: participant.id }))
     }
 
     return <Cell>
-        <RowInput type="text" edited={edited} value={changesValue ?? staticValue} onChange={onChange} />
+        <RowInput type="text" edited={edited} value={localValue} onChange={onChange} onBlur={onBlur} />
     </Cell>
 }
 
