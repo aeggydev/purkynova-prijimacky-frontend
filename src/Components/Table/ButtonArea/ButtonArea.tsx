@@ -39,6 +39,10 @@ export function ButtonArea() {
         })
     }
 
+    function saveDatasheet() {
+        window.open("https://localhost:7141/file/table.csv")
+    }
+
     function discardChanges() {
         dispatch(clear())
     }
@@ -55,7 +59,7 @@ export function ButtonArea() {
                 <Button text="Zrušit neuhrazené po termínu" bg="#AC1821" click={onClick}
                         icon={<EmailCancel color="white" />} />
                 <Button text="Přidat přihlášku" bg="#46BC87" click={onClick} icon={<ForceAdd color="white" />} />
-                <Button text="Stáhnout" bg="#46BC87" click={onClick} icon={<DownloadExport color="white" />} />
+                <Button text="Stáhnout" bg="#46BC87" click={saveDatasheet} icon={<DownloadExport color="white" />} />
             </ButtonRowEl>
             <div />
         </ButtonAreaEl>
