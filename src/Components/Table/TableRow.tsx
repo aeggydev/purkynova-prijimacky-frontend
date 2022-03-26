@@ -52,6 +52,7 @@ export function BindCell({ index }: { index: keyof Participant }) {
     }
 
     function onBlur() {
+        if (localValue == staticValue) return
         dispatch(setProperty({ value: localValue, prop: index, id: participant.id }))
     }
 
