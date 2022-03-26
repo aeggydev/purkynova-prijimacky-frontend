@@ -2,7 +2,7 @@ import { Box, Button } from "@chakra-ui/react"
 import React, { PropsWithChildren, useState } from "react"
 import { DummyApplicationCount } from "../ApplicationCount"
 import ContentContainer from "../Containers/ContentContainer"
-import Form from "../SignUpForm/Form"
+import SignUpForm from "../SignUpForm/Form"
 
 interface RowProps {
   row: number;
@@ -19,6 +19,6 @@ export default function Form() {
 
   return <ContentContainer>
     <DummyApplicationCount />
-    <Form />
+    <SignUpForm />
   </ContentContainer>
 }
