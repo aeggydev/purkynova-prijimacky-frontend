@@ -41,6 +41,7 @@ const SBubble = styled.div<SBubbleProps>`
     color: white;
     border-radius: 12px;
     transition: transform 500ms ease-in-out;
+    pointer-events: auto;
 `
 const SBubbleTitle = styled.div`
     font-weight: 500;
@@ -91,6 +92,7 @@ const SReporter = styled.div`
     top: 0;
     width: 20vw;
     z-index: 100;
+    pointer-events: none;
 
     display: flex;
     flex-direction: column;
