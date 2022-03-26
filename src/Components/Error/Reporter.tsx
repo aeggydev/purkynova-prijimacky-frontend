@@ -12,22 +12,20 @@ export function Bubble({ data, removeSelf }: BubbleProps) {
     const type = data.error ? "Chyba" : "Upozornění"
 
     return (
-        <AnimatePresence>
-            <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ opacity: 0 }}>
-                <SBubble bg={bg}>
-                    <button onClick={removeSelf}>Zavřít</button>
-                    <SBubbleType>{type}</SBubbleType>
-                    <SBubbleTitle>{data.title}</SBubbleTitle>
-                    <SBubbleBody>{data.body}</SBubbleBody>
-                    {data.data
-                        ? <SBubbleData>
-                            <span>Data:</span>
-                            <SBubbleDataJson>{JSON.stringify(data.data, null, 2)}</SBubbleDataJson>
-                        </SBubbleData>
-                        : ""}
-                </SBubble>
-            </motion.div>
-        </AnimatePresence>
+        <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }} transition={{ duration: 0.125 }}>
+            <SBubble bg={bg}>
+                <button onClick={removeSelf}>Zavřít</button>
+                <SBubbleType>{type}</SBubbleType>
+                <SBubbleTitle>{data.title}</SBubbleTitle>
+                <SBubbleBody>{data.body}</SBubbleBody>
+                {data.data
+                    ? <SBubbleData>
+                        <span>Data:</span>
+                        <SBubbleDataJson>{JSON.stringify(data.data, null, 2)}</SBubbleDataJson>
+                    </SBubbleData>
+                    : ""}
+            </SBubble>
+        </motion.div>
     )
 }
 
@@ -79,7 +77,11 @@ export default function Reporter(props: Props) {
 
     return <ReporterContext.Provider value={{ error: LogError, log: Log }}>
         <SReporter>
-            {bubbles.map(x => <Bubble data={x} removeSelf={() => setBubbles(bubbles.filter(y => y != x))} />)}
+            <AnimatePresence>
+                {bubbles.map((x, i) => (
+                    <Bubble key={i} data={x} removeSelf={() => setBubbles(bubbles.filter(y => y != x))} />)
+                )}
+            </AnimatePresence>
         </SReporter>
         {props.children}
     </ReporterContext.Provider>
