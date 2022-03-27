@@ -13,7 +13,7 @@ export function Bubble({ data, removeSelf }: BubbleProps) {
 
     return (
         <motion.div initial={{ scale: 0 }} animate={{ scale: [1.2, 1] }} exit={{ scale: 0 }}
-                    transition={{ duration: 0.125 }}>
+                    transition={{ duration: 0.1 }}>
             <SBubble bg={bg}>
                 <SBubbleTop>
                     <button onClick={removeSelf}>Zavřít</button>
