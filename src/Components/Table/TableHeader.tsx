@@ -13,14 +13,17 @@ export function TableHeader() {
                 <BindHeader index="parentName">Jméno zást.</BindHeader>
             </SplitCell>
             <SplitCell>
-                <BindHeader index="participantSurname" noRightBorder={true}>Příjmn. úč.</BindHeader>
+                <BindHeader index="participantSurname">Příjmn. úč.</BindHeader>
                 <Separator />
-                <BindHeader index="parentSurname" noRightBorder={true}>Příjm. zást.</BindHeader>
+                <BindHeader index="parentSurname">Příjm. zást.</BindHeader>
             </SplitCell>
-            <BindHeader index="email">E-mail zákonného zástupce</BindHeader>
-            <BindHeader index="phone">Telefon</BindHeader>
-            <BindHeader index="school">Základní škola, obec</BindHeader>
-            <BindHeader index="ip">IP adresa</BindHeader>
+            <ThreeSplitDiv>
+                <BindHeader index="school" noRightBorder={true}>Základní škola, obec</BindHeader>
+                <Separator />
+                <BindHeader index="phone" noLeftBorder={true} noRightBorder={true}>Telefon</BindHeader>
+                <BindHeader index="email">E-mail zákonného zástupce</BindHeader>
+                <BindHeader index="ip" noRightBorder={true}>IP adresa</BindHeader>
+            </ThreeSplitDiv>
             <BindHeader index="variableSymbol">Variabilní symbol</BindHeader>
             <BindHeader index="signUpDate">Datum a čas přihlášení</BindHeader>
             <BindHeader index="dueDate">Datum splatnosti</BindHeader>
@@ -35,9 +38,31 @@ interface BindHeaderProps {
     noRightBorder?: boolean
 }
 
+const SThreeSplitDiv = styled(SSplitDiv)`
+    grid-template-columns: 1fr 1.5fr 1fr;
+    align-items: center;
+
+    & :first-child {
+        grid-column: 1 / 4;
+        grid-row: 1;
+    }
+
+    & :nth-child(2) {
+        grid-column: 1 / 4;
+        grid-row: 2;
+    }
+`
+
+function ThreeSplitDiv({ children }: PropsWithChildren<{}>) {
+    return <SHeader style={{ padding: 0, borderWidth: 0 }}>
+        <SThreeSplitDiv rows="1fr auto 1fr">{children}</SThreeSplitDiv>
+    </SHeader>
+}
+
 function SplitCell({ children }: PropsWithChildren<{}>) {
-    return <SHeader style={{ padding: 0, borderWidth: 0 }}><SSplitDiv
-        rows="1fr auto 1fr">{children}</SSplitDiv></SHeader>
+    return <SHeader style={{ padding: 0, borderWidth: 0 }}>
+        <SSplitDiv rows="1fr auto 1fr">{children}</SSplitDiv>
+    </SHeader>
 }
 
 function BindHeader({ index, children, noLeftBorder, noRightBorder }: PropsWithChildren<BindHeaderProps>) {
@@ -64,4 +89,5 @@ const SHead = styled.thead`
     color: #FFFFFF;
     position: sticky;
     top: 0;
+    font-size: 0.925em;
 `

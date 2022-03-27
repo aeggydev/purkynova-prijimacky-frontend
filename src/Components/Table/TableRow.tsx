@@ -22,10 +22,12 @@ export function TableRow({ i, participant }: { i: number, participant: Participa
                 <BindCell index="participantSurname" />
                 <BindCell index="parentSurname" />
             </SplitDiv>
-            <BindCell index="email" />
-            <BindCell index="phone" />
-            <BindCell index="school" />
-            <BindCellStatic index="ip" />
+            <ThreeSplitDiv>
+                <BindCell index="school" />
+                <BindCell index="phone" />
+                <BindCell index="email" />
+                <BindCellStatic index="ip" />
+            </ThreeSplitDiv>
             <BindCellStatic index="variableSymbol" />
 
             <BindCellStatic index="signUpDate" />
@@ -90,6 +92,25 @@ export const SSplitDiv = styled.div<{ rows: string }>`
     display: grid;
     grid-template-rows: ${props => props.rows};
 `
+
+const SThreeSplitDiv = styled(SSplitDiv)`
+    grid-template-columns: 1fr 1.5fr 1fr;
+
+    & :first-child {
+        grid-column: 1 / 4;
+        grid-row: 1;
+    }
+`
+
+function ThreeSplitDiv({ children }: PropsWithChildren<{}>) {
+    return <Cell>
+        <SThreeSplitDiv rows="1fr 1fr">
+            {children}
+        </SThreeSplitDiv>
+    </Cell>
+}
+
+
 const SInput = styled.input<{ edited: boolean }>`
     width: 100%;
     height: 100%;
