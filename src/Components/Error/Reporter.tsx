@@ -12,10 +12,13 @@ export function Bubble({ data, removeSelf }: BubbleProps) {
     const type = data.error ? "Chyba" : "Upozornění"
 
     return (
-        <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }} transition={{ duration: 0.125 }}>
+        <motion.div initial={{ scale: 0 }} animate={{ scale: [1.2, 1] }} exit={{ scale: 0 }}
+                    transition={{ duration: 0.125 }}>
             <SBubble bg={bg}>
-                <button onClick={removeSelf}>Zavřít</button>
-                <SBubbleType>{type}</SBubbleType>
+                <SBubbleTop>
+                    <button onClick={removeSelf}>Zavřít</button>
+                    <SBubbleType>{type}</SBubbleType>
+                </SBubbleTop>
                 <SBubbleTitle>{data.title}</SBubbleTitle>
                 <SBubbleBody>{data.body}</SBubbleBody>
                 {data.data
@@ -40,6 +43,12 @@ const SBubble = styled.div<SBubbleProps>`
     border-radius: 12px;
     transition: transform 500ms ease-in-out;
     pointer-events: auto;
+`
+const SBubbleTop = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-bottom: 1em;
 `
 const SBubbleTitle = styled.div`
     font-weight: 500;

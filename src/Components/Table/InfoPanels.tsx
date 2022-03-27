@@ -1,7 +1,8 @@
 import { Box, Grid, GridItem } from "@chakra-ui/react"
-import React from "react"
+import React, { useContext } from "react"
 import ShadowBox from "../Containers/ShadowBox"
 import { useGetSettingsQuery, useGetStatisticsQuery } from "../../graphql/graphql"
+import { ReporterContext } from "../Error/Reporter"
 
 function InfoBoxRow({ left, right }: { left: string | number, right: string | number }) {
     return <Grid templateColumns="1fr 1fr" fontWeight="bold" lineHeight="30px">
@@ -11,16 +12,24 @@ function InfoBoxRow({ left, right }: { left: string | number, right: string | nu
 }
 
 export function InfoPanels() {
+    const reporter = useContext(ReporterContext)
+
     const {
         error: settingsError,
         data: settingsData,
         loading: settingsLoading
-    } = useGetSettingsQuery({ fetchPolicy: "cache-and-network" })
+    } = useGetSettingsQuery({
+        fetchPolicy: "cache-and-network",
+        onError: error => reporter.error("Problém při spojení", error.message)
+    })
     const {
         error: statisticsError,
         data: statisticsData,
         loading: statisticsLoading
-    } = useGetStatisticsQuery({ fetchPolicy: "cache-and-network" })
+    } = useGetStatisticsQuery({
+        fetchPolicy: "cache-and-network",
+        onError: error => reporter.error("Problém při spojení", error.message)
+    })
     if (settingsError || statisticsError) return <div>Error: {settingsError?.message ?? statisticsError?.message}</div>
     if (settingsLoading || statisticsLoading) return <div>Loading InfoPanels</div>
 
