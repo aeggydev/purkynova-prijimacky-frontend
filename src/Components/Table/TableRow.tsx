@@ -12,12 +12,16 @@ const RowContext = React.createContext<ContextType>({} as ContextType)
 
 export function TableRow({ i, participant }: { i: number, participant: Participant }) {
     return <RowContext.Provider value={{ participant }}>
-        <RowStyle style={{ background: (i % 2 != 0) ? "#E0E0E0" : "#EAEAEA" }}>
+        <STyle style={{ background: (i % 2 != 0) ? "#E0E0E0" : "#EAEAEA" }}>
             <BindCellStatic index="id" />
-            <BindCell index="participantName" />
-            <BindCell index="participantSurname" />
-            <BindCell index="parentName" />
-            <BindCell index="parentSurname" />
+            <SplitDiv>
+                <BindCell index="participantName" />
+                <BindCell index="parentName" />
+            </SplitDiv>
+            <SplitDiv>
+                <BindCell index="participantSurname" />
+                <BindCell index="parentSurname" />
+            </SplitDiv>
             <BindCell index="email" />
             <BindCell index="phone" />
             <BindCell index="school" />
@@ -27,7 +31,7 @@ export function TableRow({ i, participant }: { i: number, participant: Participa
             <BindCellStatic index="signUpDate" />
             <BindCellStatic index="dueDate" />
             <BindCellStatic index="paidDate" />
-        </RowStyle>
+        </STyle>
     </RowContext.Provider>
 }
 
@@ -57,7 +61,7 @@ export function BindCell({ index }: { index: keyof Participant }) {
     }
 
     return <Cell>
-        <RowInput type="text" edited={edited} value={localValue} onChange={onChange} onBlur={onBlur} />
+        <SInput type="text" edited={edited} value={localValue} onChange={onChange} onBlur={onBlur} />
     </Cell>
 }
 
@@ -73,10 +77,20 @@ export function BindCellStatic({ index }: { index: keyof Participant }) {
 }
 
 export function Cell({ children, style }: PropsWithChildren<{ style?: CSSProperties }>) {
-    return <DataStyle style={style}>{children}</DataStyle>
+    return <SData style={style}>{children}</SData>
 }
 
-const RowInput = styled.input<{ edited: boolean }>`
+function SplitDiv({ children }: PropsWithChildren<{}>) {
+    return <Cell>
+        <SSplitDiv rows="1fr 1fr">{children}</SSplitDiv>
+    </Cell>
+}
+
+export const SSplitDiv = styled.div<{ rows: string }>`
+    display: grid;
+    grid-template-rows: ${props => props.rows};
+`
+const SInput = styled.input<{ edited: boolean }>`
     width: 100%;
     height: 100%;
     background: ${props => props.edited ? "#fdfebc" : "inherit"};
@@ -84,11 +98,11 @@ const RowInput = styled.input<{ edited: boolean }>`
 
     transition: all 250ms ease-in-out;
 `
-const RowStyle = styled.tr`
+const STyle = styled.tr`
     height: 2em;
     white-space: nowrap;
 `
-const DataStyle = styled.td`
+const SData = styled.td`
     height: inherit;
     padding: 0;
 `
