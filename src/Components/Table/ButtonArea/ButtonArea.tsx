@@ -14,9 +14,12 @@ import {
 import { useDispatch, useSelector } from "react-redux"
 import { clear } from "../../../store/table"
 import { RootState } from "../../../store/store"
+import { useContext } from "react"
+import { ReporterContext } from "../../Error/Reporter"
 
 export function ButtonArea() {
     const tableChanges = useSelector((state: RootState) => state.table.changes)
+    const reporter = useContext(ReporterContext)
     const dispatch = useDispatch()
     const [updateParticipantsMutation] = useUpdateParticipantsMutation({
         refetchQueries: [
@@ -25,7 +28,7 @@ export function ButtonArea() {
     })
 
     function onClick() {
-        alert("Error: function is not implemented")
+        reporter.error("Tato funkce nebyla implementována", "")
     }
 
     function saveChanges() {
@@ -35,7 +38,8 @@ export function ButtonArea() {
             variables: { updateParticipants: updateData },
             onCompleted: () => {
                 console.log("done syncing!", entries)
-            }
+            },
+            onError: error => reporter.log("Problém při ukladání dat", error.message)
         })
     }
 
@@ -45,6 +49,10 @@ export function ButtonArea() {
 
     function discardChanges() {
         dispatch(clear())
+    }
+
+    function foobar() {
+        reporter.log("Title", "Body" + Math.random() * 100)
     }
 
     return (
