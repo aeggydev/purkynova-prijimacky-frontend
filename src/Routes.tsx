@@ -32,14 +32,26 @@ const Routes: Route[] = [
     text: "Elektronická přihláška",
     listed: true,
     shouldGenerateRoute: true,
-    component: Form
+      component: Form
   },
-  {
-    path: "/contact",
-    text: "Kontakt",
-    listed: true,
-    shouldGenerateRoute: true,
-    component: Contact
-  }
+    {
+        path: "/contact",
+        text: "Kontakt",
+        listed: true,
+        shouldGenerateRoute: true,
+        component: Contact
+    }
 ]
+
+const AdminRoutes: Route[] = [
+    {
+        // TODO: Fix react router Route generation
+        path: "/dashboard",
+        text: "Dashboard",
+        listed: true,
+        shouldGenerateRoute: false,
+        component: Dashboard
+    }
+]
+
 export default Routes

@@ -3,44 +3,64 @@ import * as React from "react"
 import MenuIcon from "url:/src/Icons/menu.svg"
 import { NavLink } from "react-router-dom"
 import { Box as ChakraBox } from "@chakra-ui/react"
-import { LightText, TopbarBg, TopbarDarkBg, TopbarLightBg } from "../theme"
+import {
+    LightText,
+    TopbarAdminBg,
+    TopbarAdminDarkBg,
+    TopbarAdminLightBg,
+    TopbarBg,
+    TopbarDarkBg,
+    TopbarLightBg
+} from "../theme"
 import Routes, { Route } from "../Routes"
 
 type Props = {
-  route: Route
+    route: Route
+    isAdmin: boolean
 };
 
-function MenubarItem({ route }: Props) {
-  return <NavLink to={route.path} style={isActive => ({
-    display: "inline-block",
-    background: isActive ? TopbarDarkBg : TopbarBg,
-    borderBottomWidth: isActive ? "4px" : "0px",
-    borderBottomColor: TopbarLightBg
-  })}>
-    <ChakraBox as={"span"}
-               textTransform={"uppercase"} display={"inline-block"}
-               fontSize={"17px"} height={"100%"} padding={".75rem"}
-               fontWeight={"500"}>
-      {route.text}
-    </ChakraBox>
-  </NavLink>
+function MenubarItem({ route, isAdmin }: Props) {
+    const bg = isAdmin ? TopbarAdminBg : TopbarBg
+    const darkBg = isAdmin ? TopbarAdminDarkBg : TopbarDarkBg
+    const lightBg = isAdmin ? TopbarAdminLightBg : TopbarLightBg
+
+    return <NavLink to={route.path} style={isActive => ({
+        display: "inline-block",
+        background: isActive ? darkBg : bg,
+        borderBottomWidth: isActive ? "4px" : "0px",
+        borderBottomColor: lightBg
+    })}>
+        <ChakraBox as={"span"}
+                   textTransform={"uppercase"} display={"inline-block"}
+                   fontSize={"17px"} height={"100%"} padding={".75rem"}
+                   fontWeight={"500"}>
+            {route.text}
+        </ChakraBox>
+    </NavLink>
 }
 
-function Menubar() {
-  const [drawerState, setDrawerState] = React.useState(false)
-  const toggleDrawer = (value?: boolean) => () => {
-    if (value) {
-      setDrawerState(value)
-    } else {
-      setDrawerState(!drawerState)
-    }
-  }
+interface MenubarProps {
+    isAdmin: boolean
+}
 
-  return <ChakraBox background={TopbarBg} color={LightText}
-                    display={"flex"} justifyContent={"center"}
-                    boxSizing={"border-box"}>
-    {Routes.map((x, i) => <MenubarItem route={x} key={i} />)}
-  </ChakraBox>
+function Menubar({ isAdmin }: MenubarProps) {
+    const [drawerState, setDrawerState] = React.useState(false)
+
+    const bg = isAdmin ? TopbarAdminBg : TopbarBg
+
+    const toggleDrawer = (value?: boolean) => () => {
+        if (value) {
+            setDrawerState(value)
+        } else {
+            setDrawerState(!drawerState)
+        }
+    }
+
+    return <ChakraBox background={bg} color={LightText}
+                      display={"flex"} justifyContent={"center"}
+                      boxSizing={"border-box"}>
+        {Routes.map((x, i) => <MenubarItem isAdmin={isAdmin} route={x} key={i} />)}
+    </ChakraBox>
 }
 
 export default Menubar
