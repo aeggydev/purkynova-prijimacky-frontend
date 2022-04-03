@@ -1,7 +1,6 @@
 import Header from "./Components/Header"
 import { CssBaseline } from "@mui/material"
 import { Redirect, Route, Switch, useHistory } from "react-router-dom"
-import { Dashboard } from "./Components/Views/Dashboard"
 import { createGlobalStyle } from "styled-components"
 import React, { useEffect } from "react"
 import { AdminRoutes, UserRoutes } from "./Routes"
@@ -51,10 +50,7 @@ function App() {
                             <Redirect to={"/main"} />
                         </Route>
                         {routes.filter(x => x.shouldGenerateRoute)
-                            .map((x, i) => <Route path={x.path} key={i} render={x.component} />)}
-                        <Route path={"/dashboard"}>
-                            <Dashboard />
-                        </Route>
+                            .map((x, i) => <Route path={x.path} key={i}>{x.component}</Route>)}
                     </Switch>
                 </Box>
             </Box>
