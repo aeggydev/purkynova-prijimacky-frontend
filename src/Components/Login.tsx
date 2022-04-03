@@ -7,6 +7,7 @@ import { SubmitHandler, useForm } from "react-hook-form"
 import { useLoginLazyQuery } from "../graphql/graphql"
 import { useDispatch } from "react-redux"
 import { setLoggedIn, setShowLogin } from "../store/login"
+import { useHistory } from "react-router-dom"
 
 interface IFormInputs {
     username: string
@@ -15,6 +16,7 @@ interface IFormInputs {
 
 export function Login() {
     const { register, handleSubmit, formState: { errors } } = useForm<IFormInputs>()
+    const history = useHistory()
     const dispatch = useDispatch()
     const [login, { data, error: loginError }] = useLoginLazyQuery({
         errorPolicy: "all",
@@ -23,6 +25,7 @@ export function Login() {
             localStorage.setItem("token", data.login)
             dispatch(setShowLogin(false))
             dispatch(setLoggedIn(true))
+            history.push("/dashboard")
         }
     })
 

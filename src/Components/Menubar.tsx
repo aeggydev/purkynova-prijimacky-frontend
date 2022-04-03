@@ -12,7 +12,9 @@ import {
     TopbarDarkBg,
     TopbarLightBg
 } from "../theme"
-import Routes, { Route } from "../Routes"
+import { AdminRoutes, Route, UserRoutes } from "../Routes"
+import { useSelector } from "react-redux"
+import { RootState } from "../store/store"
 
 type Props = {
     route: Route
@@ -45,6 +47,7 @@ interface MenubarProps {
 
 function Menubar({ isAdmin }: MenubarProps) {
     const [drawerState, setDrawerState] = React.useState(false)
+    const loginState = useSelector((state: RootState) => state.login)
 
     const bg = isAdmin ? TopbarAdminBg : TopbarBg
 
@@ -56,10 +59,14 @@ function Menubar({ isAdmin }: MenubarProps) {
         }
     }
 
+    const routes = loginState.loggedIn
+        ? AdminRoutes
+        : UserRoutes
+
     return <ChakraBox background={bg} color={LightText}
                       display={"flex"} justifyContent={"center"}
                       boxSizing={"border-box"}>
-        {Routes.map((x, i) => <MenubarItem isAdmin={isAdmin} route={x} key={i} />)}
+        {routes.map((x, i) => <MenubarItem isAdmin={isAdmin} route={x} key={i} />)}
     </ChakraBox>
 }
 

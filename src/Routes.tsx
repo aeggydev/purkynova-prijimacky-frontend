@@ -11,21 +11,13 @@ export type Route = {
     component: () => JSX.Element
 }
 
-const Routes: Route[] = [
+export const UserRoutes: Route[] = [
     {
         path: "/main",
         text: "Hlavní stránka",
         listed: true,
         shouldGenerateRoute: true,
         component: Welcome
-    },
-    {
-        // TODO: Fix react router Route generation
-        path: "/dashboard",
-        text: "Dashboard",
-        listed: true,
-        shouldGenerateRoute: false,
-        component: Dashboard
     },
     {
         path: "/form",
@@ -43,7 +35,7 @@ const Routes: Route[] = [
     }
 ]
 
-const AdminRoutes: Route[] = [
+export const AdminRoutes: Route[] = [
     {
         // TODO: Fix react router Route generation
         path: "/dashboard",
@@ -53,5 +45,3 @@ const AdminRoutes: Route[] = [
         component: Dashboard
     }
 ]
-
-export default Routes

@@ -6,6 +6,7 @@ import { ApolloClient, ApolloProvider, createHttpLink, InMemoryCache } from "@ap
 import { Provider } from "react-redux"
 import { store } from "./store/store"
 import { setContext } from "@apollo/client/link/context"
+import { BrowserRouter } from "react-router-dom"
 
 const cache: InMemoryCache = new InMemoryCache({
     typePolicies: {}
@@ -34,7 +35,9 @@ ReactDOM.render(
         <Provider store={store}>
             <ApolloProvider client={client}>
                 <ChakraProvider>
-                    <App />
+                    <BrowserRouter>
+                        <App />
+                    </BrowserRouter>
                 </ChakraProvider>
             </ApolloProvider>
         </Provider>
