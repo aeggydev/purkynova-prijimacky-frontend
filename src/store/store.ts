@@ -2,7 +2,7 @@ import { configureStore } from "@reduxjs/toolkit"
 import table from "./table"
 
 export const store = configureStore({
-  reducer: { table }
+    reducer: { table }
 })
 
 export type RootState = ReturnType<typeof store.getState>

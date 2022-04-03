@@ -2,11 +2,11 @@ overwrite: true
 schema: "src/**/*.graphql"
 documents: "src/**/*.{graphql,tsx}"
 generates:
-  src/graphql/graphql.tsx:
-    plugins:
-      - "typescript"
-      - "typescript-operations"
-      - "typescript-react-apollo"
-  ./graphql.schema.json:
-    plugins:
-      - "introspection"
+    src/graphql/graphql.tsx:
+        plugins:
+            - "typescript"
+            - "typescript-operations"
+            - "typescript-react-apollo"
+    ./graphql.schema.json:
+        plugins:
+            - "introspection"

@@ -9,21 +9,21 @@ const Paragraph = styled.p`
 `
 
 interface ApplicationCountProps {
-  date: string // TODO: Change to some date object
-  filled: number
-  totalAmount: number
+    date: string // TODO: Change to some date object
+    filled: number
+    totalAmount: number
 }
 
 const DefaultProps: ApplicationCountProps = {
-  date: "1. 11. 2022",
-  filled: 112,
-  totalAmount: 250
+    date: "1. 11. 2022",
+    filled: 112,
+    totalAmount: 250
 }
 
 export const PureApplicationCount = ({ date, filled, totalAmount }: ApplicationCountProps) => {
-  return <ShadowBox py="1em">
-    <Paragraph style={{ marginBottom: 0 }}>Přihlášky přijímáme od {date}. Kapacita
-      je <b>{filled}/{totalAmount}</b>.</Paragraph>
-  </ShadowBox>
+    return <ShadowBox py="1em">
+        <Paragraph style={{ marginBottom: 0 }}>Přihlášky přijímáme od {date}. Kapacita
+            je <b>{filled}/{totalAmount}</b>.</Paragraph>
+    </ShadowBox>
 }
 export const DummyApplicationCount = () => <PureApplicationCount {...DefaultProps} />

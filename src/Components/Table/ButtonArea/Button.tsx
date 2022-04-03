@@ -9,7 +9,7 @@ interface ButtonProps {
     bg: string
 }
 
-export function Button({text, icon, click, bg}: ButtonProps) {
+export function Button({ text, icon, click, bg }: ButtonProps) {
     return <StyledButton bg={bg} onClick={click}>
         <span>{icon}</span>
         <span>{text}</span>
