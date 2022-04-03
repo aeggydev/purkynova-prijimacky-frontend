@@ -18,12 +18,23 @@ export type Scalars = {
     DateTime: any;
 };
 
+export type LoginInfoInput = {
+    password: Scalars["String"];
+    username: Scalars["String"];
+};
+
 export type Mutation = {
     __typename?: "Mutation";
+    addAdmin: Scalars["Int"];
     addParticipant: Participant;
     updateParticipant: Participant;
     updateParticipants: Array<Participant>;
     updateSettings: Settings;
+};
+
+
+export type MutationAddAdminArgs = {
+    login: LoginInfoInput;
 };
 
 
@@ -76,9 +87,15 @@ export type Participant = {
 
 export type Query = {
     __typename?: "Query";
+    login: Scalars["String"];
     participants: Array<Participant>;
     settings: Settings;
     statistics: Statistics;
+};
+
+
+export type QueryLoginArgs = {
+    login: LoginInfoInput;
 };
 
 export type Settings = {
@@ -162,6 +179,14 @@ export type UpdateSettingsMutationVariables = Exact<{
 
 export type UpdateSettingsMutation = { __typename?: "Mutation", updateSettings: { __typename?: "Settings", allowedOver: number, capacity: number, signUpAllowed: boolean } };
 
+export type LoginQueryVariables = Exact<{
+    username: Scalars["String"];
+    password: Scalars["String"];
+}>;
+
+
+export type LoginQuery = { __typename?: "Query", login: string };
+
 export type StatisticsFragment = { __typename?: "Statistics", remainingCapacity: number, remainingCapacityOver: number, removedSignups: number, totalSignups: number };
 
 export type GetStatisticsQueryVariables = Exact<{ [key: string]: never; }>;
@@ -228,12 +253,10 @@ export function useGetParticipantsQuery(baseOptions?: Apollo.QueryHookOptions<Ge
     const options = { ...defaultOptions, ...baseOptions }
     return Apollo.useQuery<GetParticipantsQuery, GetParticipantsQueryVariables>(GetParticipantsDocument, options)
 }
-
 export function useGetParticipantsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetParticipantsQuery, GetParticipantsQueryVariables>) {
     const options = { ...defaultOptions, ...baseOptions }
     return Apollo.useLazyQuery<GetParticipantsQuery, GetParticipantsQueryVariables>(GetParticipantsDocument, options)
 }
-
 export type GetParticipantsQueryHookResult = ReturnType<typeof useGetParticipantsQuery>;
 export type GetParticipantsLazyQueryHookResult = ReturnType<typeof useGetParticipantsLazyQuery>;
 export type GetParticipantsQueryResult = Apollo.QueryResult<GetParticipantsQuery, GetParticipantsQueryVariables>;
@@ -267,7 +290,6 @@ export function useNewParticipantMutation(baseOptions?: Apollo.MutationHookOptio
     const options = { ...defaultOptions, ...baseOptions }
     return Apollo.useMutation<NewParticipantMutation, NewParticipantMutationVariables>(NewParticipantDocument, options)
 }
-
 export type NewParticipantMutationHookResult = ReturnType<typeof useNewParticipantMutation>;
 export type NewParticipantMutationResult = Apollo.MutationResult<NewParticipantMutation>;
 export type NewParticipantMutationOptions = Apollo.BaseMutationOptions<NewParticipantMutation, NewParticipantMutationVariables>;
@@ -302,7 +324,6 @@ export function useUpdateParticipantMutation(baseOptions?: Apollo.MutationHookOp
     const options = { ...defaultOptions, ...baseOptions }
     return Apollo.useMutation<UpdateParticipantMutation, UpdateParticipantMutationVariables>(UpdateParticipantDocument, options)
 }
-
 export type UpdateParticipantMutationHookResult = ReturnType<typeof useUpdateParticipantMutation>;
 export type UpdateParticipantMutationResult = Apollo.MutationResult<UpdateParticipantMutation>;
 export type UpdateParticipantMutationOptions = Apollo.BaseMutationOptions<UpdateParticipantMutation, UpdateParticipantMutationVariables>;
@@ -336,7 +357,6 @@ export function useUpdateParticipantsMutation(baseOptions?: Apollo.MutationHookO
     const options = { ...defaultOptions, ...baseOptions }
     return Apollo.useMutation<UpdateParticipantsMutation, UpdateParticipantsMutationVariables>(UpdateParticipantsDocument, options)
 }
-
 export type UpdateParticipantsMutationHookResult = ReturnType<typeof useUpdateParticipantsMutation>;
 export type UpdateParticipantsMutationResult = Apollo.MutationResult<UpdateParticipantsMutation>;
 export type UpdateParticipantsMutationOptions = Apollo.BaseMutationOptions<UpdateParticipantsMutation, UpdateParticipantsMutationVariables>;
@@ -367,12 +387,10 @@ export function useGetSettingsQuery(baseOptions?: Apollo.QueryHookOptions<GetSet
     const options = { ...defaultOptions, ...baseOptions }
     return Apollo.useQuery<GetSettingsQuery, GetSettingsQueryVariables>(GetSettingsDocument, options)
 }
-
 export function useGetSettingsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetSettingsQuery, GetSettingsQueryVariables>) {
     const options = { ...defaultOptions, ...baseOptions }
     return Apollo.useLazyQuery<GetSettingsQuery, GetSettingsQueryVariables>(GetSettingsDocument, options)
 }
-
 export type GetSettingsQueryHookResult = ReturnType<typeof useGetSettingsQuery>;
 export type GetSettingsLazyQueryHookResult = ReturnType<typeof useGetSettingsLazyQuery>;
 export type GetSettingsQueryResult = Apollo.QueryResult<GetSettingsQuery, GetSettingsQueryVariables>;
@@ -410,6 +428,42 @@ export function useUpdateSettingsMutation(baseOptions?: Apollo.MutationHookOptio
 export type UpdateSettingsMutationHookResult = ReturnType<typeof useUpdateSettingsMutation>;
 export type UpdateSettingsMutationResult = Apollo.MutationResult<UpdateSettingsMutation>;
 export type UpdateSettingsMutationOptions = Apollo.BaseMutationOptions<UpdateSettingsMutation, UpdateSettingsMutationVariables>;
+export const LoginDocument = gql`
+    query Login($username: String!, $password: String!) {
+        login(login: {username: $username, password: $password})
+    }
+`
+
+/**
+ * __useLoginQuery__
+ *
+ * To run a query within a React component, call `useLoginQuery` and pass it any options that fit your needs.
+ * When your component renders, `useLoginQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useLoginQuery({
+ *   variables: {
+ *      username: // value for 'username'
+ *      password: // value for 'password'
+ *   },
+ * });
+ */
+export function useLoginQuery(baseOptions: Apollo.QueryHookOptions<LoginQuery, LoginQueryVariables>) {
+    const options = { ...defaultOptions, ...baseOptions }
+    return Apollo.useQuery<LoginQuery, LoginQueryVariables>(LoginDocument, options)
+}
+
+export function useLoginLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<LoginQuery, LoginQueryVariables>) {
+    const options = { ...defaultOptions, ...baseOptions }
+    return Apollo.useLazyQuery<LoginQuery, LoginQueryVariables>(LoginDocument, options)
+}
+
+export type LoginQueryHookResult = ReturnType<typeof useLoginQuery>;
+export type LoginLazyQueryHookResult = ReturnType<typeof useLoginLazyQuery>;
+export type LoginQueryResult = Apollo.QueryResult<LoginQuery, LoginQueryVariables>;
 export const GetStatisticsDocument = gql`
     query GetStatistics {
         statistics {
@@ -437,12 +491,10 @@ export function useGetStatisticsQuery(baseOptions?: Apollo.QueryHookOptions<GetS
     const options = { ...defaultOptions, ...baseOptions }
     return Apollo.useQuery<GetStatisticsQuery, GetStatisticsQueryVariables>(GetStatisticsDocument, options)
 }
-
 export function useGetStatisticsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetStatisticsQuery, GetStatisticsQueryVariables>) {
     const options = { ...defaultOptions, ...baseOptions }
     return Apollo.useLazyQuery<GetStatisticsQuery, GetStatisticsQueryVariables>(GetStatisticsDocument, options)
 }
-
 export type GetStatisticsQueryHookResult = ReturnType<typeof useGetStatisticsQuery>;
 export type GetStatisticsLazyQueryHookResult = ReturnType<typeof useGetStatisticsLazyQuery>;
 export type GetStatisticsQueryResult = Apollo.QueryResult<GetStatisticsQuery, GetStatisticsQueryVariables>;

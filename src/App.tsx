@@ -3,10 +3,14 @@ import { CssBaseline } from "@mui/material"
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom"
 import { Dashboard } from "./Components/Views/Dashboard"
 import { createGlobalStyle } from "styled-components"
-import React, { useState } from "react"
+import React, { useEffect } from "react"
 import Routes from "./Routes"
 import { Box } from "@chakra-ui/react"
 import Reporter from "./Components/Error/Reporter"
+import { Login } from "./Components/Login"
+import { useDispatch, useSelector } from "react-redux"
+import { RootState } from "./store/store"
+import { setLoggedIn } from "./store/login"
 
 const GlobalStyle = createGlobalStyle`
     #root {
@@ -18,44 +22,39 @@ const GlobalStyle = createGlobalStyle`
     }
 `
 
-interface AppContextType {
-    login: () => void
-}
-
-export const AppContext = React.createContext<AppContextType>({} as AppContextType)
-
 function App() {
-    const [isAdmin, setIsAdmin] = useState(false)
-
-    function login() {
-        // TODO: Make this actually authenticate
-        setIsAdmin(!isAdmin)
-    }
+    const loginState = useSelector((state: RootState) => state.login)
+    const dispatch = useDispatch()
+    useEffect(() => {
+        const token = localStorage.getItem("token")
+        if (token) {
+            dispatch(setLoggedIn(true))
+        }
+    }, [])
 
     return (
-        <AppContext.Provider value={{ login }}>
-            <Reporter>
-                <Box h="100%">
-                    <GlobalStyle />
-                    <CssBaseline />
-                    <Box id="route-component" height="100%" display="flex" flexDir="column">
-                        <BrowserRouter>
-                            <Header isAdmin={isAdmin} />
-                            <Switch>
-                                <Route path="/" exact>
-                                    <Redirect to={"/main"} />
-                                </Route>
-                                {Routes.filter(x => x.shouldGenerateRoute)
-                                    .map((x, i) => <Route path={x.path} key={i} render={x.component} />)}
-                                <Route path={"/dashboard"}>
-                                    <Dashboard />
-                                </Route>
-                            </Switch>
-                        </BrowserRouter>
-                    </Box>
+        <Reporter>
+            <Box h="100%">
+                <GlobalStyle />
+                <CssBaseline />
+                <Box id="route-component" height="100%" display="flex" flexDir="column">
+                    <BrowserRouter>
+                        {loginState.showLogin && <Login />}
+                        <Header isAdmin={loginState.loggedIn} />
+                        <Switch>
+                            <Route path="/" exact>
+                                <Redirect to={"/main"} />
+                            </Route>
+                            {Routes.filter(x => x.shouldGenerateRoute)
+                                .map((x, i) => <Route path={x.path} key={i} render={x.component} />)}
+                            <Route path={"/dashboard"}>
+                                <Dashboard />
+                            </Route>
+                        </Switch>
+                    </BrowserRouter>
                 </Box>
-            </Reporter>
-        </AppContext.Provider>
+            </Box>
+        </Reporter>
     )
 }
 

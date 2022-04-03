@@ -1,4 +1,5 @@
 type Query {
+    login(login: LoginInfoInput!): String!
     participants: [Participant!]!
     settings: Settings!
     statistics: Statistics!
@@ -14,13 +15,7 @@ type Mutation {
         updateParticipants: [UpdateParticipantsItemInput!]!
     ): [Participant!]!
     updateSettings(updateSettings: UpdateSettingsInput!): Settings!
-}
-
-type Settings {
-    id: Int!
-    signUpAllowed: Boolean!
-    capacity: Int!
-    allowedOver: Int!
+    addAdmin(login: LoginInfoInput!): Int!
 }
 
 type Participant {
@@ -37,6 +32,18 @@ type Participant {
     signUpDate: DateTime!
     dueDate: DateTime!
     paidDate: DateTime
+}
+
+input LoginInfoInput {
+    username: String!
+    password: String!
+}
+
+type Settings {
+    id: Int!
+    signUpAllowed: Boolean!
+    capacity: Int!
+    allowedOver: Int!
 }
 
 type Statistics {
