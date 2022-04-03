@@ -131,9 +131,9 @@ export type UpdateParticipantsItemInput = {
 };
 
 export type UpdateSettingsInput = {
-    allowedOver?: InputMaybe<Scalars["Int"]>;
-    capacity?: InputMaybe<Scalars["Int"]>;
-    signUpAllowed?: InputMaybe<Scalars["Boolean"]>;
+    allowedOver: Scalars["Int"];
+    capacity: Scalars["Int"];
+    signUpAllowed: Scalars["Boolean"];
 };
 
 export type TableParticipantFragment = { __typename?: "Participant", id: number, ip: string, school: string, email: string, phone: string, variableSymbol: string, parentName: string, parentSurname: string, participantName: string, participantSurname: string, signUpDate: any, paidDate?: any | null, dueDate: any };
@@ -424,7 +424,6 @@ export function useUpdateSettingsMutation(baseOptions?: Apollo.MutationHookOptio
     const options = { ...defaultOptions, ...baseOptions }
     return Apollo.useMutation<UpdateSettingsMutation, UpdateSettingsMutationVariables>(UpdateSettingsDocument, options)
 }
-
 export type UpdateSettingsMutationHookResult = ReturnType<typeof useUpdateSettingsMutation>;
 export type UpdateSettingsMutationResult = Apollo.MutationResult<UpdateSettingsMutation>;
 export type UpdateSettingsMutationOptions = Apollo.BaseMutationOptions<UpdateSettingsMutation, UpdateSettingsMutationVariables>;
@@ -455,12 +454,10 @@ export function useLoginQuery(baseOptions: Apollo.QueryHookOptions<LoginQuery, L
     const options = { ...defaultOptions, ...baseOptions }
     return Apollo.useQuery<LoginQuery, LoginQueryVariables>(LoginDocument, options)
 }
-
 export function useLoginLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<LoginQuery, LoginQueryVariables>) {
     const options = { ...defaultOptions, ...baseOptions }
     return Apollo.useLazyQuery<LoginQuery, LoginQueryVariables>(LoginDocument, options)
 }
-
 export type LoginQueryHookResult = ReturnType<typeof useLoginQuery>;
 export type LoginLazyQueryHookResult = ReturnType<typeof useLoginLazyQuery>;
 export type LoginQueryResult = Apollo.QueryResult<LoginQuery, LoginQueryVariables>;

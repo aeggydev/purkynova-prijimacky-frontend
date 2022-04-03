@@ -80,9 +80,9 @@ input UpdateParticipantsItemInput {
 }
 
 input UpdateSettingsInput {
-    signUpAllowed: Boolean
-    capacity: Int
-    allowedOver: Int
+    signUpAllowed: Boolean!
+    capacity: Int!
+    allowedOver: Int!
 }
 
 """
