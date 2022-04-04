@@ -14,8 +14,9 @@ import {
 import { useDispatch, useSelector } from "react-redux"
 import { clear } from "../../../../store/table"
 import { RootState } from "../../../../store/store"
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import { ReporterContext } from "../../../Error/Reporter"
+import { RegisterParticipant } from "./Modals/RegisterParticipant"
 
 export function ButtonArea() {
     const tableChanges = useSelector((state: RootState) => state.table.changes)
@@ -26,6 +27,9 @@ export function ButtonArea() {
             GetParticipantsDocument
         ]
     })
+
+    const [registerOpen, setRegisterOpen] = useState(false)
+
 
     function onClick() {
         reporter.error("Tato funkce nebyla implementována", "")
@@ -51,26 +55,29 @@ export function ButtonArea() {
         dispatch(clear())
     }
 
-    function foobar() {
-        reporter.log("Title", "Body" + Math.random() * 100)
-    }
-
     return (
-        <ButtonAreaEl>
-            <ButtonRowEl>
-                <Button text="Potvrdit změny" bg="#46BC87" click={saveChanges} icon={<Save color="white" />} />
-                <Button text="Zahodit změny" bg="#AC1821" click={discardChanges} icon={<Cancel color="white" />} />
-                <EditStatusEl>Do ukončení režimu úpravy zbývá 05:16. Úprava zahájena 28.11.2021 08:12.</EditStatusEl>
-            </ButtonRowEl>
-            <ButtonRowEl>
-                <Button text="Potvrdit uhrazené" bg="#CBBE4D" click={onClick} icon={<EmailConfirm color="white" />} />
-                <Button text="Zrušit neuhrazené po termínu" bg="#AC1821" click={onClick}
-                        icon={<EmailCancel color="white" />} />
-                <Button text="Přidat přihlášku" bg="#46BC87" click={onClick} icon={<ForceAdd color="white" />} />
-                <Button text="Stáhnout" bg="#46BC87" click={saveDatasheet} icon={<DownloadExport color="white" />} />
-            </ButtonRowEl>
-            <div />
-        </ButtonAreaEl>
+        <>
+            <RegisterParticipant setStatus={setRegisterOpen} isOpen={registerOpen} />
+            <ButtonAreaEl>
+                <ButtonRowEl>
+                    <Button text="Potvrdit změny" bg="#46BC87" click={saveChanges} icon={<Save color="white" />} />
+                    <Button text="Zahodit změny" bg="#AC1821" click={discardChanges} icon={<Cancel color="white" />} />
+                    <EditStatusEl>Do ukončení režimu úpravy zbývá 05:16. Úprava zahájena 28.11.2021
+                        08:12.</EditStatusEl>
+                </ButtonRowEl>
+                <ButtonRowEl>
+                    <Button text="Potvrdit uhrazené" bg="#CBBE4D" click={onClick}
+                            icon={<EmailConfirm color="white" />} />
+                    <Button text="Zrušit neuhrazené po termínu" bg="#AC1821" click={onClick}
+                            icon={<EmailCancel color="white" />} />
+                    <Button text="Přidat přihlášku" bg="#46BC87" click={() => setRegisterOpen(true)}
+                            icon={<ForceAdd color="white" />} />
+                    <Button text="Stáhnout" bg="#46BC87" click={saveDatasheet}
+                            icon={<DownloadExport color="white" />} />
+                </ButtonRowEl>
+                <div />
+            </ButtonAreaEl>
+        </>
     )
 }
 
