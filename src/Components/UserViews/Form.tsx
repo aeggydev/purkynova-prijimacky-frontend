@@ -1,8 +1,8 @@
 import { Box } from "@chakra-ui/react"
 import React, { PropsWithChildren } from "react"
-import { DummyApplicationCount } from "../ApplicationCount"
+import { DummyApplicationCount } from "./Reusable/ApplicationCount"
 import ContentContainer from "../Containers/ContentContainer"
-import SignUpForm from "../SignUpForm/Form"
+import SignUpForm from "./SignUpForm/Form"
 
 interface RowProps {
     row: number;

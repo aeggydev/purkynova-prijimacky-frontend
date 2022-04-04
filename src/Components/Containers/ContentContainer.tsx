@@ -1,7 +1,7 @@
 import { Box, ChakraProps, Grid, Text } from "@chakra-ui/react"
 import { PropsWithChildren } from "react"
 import { GrayText } from "../../theme"
-import AdminButton from "../AdminButton"
+import AdminButton from "../Layout/AdminButton"
 
 interface Props {
     insideBox?: ChakraProps

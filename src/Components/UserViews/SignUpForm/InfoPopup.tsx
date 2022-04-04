@@ -1,9 +1,9 @@
 import { Box, ChakraProps, useBoolean } from "@chakra-ui/react"
 import { MouseEvent, PropsWithChildren, useState } from "react"
-import Info from "../../Icons/Info"
-import Help from "../../Icons/Help"
-import { FormSubmitBg } from "../../theme"
-import ShadowBox from "../Containers/ShadowBox"
+import Info from "../../../Icons/Info"
+import Help from "../../../Icons/Help"
+import { FormSubmitBg } from "../../../theme"
+import ShadowBox from "../../Containers/ShadowBox"
 
 export enum IconType {
     questionMark,

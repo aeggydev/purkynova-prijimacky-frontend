@@ -1,10 +1,10 @@
 import { Box, ChakraProps, Text } from "@chakra-ui/react"
 // @ts-ignore
-import { GrayText } from "../theme"
-import Settings from "../Icons/Settings"
+import { GrayText } from "../../theme"
+import Settings from "../../Icons/Settings"
 import { useDispatch, useSelector } from "react-redux"
-import { setLoggedIn, setShowLogin } from "../store/login"
-import { RootState } from "../store/store"
+import { setLoggedIn, setShowLogin } from "../../store/login"
+import { RootState } from "../../store/store"
 import { useHistory } from "react-router-dom"
 
 const AdminButton = (props: ChakraProps) => {

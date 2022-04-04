@@ -11,10 +11,10 @@ import {
     TopbarBg,
     TopbarDarkBg,
     TopbarLightBg
-} from "../theme"
-import { AdminRoutes, Route, UserRoutes } from "../Routes"
+} from "../../theme"
+import { AdminRoutes, Route, UserRoutes } from "../../Routes"
 import { useSelector } from "react-redux"
-import { RootState } from "../store/store"
+import { RootState } from "../../store/store"
 
 type Props = {
     route: Route

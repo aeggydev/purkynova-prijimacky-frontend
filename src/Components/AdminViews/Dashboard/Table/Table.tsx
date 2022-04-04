@@ -1,11 +1,11 @@
 import styled from "styled-components"
-import { Participant, useGetParticipantsQuery } from "../../graphql/graphql"
+import { Participant, useGetParticipantsQuery } from "../../../../graphql/graphql"
 import { TableRow } from "./TableRow"
 import { TableHeader } from "./TableHeader"
 import { useDispatch } from "react-redux"
-import { clear } from "../../store/table"
+import { clear } from "../../../../store/table"
 import { useContext } from "react"
-import { ReporterContext } from "../Error/Reporter"
+import { ReporterContext } from "../../../Error/Reporter"
 
 export function Table() {
     const dispatch = useDispatch()

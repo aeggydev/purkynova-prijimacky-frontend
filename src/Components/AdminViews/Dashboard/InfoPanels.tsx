@@ -1,8 +1,8 @@
 import { Box, Grid, GridItem } from "@chakra-ui/react"
 import React, { useContext } from "react"
-import ShadowBox from "../Containers/ShadowBox"
-import { useGetSettingsQuery, useGetStatisticsQuery } from "../../graphql/graphql"
-import { ReporterContext } from "../Error/Reporter"
+import ShadowBox from "../../Containers/ShadowBox"
+import { useGetSettingsQuery, useGetStatisticsQuery } from "../../../graphql/graphql"
+import { ReporterContext } from "../../Error/Reporter"
 
 function InfoBoxRow({ left, right }: { left: string | number, right: string | number }) {
     return <Grid templateColumns="1fr 1fr" fontWeight="bold" lineHeight="30px">

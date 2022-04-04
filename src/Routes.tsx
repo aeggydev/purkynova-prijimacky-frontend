@@ -1,8 +1,8 @@
-import Welcome from "./Components/Views/Welcome"
-import { Dashboard } from "./Components/Views/Dashboard"
-import Form from "./Components/Views/Form"
-import Contact from "./Components/Views/Contact"
-import { Settings } from "./Components/Views/Settings"
+import Welcome from "./Components/UserViews/Welcome"
+import { Dashboard } from "./Components/AdminViews/Dashboard/Dashboard"
+import Form from "./Components/UserViews/Form"
+import Contact from "./Components/UserViews/Contact"
+import { Settings } from "./Components/AdminViews/Settings"
 
 export type Route = {
     path: string

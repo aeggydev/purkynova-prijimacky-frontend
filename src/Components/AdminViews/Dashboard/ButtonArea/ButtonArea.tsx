@@ -1,21 +1,21 @@
 import styled from "styled-components"
 import { Button } from "./Button"
-import Save from "../../../Icons/Save"
-import Cancel from "../../../Icons/Cancel"
-import EmailConfirm from "../../../Icons/EmailConfirm"
-import EmailCancel from "../../../Icons/EmailCancel"
-import ForceAdd from "../../../Icons/ForceAdd"
-import DownloadExport from "../../../Icons/DownloadExport"
+import Save from "../../../../Icons/Save"
+import Cancel from "../../../../Icons/Cancel"
+import EmailConfirm from "../../../../Icons/EmailConfirm"
+import EmailCancel from "../../../../Icons/EmailCancel"
+import ForceAdd from "../../../../Icons/ForceAdd"
+import DownloadExport from "../../../../Icons/DownloadExport"
 import {
     GetParticipantsDocument,
     UpdateParticipantsItemInput,
     useUpdateParticipantsMutation
-} from "../../../graphql/graphql"
+} from "../../../../graphql/graphql"
 import { useDispatch, useSelector } from "react-redux"
-import { clear } from "../../../store/table"
-import { RootState } from "../../../store/store"
+import { clear } from "../../../../store/table"
+import { RootState } from "../../../../store/store"
 import { useContext } from "react"
-import { ReporterContext } from "../../Error/Reporter"
+import { ReporterContext } from "../../../Error/Reporter"
 
 export function ButtonArea() {
     const tableChanges = useSelector((state: RootState) => state.table.changes)

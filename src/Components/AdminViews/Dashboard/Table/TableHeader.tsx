@@ -1,4 +1,4 @@
-import { Participant } from "../../graphql/graphql"
+import { Participant } from "../../../../graphql/graphql"
 import { PropsWithChildren } from "react"
 import styled from "styled-components"
 import { SSplitDiv } from "./TableRow"

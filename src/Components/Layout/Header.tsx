@@ -1,10 +1,10 @@
 // @ts-ignore
 import spsLogo from "url:/src/Icons/sspbrno.png"
 import React from "react"
-import { LightText, TopbarAdminBg, TopbarBg } from "../theme"
+import { LightText, TopbarAdminBg, TopbarBg } from "../../theme"
 import Menubar from "./Menubar"
 import { Box, Link } from "@chakra-ui/react"
-import Sps from "../Icons/Sps"
+import Sps from "../../Icons/Sps"
 
 interface HeaderProps {
     isAdmin: boolean

@@ -1,12 +1,12 @@
 import { Box, Button, Input, Text } from "@chakra-ui/react"
 import styled from "styled-components"
-import { FormSubmitBg, TopbarDarkBg } from "../theme"
-import Cross from "../Icons/Cross"
+import { FormSubmitBg, TopbarDarkBg } from "../../theme"
+import Cross from "../../Icons/Cross"
 import React from "react"
 import { SubmitHandler, useForm } from "react-hook-form"
-import { useLoginLazyQuery } from "../graphql/graphql"
+import { useLoginLazyQuery } from "../../graphql/graphql"
 import { useDispatch } from "react-redux"
-import { setLoggedIn, setShowLogin } from "../store/login"
+import { setLoggedIn, setShowLogin } from "../../store/login"
 import { useHistory } from "react-router-dom"
 
 interface IFormInputs {

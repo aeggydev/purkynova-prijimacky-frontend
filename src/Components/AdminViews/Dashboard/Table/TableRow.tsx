@@ -1,11 +1,11 @@
-import { Participant } from "../../graphql/graphql"
+import { Participant } from "../../../../graphql/graphql"
 import React, { ChangeEvent, CSSProperties, PropsWithChildren, useContext, useEffect, useState } from "react"
 import styled from "styled-components"
 import { Box } from "@chakra-ui/react"
 import { useDispatch, useSelector } from "react-redux"
-import { RootState } from "../../store/store"
-import { setProperty } from "../../store/table"
-import { usePrevious } from "../../hooks/usePrevious"
+import { RootState } from "../../../../store/store"
+import { setProperty } from "../../../../store/table"
+import { usePrevious } from "../../../../hooks/usePrevious"
 
 type ContextType = { participant: Participant }
 const RowContext = React.createContext<ContextType>({} as ContextType)

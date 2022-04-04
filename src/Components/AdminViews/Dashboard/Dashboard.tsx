@@ -1,9 +1,9 @@
 import React from "react"
-import ContentContainer from "../Containers/ContentContainer"
+import ContentContainer from "../../Containers/ContentContainer"
 import { ChakraProps } from "@chakra-ui/react"
-import { TableArea } from "../Table/TableArea"
-import { InfoPanels } from "../Table/InfoPanels"
-import { ButtonArea } from "../Table/ButtonArea/ButtonArea"
+import { TableArea } from "./Table/TableArea"
+import { InfoPanels } from "./InfoPanels"
+import { ButtonArea } from "./ButtonArea/ButtonArea"
 
 export function Dashboard() {
     const insideProps: ChakraProps = {

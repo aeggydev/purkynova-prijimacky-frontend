@@ -2,7 +2,7 @@ import styled from "styled-components"
 import React from "react"
 import ContentContainer from "../Containers/ContentContainer"
 import ShadowBox from "../Containers/ShadowBox"
-import { DummyApplicationCount } from "../ApplicationCount"
+import { DummyApplicationCount } from "./Reusable/ApplicationCount"
 
 const Paragraph = styled.p`
   margin-bottom: 1em;
