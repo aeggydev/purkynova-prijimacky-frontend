@@ -47,8 +47,18 @@ export function ButtonArea() {
         })
     }
 
-    function saveDatasheet() {
-        window.open("https://localhost:7141/file/table.csv")
+    async function saveDatasheet() {
+        const headers = new Headers()
+        headers.append("authorization", `Bearer ${localStorage.getItem("token")}`)
+        const query = await fetch("https://localhost:7141/file/table.csv", { headers })
+        const blob = await query.blob()
+
+        const dataUrl = window.URL.createObjectURL(blob)
+        const anchor = document.createElement("a")
+        anchor.href = dataUrl
+        anchor.download = "table.csv"
+        anchor.click()
+        window.URL.revokeObjectURL(dataUrl)
     }
 
     function discardChanges() {
