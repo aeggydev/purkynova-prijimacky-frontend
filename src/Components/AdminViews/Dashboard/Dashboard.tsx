@@ -1,9 +1,9 @@
 import React from "react"
 import ContentContainer from "../../Containers/ContentContainer"
 import { ChakraProps } from "@chakra-ui/react"
-import { TableArea } from "./Table/TableArea"
 import { InfoPanels } from "./InfoPanels"
 import { ButtonArea } from "./ButtonArea/ButtonArea"
+import { Table } from "./Table/Table"
 
 export function Dashboard() {
     const insideProps: ChakraProps = {
@@ -14,6 +14,6 @@ export function Dashboard() {
     return <ContentContainer insideBox={insideProps}>
         <InfoPanels />
         <ButtonArea />
-        <TableArea />
+        <Table />
     </ContentContainer>
 }
