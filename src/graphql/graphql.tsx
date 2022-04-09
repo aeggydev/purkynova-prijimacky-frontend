@@ -70,11 +70,16 @@ export type NewParticipantInput = {
 
 export type Participant = {
     __typename?: "Participant";
+    cancelationNotified: Scalars["Boolean"];
+    creationNotified: Scalars["Boolean"];
     dueDate: Scalars["DateTime"];
     email: Scalars["String"];
     id: Scalars["Int"];
     ip: Scalars["String"];
+    isOver: Scalars["Boolean"];
+    isPaid: Scalars["Boolean"];
     paidDate?: Maybe<Scalars["DateTime"]>;
+    paidNotified: Scalars["Boolean"];
     parentName: Scalars["String"];
     parentSurname: Scalars["String"];
     participantName: Scalars["String"];
@@ -82,8 +87,19 @@ export type Participant = {
     phone: Scalars["String"];
     school: Scalars["String"];
     signUpDate: Scalars["DateTime"];
+    status: ParticipantStatus;
     variableSymbol: Scalars["String"];
 };
+
+export enum ParticipantStatus {
+    Canceled = "CANCELED",
+    Error = "ERROR",
+    NotNotified = "NOT_NOTIFIED",
+    PaidConfirmed = "PAID_CONFIRMED",
+    PaidUnconfirmed = "PAID_UNCONFIRMED",
+    Unpaid = "UNPAID",
+    UnpaidLate = "UNPAID_LATE"
+}
 
 export type Query = {
     __typename?: "Query";
@@ -136,19 +152,19 @@ export type UpdateSettingsInput = {
     signUpAllowed: Scalars["Boolean"];
 };
 
-export type TableParticipantFragment = { __typename?: "Participant", id: number, ip: string, school: string, email: string, phone: string, variableSymbol: string, parentName: string, parentSurname: string, participantName: string, participantSurname: string, signUpDate: any, paidDate?: any | null, dueDate: any };
+export type TableParticipantFragment = { __typename?: "Participant", id: number, ip: string, school: string, email: string, phone: string, variableSymbol: string, parentName: string, parentSurname: string, participantName: string, participantSurname: string, signUpDate: any, paidDate?: any | null, dueDate: any, isOver: boolean, isPaid: boolean, status: ParticipantStatus, creationNotified: boolean, cancelationNotified: boolean, paidNotified: boolean };
 
 export type GetParticipantsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetParticipantsQuery = { __typename?: "Query", participants: Array<{ __typename?: "Participant", id: number, ip: string, school: string, email: string, phone: string, variableSymbol: string, parentName: string, parentSurname: string, participantName: string, participantSurname: string, signUpDate: any, paidDate?: any | null, dueDate: any }> };
+export type GetParticipantsQuery = { __typename?: "Query", participants: Array<{ __typename?: "Participant", id: number, ip: string, school: string, email: string, phone: string, variableSymbol: string, parentName: string, parentSurname: string, participantName: string, participantSurname: string, signUpDate: any, paidDate?: any | null, dueDate: any, isOver: boolean, isPaid: boolean, status: ParticipantStatus, creationNotified: boolean, cancelationNotified: boolean, paidNotified: boolean }> };
 
 export type NewParticipantMutationVariables = Exact<{
     addParticipant: NewParticipantInput;
 }>;
 
 
-export type NewParticipantMutation = { __typename?: "Mutation", addParticipant: { __typename?: "Participant", id: number, ip: string, school: string, email: string, phone: string, variableSymbol: string, parentName: string, parentSurname: string, participantName: string, participantSurname: string, signUpDate: any, paidDate?: any | null, dueDate: any } };
+export type NewParticipantMutation = { __typename?: "Mutation", addParticipant: { __typename?: "Participant", id: number, ip: string, school: string, email: string, phone: string, variableSymbol: string, parentName: string, parentSurname: string, participantName: string, participantSurname: string, signUpDate: any, paidDate?: any | null, dueDate: any, isOver: boolean, isPaid: boolean, status: ParticipantStatus, creationNotified: boolean, cancelationNotified: boolean, paidNotified: boolean } };
 
 export type UpdateParticipantMutationVariables = Exact<{
     id: Scalars["Int"];
@@ -156,14 +172,14 @@ export type UpdateParticipantMutationVariables = Exact<{
 }>;
 
 
-export type UpdateParticipantMutation = { __typename?: "Mutation", updateParticipant: { __typename?: "Participant", id: number, ip: string, school: string, email: string, phone: string, variableSymbol: string, parentName: string, parentSurname: string, participantName: string, participantSurname: string, signUpDate: any, paidDate?: any | null, dueDate: any } };
+export type UpdateParticipantMutation = { __typename?: "Mutation", updateParticipant: { __typename?: "Participant", id: number, ip: string, school: string, email: string, phone: string, variableSymbol: string, parentName: string, parentSurname: string, participantName: string, participantSurname: string, signUpDate: any, paidDate?: any | null, dueDate: any, isOver: boolean, isPaid: boolean, status: ParticipantStatus, creationNotified: boolean, cancelationNotified: boolean, paidNotified: boolean } };
 
 export type UpdateParticipantsMutationVariables = Exact<{
     updateParticipants: Array<UpdateParticipantsItemInput> | UpdateParticipantsItemInput;
 }>;
 
 
-export type UpdateParticipantsMutation = { __typename?: "Mutation", updateParticipants: Array<{ __typename?: "Participant", id: number, ip: string, school: string, email: string, phone: string, variableSymbol: string, parentName: string, parentSurname: string, participantName: string, participantSurname: string, signUpDate: any, paidDate?: any | null, dueDate: any }> };
+export type UpdateParticipantsMutation = { __typename?: "Mutation", updateParticipants: Array<{ __typename?: "Participant", id: number, ip: string, school: string, email: string, phone: string, variableSymbol: string, parentName: string, parentSurname: string, participantName: string, participantSurname: string, signUpDate: any, paidDate?: any | null, dueDate: any, isOver: boolean, isPaid: boolean, status: ParticipantStatus, creationNotified: boolean, cancelationNotified: boolean, paidNotified: boolean }> };
 
 export type SettingsFragment = { __typename?: "Settings", allowedOver: number, capacity: number, signUpAllowed: boolean };
 
@@ -209,6 +225,12 @@ export const TableParticipantFragmentDoc = gql`
         signUpDate
         paidDate
         dueDate
+        isOver
+        isPaid
+        status
+        creationNotified
+        cancelationNotified
+        paidNotified
     }
 `
 export const SettingsFragmentDoc = gql`

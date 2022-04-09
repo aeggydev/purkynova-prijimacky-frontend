@@ -8,6 +8,9 @@ fragment TableParticipant on Participant {
     parentName, parentSurname,
     participantName, participantSurname,
     signUpDate, paidDate, dueDate,
+
+    isOver, isPaid, status
+    creationNotified, cancelationNotified, paidNotified
 }
 
 query GetParticipants {

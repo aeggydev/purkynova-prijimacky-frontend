@@ -32,6 +32,12 @@ type Participant {
     signUpDate: DateTime!
     dueDate: DateTime!
     paidDate: DateTime
+    isPaid: Boolean!
+    isOver: Boolean!
+    creationNotified: Boolean!
+    cancelationNotified: Boolean!
+    paidNotified: Boolean!
+    status: ParticipantStatus!
 }
 
 input LoginInfoInput {
@@ -89,3 +95,13 @@ input UpdateSettingsInput {
 The `DateTime` scalar represents an ISO-8601 compliant date time type.
 """
 scalar DateTime
+
+enum ParticipantStatus {
+    NOT_NOTIFIED
+    UNPAID
+    UNPAID_LATE
+    CANCELED
+    PAID_UNCONFIRMED
+    PAID_CONFIRMED
+    ERROR
+}
