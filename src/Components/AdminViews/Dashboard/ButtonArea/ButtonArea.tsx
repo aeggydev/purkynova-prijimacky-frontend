@@ -14,13 +14,13 @@ import {
 import { useDispatch, useSelector } from "react-redux"
 import { clear } from "../../../../store/table"
 import { RootState } from "../../../../store/store"
-import { useContext, useState } from "react"
-import { ReporterContext } from "../../../Error/Reporter"
+import { useState } from "react"
 import { RegisterParticipant } from "./Modals/RegisterParticipant"
+import { useToast } from "@chakra-ui/react"
 
 export function ButtonArea() {
     const tableChanges = useSelector((state: RootState) => state.table.changes)
-    const reporter = useContext(ReporterContext)
+    const toast = useToast()
     const dispatch = useDispatch()
     const [updateParticipantsMutation] = useUpdateParticipantsMutation({
         refetchQueries: [
@@ -32,19 +32,25 @@ export function ButtonArea() {
 
 
     function onClick() {
-        reporter.error("Tato funkce nebyla implementována", "")
+        toast({
+            title: "Neimplementovaná funkce",
+            description: "Tato funkce nebyla zatím implementována",
+            status: "error",
+            isClosable: true
+        })
     }
 
     function saveChanges() {
         const entries = Object.entries(tableChanges)
         const updateData: UpdateParticipantsItemInput[] = entries.map(([id, data]) => ({ id: parseInt(id, 10), data }))
         const promise = updateParticipantsMutation({
-            variables: { updateParticipants: updateData },
-            onCompleted: () => {
-                console.log("done syncing!", entries)
-            },
-            onError: error => reporter.log("Problém při ukladání dat", error.message)
-        })
+                variables: { updateParticipants: updateData },
+                onCompleted: () => {
+                    console.log("done syncing!", entries)
+                },
+                onError: error => toast({ title: "Problém při ukládání dat", status: "error" })
+            }
+        )
     }
 
     async function saveDatasheet() {
