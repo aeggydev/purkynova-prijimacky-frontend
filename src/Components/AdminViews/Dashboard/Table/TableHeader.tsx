@@ -92,4 +92,5 @@ const SHead = styled.thead`
     position: sticky;
     top: 0;
     font-size: 0.925em;
+    z-index: 100;
 `
