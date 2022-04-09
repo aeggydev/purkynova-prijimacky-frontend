@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "../../../../store/store"
 import { setProperty } from "../../../../store/table"
 import { usePrevious } from "../../../../hooks/usePrevious"
+import { DateTime } from "luxon"
 
 type ContextType = { participant: Participant }
 const RowContext = React.createContext<ContextType>({} as ContextType)
@@ -30,11 +31,28 @@ export function TableRow({ i, participant }: { i: number, participant: Participa
             </ThreeSplitDiv>
             <BindCellStatic index="variableSymbol" />
 
-            <BindCellStatic index="signUpDate" />
-            <BindCellStatic index="dueDate" />
-            <BindCellStatic index="paidDate" />
+            <BindCellDateStatic index="signUpDate" />
+            <BindCellDateStatic index="dueDate" />
+            <BindCellDateStatic index="paidDate" />
         </STyle>
     </RowContext.Provider>
+}
+
+export function BindCellDateStatic({ index }: { index: keyof Participant }) {
+    const context = useContext(RowContext)
+    const participant = context.participant
+    const emptyLine = <span style={{ display: "flex", placeContent: "center" }}>
+        <Box width="7ex" borderBottom="1.75px solid black" paddingTop="1em" />
+    </span>
+
+    const date = participant[index]
+        ? DateTime.fromISO(participant[index])
+        : null
+    const dateString = date?.toLocaleString(DateTime.DATETIME_MED, { locale: "cs" })
+
+    return <Cell
+        style={{ textAlign: "center" }}>{dateString ?? emptyLine}</Cell>
+    // TODO: Center empty field
 }
 
 export function BindCell({ index }: { index: keyof Participant }) {
