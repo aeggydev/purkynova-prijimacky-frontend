@@ -28,6 +28,8 @@ export function TableHeader() {
             <BindHeader index="signUpDate">Datum a čas přihlášení</BindHeader>
             <BindHeader index="dueDate">Datum splatnosti</BindHeader>
             <BindHeader index="paidDate">Datum uhrazení</BindHeader>
+            <SHeader noLeftBorder={false} noRightBorder={false} />
+            <SHeader noLeftBorder={false} noRightBorder={false} />
         </tr>
     </SHead>
 }
