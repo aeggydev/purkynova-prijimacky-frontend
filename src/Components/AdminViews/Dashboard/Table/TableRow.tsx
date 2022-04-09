@@ -1,18 +1,24 @@
 import { Participant } from "../../../../graphql/graphql"
 import React, { ChangeEvent, CSSProperties, PropsWithChildren, useContext, useEffect, useState } from "react"
 import styled from "styled-components"
-import { Box, Button } from "@chakra-ui/react"
+import { Box, Button, Menu, MenuButton, MenuItem, MenuList, useToast } from "@chakra-ui/react"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "../../../../store/store"
 import { setProperty } from "../../../../store/table"
 import { usePrevious } from "../../../../hooks/usePrevious"
 import { DateTime } from "luxon"
-import { SettingsIcon } from "@chakra-ui/icons"
+import { CloseIcon, DeleteIcon, EditIcon, SettingsIcon } from "@chakra-ui/icons"
 
 type ContextType = { participant: Participant }
 const RowContext = React.createContext<ContextType>({} as ContextType)
 
 export function TableRow({ i, participant }: { i: number, participant: Participant }) {
+    const toast = useToast()
+
+    function notImplemented() {
+        toast({ title: "Funkce není implementována", status: "error" })
+    }
+
     return <RowContext.Provider value={{ participant }}>
         <STyle style={{ background: (i % 2 != 0) ? "#E0E0E0" : "#EAEAEA" }}>
             <BindCellStatic index="id" />
@@ -39,9 +45,16 @@ export function TableRow({ i, participant }: { i: number, participant: Participa
                 <Button size="sm" mx="1ex">Dynamic button</Button>
             </Cell>
             <Cell>
-                <Button variant="ghost" size="sm" mx="1ex">
-                    <SettingsIcon />
-                </Button>
+                <Menu>
+                    <MenuButton as={Button} size="sm" variant="ghost" mx="1ex">
+                        <SettingsIcon />
+                    </MenuButton>
+                    <MenuList>
+                        <MenuItem icon={<EditIcon />} onClick={notImplemented}>Ukázat poznámku</MenuItem>
+                        <MenuItem icon={<CloseIcon />} onClick={notImplemented}>Zrušit přihlášku</MenuItem>
+                        <MenuItem icon={<DeleteIcon />} onClick={notImplemented}>Odstranit přihlášku</MenuItem>
+                    </MenuList>
+                </Menu>
             </Cell>
         </STyle>
     </RowContext.Provider>
