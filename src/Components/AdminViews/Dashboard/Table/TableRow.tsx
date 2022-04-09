@@ -1,12 +1,13 @@
 import { Participant } from "../../../../graphql/graphql"
 import React, { ChangeEvent, CSSProperties, PropsWithChildren, useContext, useEffect, useState } from "react"
 import styled from "styled-components"
-import { Box } from "@chakra-ui/react"
+import { Box, Button } from "@chakra-ui/react"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "../../../../store/store"
 import { setProperty } from "../../../../store/table"
 import { usePrevious } from "../../../../hooks/usePrevious"
 import { DateTime } from "luxon"
+import { SettingsIcon } from "@chakra-ui/icons"
 
 type ContextType = { participant: Participant }
 const RowContext = React.createContext<ContextType>({} as ContextType)
@@ -34,6 +35,14 @@ export function TableRow({ i, participant }: { i: number, participant: Participa
             <BindCellDateStatic index="signUpDate" />
             <BindCellDateStatic index="dueDate" />
             <BindCellDateStatic index="paidDate" />
+            <Cell>
+                <Button size="sm" mx="1ex">Dynamic button</Button>
+            </Cell>
+            <Cell>
+                <Button variant="ghost" size="sm" mx="1ex">
+                    <SettingsIcon />
+                </Button>
+            </Cell>
         </STyle>
     </RowContext.Provider>
 }
