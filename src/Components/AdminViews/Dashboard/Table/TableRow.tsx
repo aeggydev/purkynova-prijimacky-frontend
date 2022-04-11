@@ -71,7 +71,7 @@ export function TableRow({ i, participant }: { i: number, participant: Participa
                     <MenuButton as={Button} size="sm" variant="ghost" mx="1ex">
                         <SettingsIcon />
                     </MenuButton>
-                    <MenuList>
+                    <MenuList zIndex={200}>
                         <MenuItem icon={<EditIcon />} onClick={notImplemented}>Ukázat poznámku</MenuItem>
                         <MenuItem icon={<CloseIcon />} onClick={notImplemented}>Zrušit přihlášku</MenuItem>
                         <MenuItem icon={<DeleteIcon />} onClick={notImplemented}>Odstranit přihlášku</MenuItem>
