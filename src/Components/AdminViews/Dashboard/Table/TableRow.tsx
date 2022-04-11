@@ -1,4 +1,4 @@
-import { Participant } from "../../../../graphql/graphql"
+import { Participant, ParticipantStatus } from "../../../../graphql/graphql"
 import React, { ChangeEvent, CSSProperties, PropsWithChildren, useContext, useEffect, useState } from "react"
 import styled from "styled-components"
 import { Box, Button, Menu, MenuButton, MenuItem, MenuList, useToast } from "@chakra-ui/react"
@@ -8,6 +8,7 @@ import { setProperty } from "../../../../store/table"
 import { usePrevious } from "../../../../hooks/usePrevious"
 import { DateTime } from "luxon"
 import { CloseIcon, DeleteIcon, EditIcon, SettingsIcon } from "@chakra-ui/icons"
+import { Resolve } from "./statusResolver"
 
 type ContextType = { participant: Participant }
 const RowContext = React.createContext<ContextType>({} as ContextType)
@@ -19,9 +20,28 @@ export function TableRow({ i, participant }: { i: number, participant: Participa
         toast({ title: "Funkce není implementována", status: "error" })
     }
 
+    let textColor = "black"
+    let idColor = "#555555"
+    const status = Resolve(participant)
+    switch (participant.status) {
+        case ParticipantStatus.Canceled:
+            textColor = "#686868"
+            idColor = "#BEBEBE"
+            break
+        case ParticipantStatus.PaidUnconfirmed:
+            idColor = "#8F8000"
+            break
+        case ParticipantStatus.UnpaidLate:
+            idColor = "#AC1821"
+            break
+        case ParticipantStatus.Error:
+            textColor = "#F00"
+            break
+    }
+
     return <RowContext.Provider value={{ participant }}>
-        <STyle style={{ background: (i % 2 != 0) ? "#E0E0E0" : "#EAEAEA" }}>
-            <BindCellStatic index="id" />
+        <STyle style={{ background: (i % 2 != 0) ? "#E0E0E0" : "#EAEAEA", color: textColor }}>
+            <BindCellStatic index="id" style={{ color: idColor, fontWeight: 500, fontSize: "1.1em" }} />
             <SplitDiv>
                 <BindCell index="participantName" />
                 <BindCell index="parentName" />
@@ -36,13 +56,15 @@ export function TableRow({ i, participant }: { i: number, participant: Participa
                 <BindCell index="email" />
                 <BindCellStatic index="ip" />
             </ThreeSplitDiv>
-            <BindCellStatic index="variableSymbol" />
+            <BindCellStatic index="variableSymbol" style={{ fontWeight: 500, fontSize: "1.3em" }} />
 
             <BindCellDateStatic index="signUpDate" />
             <BindCellDateStatic index="dueDate" />
             <BindCellDateStatic index="paidDate" />
             <Cell>
-                <Button size="sm" mx="1ex">Dynamic button</Button>
+                <Button size="sm" mx="1em" px="1.75em" bg={status.color}>
+                    {status.icon}
+                </Button>
             </Cell>
             <Cell>
                 <Menu>
@@ -77,7 +99,7 @@ export function BindCellDateStatic({ index }: { index: keyof Participant }) {
     // TODO: Center empty field
 }
 
-export function BindCell({ index }: { index: keyof Participant }) {
+export function BindCell({ index, passedStyle }: { index: keyof Participant, passedStyle?: CSSProperties }) {
     const { participant } = useContext(RowContext)
     const changes = useSelector((state: RootState) => state.table.changes)
     const dispatch = useDispatch()
@@ -102,19 +124,19 @@ export function BindCell({ index }: { index: keyof Participant }) {
         dispatch(setProperty({ value: localValue, prop: index, id: participant.id }))
     }
 
-    return <Cell>
+    return <Cell style={passedStyle}>
         <SInput type="text" edited={edited} value={localValue} onChange={onChange} onBlur={onBlur} />
     </Cell>
 }
 
-export function BindCellStatic({ index }: { index: keyof Participant }) {
+export function BindCellStatic({ index, style }: { index: keyof Participant, style?: CSSProperties }) {
     const context = useContext(RowContext)
     const participant = context.participant
     const emptyLine = <span style={{ display: "flex", placeContent: "center" }}>
         <Box width="7ex" borderBottom="1.75px solid black" paddingTop="1em" />
     </span>
 
-    return <Cell style={{ textAlign: "center" }}>{participant[index] ?? emptyLine}</Cell>
+    return <Cell style={{ textAlign: "center", ...style }}>{participant[index] ?? emptyLine}</Cell>
     // TODO: Center empty field
 }
 
@@ -155,7 +177,6 @@ const SInput = styled.input<{ edited: boolean }>`
     width: 100%;
     height: 100%;
     background: ${props => props.edited ? "#fdfebc" : "inherit"};
-    color: black;
 
     transition: all 250ms ease-in-out;
 `
