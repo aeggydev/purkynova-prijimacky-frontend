@@ -39,7 +39,14 @@ const AdminButton = (props: ChakraProps) => {
     const toast = useToast()
     const loginState = useSelector((state: RootState) => state.login)
     const { isOpen, onOpen, onClose } = useDisclosure()
-    const { register, handleSubmit, formState: { errors: formErrors }, reset } = useForm<IFormInputs>()
+    const {
+        register,
+        handleSubmit,
+        formState: { errors: formErrors, isDirty, isValid },
+        reset
+    } = useForm<IFormInputs>({
+        mode: "onChange"
+    })
     const [loginFunc] = useLoginLazyQuery({
         errorPolicy: "all",
         onCompleted: data => {
@@ -128,6 +135,7 @@ const AdminButton = (props: ChakraProps) => {
 
                 <ModalFooter display="flex">
                     <Button colorScheme="green" flexGrow={1}
+                            disabled={!isDirty || !isValid}
                             onClick={() => handleSubmit(onSubmit)()}>
                         Přihlásit se
                     </Button>
