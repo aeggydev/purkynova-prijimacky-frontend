@@ -41,28 +41,31 @@ export function Settings() {
                     title="Maximální kapacita"
                     description="Maximální počet účastníků, kteří se skutečně zůčastní. Při překročení jsou přihlášky pod čarou."
                 >
-                    <Input type="number" {...register("capacity", { valueAsNumber: true })} />
+                    <Input type="number" {...register("capacity", { valueAsNumber: true, required: true })} />
                 </Row>
                 <Row
                     title="Povolená místa pod čarou"
                     description="Kolik přihlášek je možno přijmout nad maximální kapacitu před uzavřením přihlášek."
                 >
-                    <Input type="number" {...register("allowedOver", { valueAsNumber: true })} />
+                    <Input type="number" {...register("allowedOver", { valueAsNumber: true, required: true })} />
                 </Row>
                 <Row
                     title="Přihlášení v provozu"
                     description="Zda je přihlášení veřejně přístupné."
                 >
-                    <Switch {...register("signUpAllowed")} />
+                    <Switch {...register("signUpAllowed", { required: true })} />
                 </Row>
                 <Row title="Datum zahájení"
                      description="Datum od kdy se berou přihlášky">
-                    <Input type="date" {...register("signUpFrom")} required />
+                    <Input type="date" {...register("signUpFrom", {
+                        required: true
+                    })} required />
                 </Row>
                 <Row title="Konečné datum"
                      description="Datum kdy se uzavřou přihlášky">
                     <FormControl isInvalid={!!formState.errors.signUpUntil}>
                         <Input type="date" {...register("signUpUntil", {
+                            required: true,
                             validate: value => {
                                 const signUpFromDate = DateTime.fromISO(getValues().signUpFrom)
                                 const signUpUntilDate = DateTime.fromISO(value)
