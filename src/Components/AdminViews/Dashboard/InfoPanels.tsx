@@ -6,7 +6,6 @@ import { ReporterContext } from "../../Error/Reporter"
 
 function InfoBoxRow({ left, right }: { left: string | number, right: string | number | undefined }) {
     const context = useContext(InfoContext)
-    console.log(context)
 
     return <Grid templateColumns="1fr 1fr" fontWeight="bold" lineHeight="30px">
         <GridItem justifySelf="start">{left}</GridItem>

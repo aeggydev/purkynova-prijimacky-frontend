@@ -28,7 +28,6 @@ export default function Form() {
 
     async function submit() {
         const mutation = await addMutation()
-        console.log(`id: ${mutation.data?.addParticipant.id}`)
     }
 
 
