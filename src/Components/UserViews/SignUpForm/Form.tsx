@@ -1,52 +1,61 @@
 import ShadowBox from "../../Containers/ShadowBox"
 import { IconType, InfoButton } from "./InfoPopup"
-import { Box, Button } from "@chakra-ui/react"
-import FormField from "./FormField"
+import { Box, Button, FormControl, Input } from "@chakra-ui/react"
 import { FormSubmitBg, TopbarDarkBg } from "../../../theme"
-import React, { useState } from "react"
+import React from "react"
 import { Row } from "../Form"
 import { NewParticipantInput, useNewParticipantMutation } from "../../../graphql/graphql"
-
-export const StateDefault: NewParticipantInput = {
-    participantName: "",
-    participantSurname: "",
-    school: "",
-    parentName: "",
-    parentSurname: "",
-    email: "",
-    phone: ""
-}
-export const FormContext = React.createContext([StateDefault, (x: typeof StateDefault) => {
-}])
+import { SubmitHandler, useForm } from "react-hook-form"
 
 export default function Form() {
-    const [state, setState] = useState(StateDefault)
-
-    const [addMutation, _] = useNewParticipantMutation({
-        variables: { addParticipant: state }
+    const { handleSubmit, register, formState: { isDirty, isValid, errors } } = useForm<NewParticipantInput>({
+        mode: "onChange"
     })
 
-    async function submit() {
-        const mutation = await addMutation()
+    const [addMutation] = useNewParticipantMutation()
+
+    const submit: SubmitHandler<NewParticipantInput> = async data => {
+        const mutation = await addMutation({
+            variables: { addParticipant: data }
+        })
     }
 
-
-    return <FormContext.Provider value={[state, setState]}>
-        <ShadowBox mx="4em" position="relative" alignContent="center">
+    return <ShadowBox mx="4em" position="relative" alignContent="center">
+        <form onSubmit={handleSubmit(submit)}>
             <InfoButton icon={IconType.questionMark} position="absolute" top="10px" right="10px">
                 V případě jakýchkoliv problémů s přihláškou nás neváhejte <u>kontaktovat</u>.
             </InfoButton>
-            <Box display="grid" gridTemplateColumns="1fr 5%">
+            <Box display="grid" gridTemplateColumns="1fr 5%" gridGap="1rem">
                 <Row row={1}>
-                    <FormField label="Jméno účastníka" fieldName="participantName" />
-                    <FormField label="Příjmení účastníka" fieldName="participantSurname" />
+                    <FormControl isInvalid={!!errors.participantName}>
+                        <Input placeholder="Jméno účastníka" {...register("participantName", {
+                            required: true
+                        })} shadow="md" />
+                    </FormControl>
+                    <FormControl isInvalid={!!errors.participantSurname}>
+                        <Input placeholder="Příjmení účastníka" {...register("participantSurname", {
+                            required: true
+                        })} shadow="md" />
+                    </FormControl>
                 </Row>
                 <Row row={2}>
-                    <FormField label="Základní škola, obec" mb="2.5em" fieldName="school" />
+                    <FormControl isInvalid={!!errors.school}>
+                        <Input placeholder="Základní škola, obec" {...register("school", {
+                            required: true
+                        })} shadow="md" />
+                    </FormControl>
                 </Row>
                 <Row row={3}>
-                    <FormField label="Jméno zákonného zástupce" fieldName="parentName" />
-                    <FormField label="Příjmení zákonného zástupce" fieldName="parentSurname" />
+                    <FormControl isInvalid={!!errors.parentName}>
+                        <Input placeholder="Jméno zákonného zástipce" {...register("parentName", {
+                            required: true
+                        })} shadow="md" />
+                    </FormControl>
+                    <FormControl isInvalid={!!errors.parentSurname}>
+                        <Input placeholder="Příjmení zákonného zástupce" {...register("parentSurname", {
+                            required: true
+                        })} shadow="md" />
+                    </FormControl>
                 </Row>
                 <InfoButton icon={IconType.exclamationPoint} pt="0.5em" gridRow={3}>
                     V případě, že už jste plnoletí, vyplňte do polí pro zákonného zástupce své jméno, e&#8209;mail a
@@ -54,20 +63,28 @@ export default function Form() {
                     číslo. {/* TODO: replace escape sequence with css solution */}
                 </InfoButton>
                 <Row row={4}>
-                    <FormField label="E-Mail zákonného zástupce" fieldName="email" />
+                    <FormControl isInvalid={!!errors.email}>
+                        <Input type="email" placeholder="E-Mail zákonného zástupce" {...register("email", {
+                            required: true
+                        })} shadow="md" />
+                    </FormControl>
                 </Row>
                 <Row row={5}>
-                    <FormField label="Telefonní číslo zákonného zástupce" fieldName="phone" />
-                    {/* TODO: add checking of phone numbers */}
-                    {/* TODO: should automatically fill in +420 */}
+                    <FormControl isInvalid={!!errors.phone}>
+                        <Input type="tel" placeholder="Telefonní číslo zákonného zástupce" {...register("phone", {
+                            required: true
+                        })} shadow="md" />
+                    </FormControl>
                 </Row>
                 <InfoButton icon={IconType.exclamationPoint} pt="0.5em" gridRow={5}>
                     Telefonní číslo je pouze sekundární forma komunikace. Je možné zadat pouze čísla s českou předvolbou
                     +420.
                 </InfoButton>
             </Box>
-            <Button bg={FormSubmitBg} mt="2em" _hover={{ bg: TopbarDarkBg }} color="white" onClick={submit}>ODESLAT
-                PŘIHLÁŠKU</Button>
-        </ShadowBox>
-    </FormContext.Provider>
+            <Button type="submit" disabled={!isValid || !isDirty}
+                    bg={FormSubmitBg} mt="2em" _hover={{ bg: TopbarDarkBg }} color="white">
+                ODESLAT PŘIHLÁŠKU
+            </Button>
+        </form>
+    </ShadowBox>
 }
