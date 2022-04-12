@@ -6,7 +6,6 @@ import React, { useEffect } from "react"
 import { AdminRoutes, UserRoutes } from "./Routes"
 import { Box } from "@chakra-ui/react"
 import Reporter from "./Components/Error/Reporter"
-import { Login } from "./Components/Layout/Login"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "./store/store"
 import { setLoggedIn } from "./store/login"
@@ -43,7 +42,6 @@ function App() {
                 <GlobalStyle />
                 <CssBaseline />
                 <Box id="route-component" height="100%" display="flex" flexDir="column">
-                    {loginState.showLogin && <Login />}
                     <Header isAdmin={loginState.loggedIn} />
                     <Switch>
                         <Route path="/" exact>
