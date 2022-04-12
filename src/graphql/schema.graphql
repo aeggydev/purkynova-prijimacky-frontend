@@ -48,12 +48,15 @@ input LoginInfoInput {
 type Settings {
     id: Int!
     signUpAllowed: Boolean!
+    signUpUntil: Date!
+    signUpFrom: Date!
     capacity: Int!
     allowedOver: Int!
 }
 
 type Statistics {
     totalSignups: Int!
+    capacity: Int!
     remainingCapacity: Int!
     remainingCapacityOver: Int!
     removedSignups: Int!
@@ -89,7 +92,14 @@ input UpdateSettingsInput {
     signUpAllowed: Boolean!
     capacity: Int!
     allowedOver: Int!
+    signUpUntil: Date!
+    signUpFrom: Date!
 }
+
+"""
+The `Date` scalar represents an ISO-8601 compliant date type.
+"""
+scalar Date
 
 """
 The `DateTime` scalar represents an ISO-8601 compliant date time type.

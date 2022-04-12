@@ -35,7 +35,7 @@ mutation UpdateParticipants($updateParticipants: [UpdateParticipantsItemInput!]!
 }
 
 fragment Settings on Settings {
-    allowedOver, capacity, signUpAllowed
+    allowedOver, capacity, signUpAllowed, signUpUntil, signUpFrom
 }
 query GetSettings {
     settings {
@@ -52,7 +52,7 @@ query Login($username: String!, $password: String!) {
 }
 
 fragment Statistics on Statistics {
-    remainingCapacity, remainingCapacityOver, removedSignups, totalSignups
+    remainingCapacity, remainingCapacityOver, removedSignups, totalSignups, capacity
 }
 query GetStatistics {
     statistics {

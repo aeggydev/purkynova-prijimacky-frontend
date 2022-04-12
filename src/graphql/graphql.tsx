@@ -14,6 +14,8 @@ export type Scalars = {
     Boolean: boolean;
     Int: number;
     Float: number;
+    /** The `Date` scalar represents an ISO-8601 compliant date type. */
+    Date: any;
     /** The `DateTime` scalar represents an ISO-8601 compliant date time type. */
     DateTime: any;
 };
@@ -120,10 +122,13 @@ export type Settings = {
     capacity: Scalars["Int"];
     id: Scalars["Int"];
     signUpAllowed: Scalars["Boolean"];
+    signUpFrom: Scalars["Date"];
+    signUpUntil: Scalars["Date"];
 };
 
 export type Statistics = {
     __typename?: "Statistics";
+    capacity: Scalars["Int"];
     remainingCapacity: Scalars["Int"];
     remainingCapacityOver: Scalars["Int"];
     removedSignups: Scalars["Int"];
@@ -150,6 +155,8 @@ export type UpdateSettingsInput = {
     allowedOver: Scalars["Int"];
     capacity: Scalars["Int"];
     signUpAllowed: Scalars["Boolean"];
+    signUpFrom: Scalars["Date"];
+    signUpUntil: Scalars["Date"];
 };
 
 export type TableParticipantFragment = { __typename?: "Participant", id: number, ip: string, school: string, email: string, phone: string, variableSymbol: string, parentName: string, parentSurname: string, participantName: string, participantSurname: string, signUpDate: any, paidDate?: any | null, dueDate: any, isOver: boolean, isPaid: boolean, status: ParticipantStatus, creationNotified: boolean, cancelationNotified: boolean, paidNotified: boolean };
@@ -181,19 +188,19 @@ export type UpdateParticipantsMutationVariables = Exact<{
 
 export type UpdateParticipantsMutation = { __typename?: "Mutation", updateParticipants: Array<{ __typename?: "Participant", id: number, ip: string, school: string, email: string, phone: string, variableSymbol: string, parentName: string, parentSurname: string, participantName: string, participantSurname: string, signUpDate: any, paidDate?: any | null, dueDate: any, isOver: boolean, isPaid: boolean, status: ParticipantStatus, creationNotified: boolean, cancelationNotified: boolean, paidNotified: boolean }> };
 
-export type SettingsFragment = { __typename?: "Settings", allowedOver: number, capacity: number, signUpAllowed: boolean };
+export type SettingsFragment = { __typename?: "Settings", allowedOver: number, capacity: number, signUpAllowed: boolean, signUpUntil: any, signUpFrom: any };
 
 export type GetSettingsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetSettingsQuery = { __typename?: "Query", settings: { __typename?: "Settings", allowedOver: number, capacity: number, signUpAllowed: boolean } };
+export type GetSettingsQuery = { __typename?: "Query", settings: { __typename?: "Settings", allowedOver: number, capacity: number, signUpAllowed: boolean, signUpUntil: any, signUpFrom: any } };
 
 export type UpdateSettingsMutationVariables = Exact<{
     updateSettings: UpdateSettingsInput;
 }>;
 
 
-export type UpdateSettingsMutation = { __typename?: "Mutation", updateSettings: { __typename?: "Settings", allowedOver: number, capacity: number, signUpAllowed: boolean } };
+export type UpdateSettingsMutation = { __typename?: "Mutation", updateSettings: { __typename?: "Settings", allowedOver: number, capacity: number, signUpAllowed: boolean, signUpUntil: any, signUpFrom: any } };
 
 export type LoginQueryVariables = Exact<{
     username: Scalars["String"];
@@ -203,12 +210,12 @@ export type LoginQueryVariables = Exact<{
 
 export type LoginQuery = { __typename?: "Query", login: string };
 
-export type StatisticsFragment = { __typename?: "Statistics", remainingCapacity: number, remainingCapacityOver: number, removedSignups: number, totalSignups: number };
+export type StatisticsFragment = { __typename?: "Statistics", remainingCapacity: number, remainingCapacityOver: number, removedSignups: number, totalSignups: number, capacity: number };
 
 export type GetStatisticsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetStatisticsQuery = { __typename?: "Query", statistics: { __typename?: "Statistics", remainingCapacity: number, remainingCapacityOver: number, removedSignups: number, totalSignups: number } };
+export type GetStatisticsQuery = { __typename?: "Query", statistics: { __typename?: "Statistics", remainingCapacity: number, remainingCapacityOver: number, removedSignups: number, totalSignups: number, capacity: number } };
 
 export const TableParticipantFragmentDoc = gql`
     fragment TableParticipant on Participant {
@@ -238,6 +245,8 @@ export const SettingsFragmentDoc = gql`
         allowedOver
         capacity
         signUpAllowed
+        signUpUntil
+        signUpFrom
     }
 `
 export const StatisticsFragmentDoc = gql`
@@ -246,6 +255,7 @@ export const StatisticsFragmentDoc = gql`
         remainingCapacityOver
         removedSignups
         totalSignups
+        capacity
     }
 `
 export const GetParticipantsDocument = gql`

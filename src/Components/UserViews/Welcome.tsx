@@ -2,7 +2,7 @@ import styled from "styled-components"
 import React from "react"
 import ContentContainer from "../Containers/ContentContainer"
 import ShadowBox from "../Containers/ShadowBox"
-import { DummyApplicationCount } from "./Reusable/ApplicationCount"
+import ApplicationCount from "./Reusable/ApplicationCount"
 
 const Paragraph = styled.p`
   margin-bottom: 1em;
@@ -13,7 +13,7 @@ const Paragraph = styled.p`
 // TODO: Add support for narrower layouts
 export default function Welcome() {
     return <ContentContainer>
-        <DummyApplicationCount />
+        <ApplicationCount />
         <ShadowBox>
             <Paragraph style={{ fontWeight: "bold", fontSize: "22px", marginBottom: "2em" }}>Přijímačky na střední
                 školu? Bez

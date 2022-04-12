@@ -10,6 +10,8 @@ interface IFormInputs {
     capacity: number
     allowedOver: number
     signUpAllowed: boolean
+    signUpUntil: string
+    signUpFrom: string
 }
 
 export function Settings() {
@@ -51,6 +53,14 @@ export function Settings() {
                     description="Zda je přihlášení veřejně přístupné."
                 >
                     <Switch {...register("signUpAllowed")} />
+                </Row>
+                <Row title="Datum zahájení"
+                     description="Datum od kdy se berou přihlášky">
+                    <Input type="date" {...register("signUpFrom")} />
+                </Row>
+                <Row title="Konečné datum"
+                     description="Datum kdy se uzavřou přihlášky">
+                    <Input type="date" {...register("signUpUntil")} />
                 </Row>
                 <Button type="submit" disabled={!dirty}
                         justifySelf="end" mt="6" mr="6">Uložit změny</Button>
