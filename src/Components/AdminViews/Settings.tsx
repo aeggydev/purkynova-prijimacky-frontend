@@ -2,9 +2,10 @@ import ContentContainer from "../Containers/ContentContainer"
 import React, { PropsWithChildren } from "react"
 import styled from "styled-components"
 import ShadowBox from "../Containers/ShadowBox"
-import { Button, Input, Switch } from "@chakra-ui/react"
+import { Button, FormControl, FormErrorMessage, Input, Switch } from "@chakra-ui/react"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { useGetSettingsQuery, useUpdateSettingsMutation } from "../../graphql/graphql"
+import { DateTime } from "luxon"
 
 interface IFormInputs {
     capacity: number
@@ -24,7 +25,7 @@ export function Settings() {
     })
     const { __typename: _, ...initialData } = data!.settings
     if (loading) return <p>Loading!</p>
-    const { register, handleSubmit, formState, reset } = useForm<IFormInputs>({
+    const { register, handleSubmit, formState, reset, getValues } = useForm<IFormInputs>({
         defaultValues: initialData
     })
     const onSubmit: SubmitHandler<IFormInputs> = submitData => {
@@ -56,11 +57,25 @@ export function Settings() {
                 </Row>
                 <Row title="Datum zahájení"
                      description="Datum od kdy se berou přihlášky">
-                    <Input type="date" {...register("signUpFrom")} />
+                    <Input type="date" {...register("signUpFrom")} required />
                 </Row>
                 <Row title="Konečné datum"
                      description="Datum kdy se uzavřou přihlášky">
-                    <Input type="date" {...register("signUpUntil")} />
+                    <FormControl isInvalid={!!formState.errors.signUpUntil}>
+                        <Input type="date" {...register("signUpUntil", {
+                            validate: value => {
+                                const signUpFromDate = DateTime.fromISO(getValues().signUpFrom)
+                                const signUpUntilDate = DateTime.fromISO(value)
+                                const validated = signUpUntilDate.toSeconds() > signUpFromDate.toSeconds()
+                                if (!validated) {
+                                    return "Datum musí být větší než datum zahájení"
+                                }
+                            }
+                        })} required />
+                        {formState.errors?.signUpUntil
+                            ? <FormErrorMessage>{formState.errors.signUpUntil!.message}</FormErrorMessage>
+                            : ""}
+                    </FormControl>
                 </Row>
                 <Button type="submit" disabled={!dirty}
                         justifySelf="end" mt="6" mr="6">Uložit změny</Button>
