@@ -1,5 +1,4 @@
 import Header from "./Components/Layout/Header"
-import { CssBaseline } from "@mui/material"
 import { Redirect, Route, Switch, useHistory } from "react-router-dom"
 import { createGlobalStyle } from "styled-components"
 import React, { useEffect } from "react"
@@ -40,7 +39,6 @@ function App() {
         <Reporter>
             <Box h="100%">
                 <GlobalStyle />
-                <CssBaseline />
                 <Box id="route-component" height="100%" display="flex" flexDir="column">
                     <Header isAdmin={loginState.loggedIn} />
                     <Switch>
