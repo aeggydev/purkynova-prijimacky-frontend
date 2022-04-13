@@ -1,5 +1,7 @@
 import {
+    GetEmailStatisticsDocument,
     GetParticipantsDocument,
+    GetStatisticsDocument,
     Participant,
     ParticipantStatus,
     useForceCancelationStatusMutation,
@@ -42,10 +44,10 @@ export function TableRow({ i, participant }: { i: number, participant: Participa
     const { isOpen: deleteIsOpen, onOpen: deleteOnOpen, onClose: deleteOnClose } = useDisclosure()
     const deleteRef = useRef<any>()
     const [removeParticipantMutation] = useRemoveParticipantMutation({
-        refetchQueries: [GetParticipantsDocument]
+        refetchQueries: [GetParticipantsDocument, GetStatisticsDocument, GetEmailStatisticsDocument]
     })
     const [forceCancelationMutation] = useForceCancelationStatusMutation({
-        refetchQueries: [GetParticipantsDocument]
+        refetchQueries: [GetParticipantsDocument, GetEmailStatisticsDocument]
     })
 
     function notImplemented() {

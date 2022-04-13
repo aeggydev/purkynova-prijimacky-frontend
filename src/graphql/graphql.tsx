@@ -20,6 +20,16 @@ export type Scalars = {
     DateTime: any;
 };
 
+export type EmailStatistics = {
+    __typename?: "EmailStatistics";
+    accepted: Scalars["Int"];
+    canceled: Scalars["Int"];
+    waitingForPayment: Scalars["Int"];
+    withoutCancelationConfirmationEmail: Scalars["Int"];
+    withoutEmailNotifyingOfFreeSpot: Scalars["Int"];
+    withoutPaymentConfirmationEmail: Scalars["Int"];
+};
+
 export type LoginInfoInput = {
     password: Scalars["String"];
     username: Scalars["String"];
@@ -130,6 +140,7 @@ export enum ParticipantStatus {
 
 export type Query = {
     __typename?: "Query";
+    emailStatistics: EmailStatistics;
     login: Scalars["String"];
     participants: Array<Participant>;
     settings: Settings;
@@ -185,6 +196,13 @@ export type UpdateSettingsInput = {
 };
 
 export type TableParticipantFragment = { __typename?: "Participant", id: number, ip: string, school: string, email: string, phone: string, variableSymbol: string, parentName: string, parentSurname: string, participantName: string, participantSurname: string, signUpDate: any, paidDate?: any | null, dueDate: any, isOver: boolean, isPaid: boolean, status: ParticipantStatus, creationNotified: boolean, cancelationNotified: boolean, paidNotified: boolean };
+
+export type EmailStatisticsFragment = { __typename?: "EmailStatistics", accepted: number, canceled: number, waitingForPayment: number, withoutCancelationConfirmationEmail: number, withoutEmailNotifyingOfFreeSpot: number, withoutPaymentConfirmationEmail: number };
+
+export type GetEmailStatisticsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetEmailStatisticsQuery = { __typename?: "Query", emailStatistics: { __typename?: "EmailStatistics", accepted: number, canceled: number, waitingForPayment: number, withoutCancelationConfirmationEmail: number, withoutEmailNotifyingOfFreeSpot: number, withoutPaymentConfirmationEmail: number } };
 
 export type GetParticipantsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -294,6 +312,16 @@ export const TableParticipantFragmentDoc = gql`
         paidNotified
     }
 `
+export const EmailStatisticsFragmentDoc = gql`
+    fragment EmailStatistics on EmailStatistics {
+        accepted
+        canceled
+        waitingForPayment
+        withoutCancelationConfirmationEmail
+        withoutEmailNotifyingOfFreeSpot
+        withoutPaymentConfirmationEmail
+    }
+`
 export const SettingsFragmentDoc = gql`
     fragment Settings on Settings {
         allowedOver
@@ -312,6 +340,42 @@ export const StatisticsFragmentDoc = gql`
         capacity
     }
 `
+export const GetEmailStatisticsDocument = gql`
+    query GetEmailStatistics {
+        emailStatistics {
+            ...EmailStatistics
+        }
+    }
+${EmailStatisticsFragmentDoc}`
+
+/**
+ * __useGetEmailStatisticsQuery__
+ *
+ * To run a query within a React component, call `useGetEmailStatisticsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetEmailStatisticsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetEmailStatisticsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetEmailStatisticsQuery(baseOptions?: Apollo.QueryHookOptions<GetEmailStatisticsQuery, GetEmailStatisticsQueryVariables>) {
+    const options = { ...defaultOptions, ...baseOptions }
+    return Apollo.useQuery<GetEmailStatisticsQuery, GetEmailStatisticsQueryVariables>(GetEmailStatisticsDocument, options)
+}
+
+export function useGetEmailStatisticsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetEmailStatisticsQuery, GetEmailStatisticsQueryVariables>) {
+    const options = { ...defaultOptions, ...baseOptions }
+    return Apollo.useLazyQuery<GetEmailStatisticsQuery, GetEmailStatisticsQueryVariables>(GetEmailStatisticsDocument, options)
+}
+
+export type GetEmailStatisticsQueryHookResult = ReturnType<typeof useGetEmailStatisticsQuery>;
+export type GetEmailStatisticsLazyQueryHookResult = ReturnType<typeof useGetEmailStatisticsLazyQuery>;
+export type GetEmailStatisticsQueryResult = Apollo.QueryResult<GetEmailStatisticsQuery, GetEmailStatisticsQueryVariables>;
 export const GetParticipantsDocument = gql`
     query GetParticipants {
         participants {
@@ -603,7 +667,6 @@ export function useConfirmLateCancelMutation(baseOptions?: Apollo.MutationHookOp
     const options = { ...defaultOptions, ...baseOptions }
     return Apollo.useMutation<ConfirmLateCancelMutation, ConfirmLateCancelMutationVariables>(ConfirmLateCancelDocument, options)
 }
-
 export type ConfirmLateCancelMutationHookResult = ReturnType<typeof useConfirmLateCancelMutation>;
 export type ConfirmLateCancelMutationResult = Apollo.MutationResult<ConfirmLateCancelMutation>;
 export type ConfirmLateCancelMutationOptions = Apollo.BaseMutationOptions<ConfirmLateCancelMutation, ConfirmLateCancelMutationVariables>;
@@ -636,7 +699,6 @@ export function useForceCancelationStatusMutation(baseOptions?: Apollo.MutationH
     const options = { ...defaultOptions, ...baseOptions }
     return Apollo.useMutation<ForceCancelationStatusMutation, ForceCancelationStatusMutationVariables>(ForceCancelationStatusDocument, options)
 }
-
 export type ForceCancelationStatusMutationHookResult = ReturnType<typeof useForceCancelationStatusMutation>;
 export type ForceCancelationStatusMutationResult = Apollo.MutationResult<ForceCancelationStatusMutation>;
 export type ForceCancelationStatusMutationOptions = Apollo.BaseMutationOptions<ForceCancelationStatusMutation, ForceCancelationStatusMutationVariables>;

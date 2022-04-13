@@ -3,6 +3,7 @@ type Query {
     participants: [Participant!]!
     settings: Settings!
     statistics: Statistics!
+    emailStatistics: EmailStatistics!
 }
 
 type Mutation {
@@ -64,6 +65,15 @@ type Statistics {
     remainingCapacity: Int!
     remainingCapacityOver: Int!
     removedSignups: Int!
+}
+
+type EmailStatistics {
+    accepted: Int!
+    withoutPaymentConfirmationEmail: Int!
+    withoutCancelationConfirmationEmail: Int!
+    waitingForPayment: Int!
+    canceled: Int!
+    withoutEmailNotifyingOfFreeSpot: Int!
 }
 
 input NewParticipantInput {

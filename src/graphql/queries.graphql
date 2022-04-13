@@ -12,6 +12,17 @@ fragment TableParticipant on Participant {
     isOver, isPaid, status
     creationNotified, cancelationNotified, paidNotified
 }
+fragment EmailStatistics on EmailStatistics {
+    accepted, canceled, waitingForPayment,
+    withoutCancelationConfirmationEmail,
+    withoutEmailNotifyingOfFreeSpot,
+    withoutPaymentConfirmationEmail
+}
+query GetEmailStatistics {
+    emailStatistics {
+        ...EmailStatistics
+    }
+}
 
 query GetParticipants {
     participants {
