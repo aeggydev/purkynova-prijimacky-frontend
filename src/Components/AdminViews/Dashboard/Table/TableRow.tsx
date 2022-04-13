@@ -106,7 +106,7 @@ export function TableRow({ i, participant }: { i: number, participant: Participa
             <BindCellDateStatic index="dueDate" />
             <BindCellDateStatic index="paidDate" />
             <Cell>
-                <Tooltip hasArrow label={status.tooltip}>
+                <Tooltip hasArrow placement="left" label={status.tooltip}>
                     <Button size="sm" mx="1em" px="1.75em" bg={status.color}
                             onClick={() => status.execute(participant, apollo)}>
                         {status.icon}
