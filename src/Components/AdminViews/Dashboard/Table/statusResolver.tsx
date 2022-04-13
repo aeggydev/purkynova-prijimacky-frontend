@@ -1,6 +1,7 @@
 import {
     ConfirmLateCancelDocument,
     ConfirmPaymentDocument,
+    GetEmailStatisticsDocument,
     GetParticipantsDocument,
     Participant,
     ParticipantStatus
@@ -61,7 +62,7 @@ export function Resolve(participant: Participant): IResolved {
                         variables: {
                             id: participant.id
                         },
-                        refetchQueries: [GetParticipantsDocument]
+                        refetchQueries: [GetParticipantsDocument, GetEmailStatisticsDocument]
                     })
                     return data.data as boolean
                 }
@@ -84,7 +85,7 @@ export function Resolve(participant: Participant): IResolved {
                         variables: {
                             id: participant.id
                         },
-                        refetchQueries: [GetParticipantsDocument]
+                        refetchQueries: [GetParticipantsDocument, GetEmailStatisticsDocument]
                     })
                     return data.data as boolean
                 }
