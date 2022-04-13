@@ -30,12 +30,14 @@ import { usePrevious } from "../../../../hooks/usePrevious"
 import { DateTime } from "luxon"
 import { CloseIcon, DeleteIcon, EditIcon, SettingsIcon } from "@chakra-ui/icons"
 import { Resolve } from "./statusResolver"
+import { useApolloClient } from "@apollo/client"
 
 type ContextType = { participant: Participant }
 const RowContext = React.createContext<ContextType>({} as ContextType)
 
 export function TableRow({ i, participant }: { i: number, participant: Participant }) {
     const toast = useToast()
+    const apollo = useApolloClient()
     const { isOpen: deleteIsOpen, onOpen: deleteOnOpen, onClose: deleteOnClose } = useDisclosure()
     const deleteRef = useRef<any>()
     const [removeParticipantMutation] = useRemoveParticipantMutation({
@@ -93,7 +95,8 @@ export function TableRow({ i, participant }: { i: number, participant: Participa
             <BindCellDateStatic index="paidDate" />
             <Cell>
                 <Tooltip hasArrow label={status.tooltip}>
-                    <Button size="sm" mx="1em" px="1.75em" bg={status.color}>
+                    <Button size="sm" mx="1em" px="1.75em" bg={status.color}
+                            onClick={() => status.execute(participant, apollo)}>
                         {status.icon}
                     </Button>
                 </Tooltip>

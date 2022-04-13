@@ -50,6 +50,9 @@ mutation UpdateSettings($updateSettings: UpdateSettingsInput!) {
 mutation RemoveParticipant($id: Int!) {
     removeParticipant(id: $id)
 }
+mutation ConfirmPayment($id: Int!) {
+    confirmPayment(id: $id)
+}
 query Login($username: String!, $password: String!) {
     login(login: {username: $username, password: $password})
 }

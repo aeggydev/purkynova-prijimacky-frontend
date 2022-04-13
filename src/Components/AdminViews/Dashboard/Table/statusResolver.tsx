@@ -1,14 +1,20 @@
-import { Participant, ParticipantStatus } from "../../../../graphql/graphql"
+import {
+    ConfirmPaymentDocument,
+    GetParticipantsDocument,
+    Participant,
+    ParticipantStatus
+} from "../../../../graphql/graphql"
 import { Canceled, Confirmed, Normal, Paid, Unpaid, UnpaidLate } from "../../../../Icons/ParticipantStatus"
+import { ApolloClient } from "@apollo/client"
 
 export interface IResolved {
     color: string // Hex code
     icon: JSX.Element
     tooltip: string
-    execute: (participant: Participant) => boolean // Successful or not
+    execute: (participant: Participant, apollo: ApolloClient<object>) => Promise<boolean>
 }
 
-const notImplemented: IResolved["execute"] = participant => {
+const notImplemented: IResolved["execute"] = async participant => {
     console.log(participant)
     return true
 }
@@ -48,7 +54,16 @@ export function Resolve(participant: Participant): IResolved {
                 color: "#F5DB00",
                 icon: Paid,
                 tooltip: "Email potvrzující platba ještě nebyl poslán",
-                execute: notImplemented
+                execute: async (participant, apollo) => {
+                    const data = await apollo.mutate({
+                        mutation: ConfirmPaymentDocument,
+                        variables: {
+                            id: participant.id
+                        },
+                        refetchQueries: [GetParticipantsDocument]
+                    })
+                    return data.data as boolean
+                }
             }
         case ParticipantStatus.Unpaid:
             return {

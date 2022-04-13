@@ -17,6 +17,7 @@ type Mutation {
     updateSettings(updateSettings: UpdateSettingsInput!): Settings!
     addAdmin(login: LoginInfoInput!): Int!
     removeParticipant(id: Int!): Boolean!
+    confirmPayment(id: Int!): Boolean!
 }
 
 type Participant {

@@ -29,6 +29,7 @@ export type Mutation = {
     __typename?: "Mutation";
     addAdmin: Scalars["Int"];
     addParticipant: Participant;
+    confirmPayment: Scalars["Boolean"];
     removeParticipant: Scalars["Boolean"];
     updateParticipant: Participant;
     updateParticipants: Array<Participant>;
@@ -43,6 +44,11 @@ export type MutationAddAdminArgs = {
 
 export type MutationAddParticipantArgs = {
     newParticipant: NewParticipantInput;
+};
+
+
+export type MutationConfirmPaymentArgs = {
+    id: Scalars["Int"];
 };
 
 
@@ -214,6 +220,13 @@ export type RemoveParticipantMutationVariables = Exact<{
 
 
 export type RemoveParticipantMutation = { __typename?: "Mutation", removeParticipant: boolean };
+
+export type ConfirmPaymentMutationVariables = Exact<{
+    id: Scalars["Int"];
+}>;
+
+
+export type ConfirmPaymentMutation = { __typename?: "Mutation", confirmPayment: boolean };
 
 export type LoginQueryVariables = Exact<{
     username: Scalars["String"];
@@ -469,7 +482,6 @@ export function useUpdateSettingsMutation(baseOptions?: Apollo.MutationHookOptio
     const options = { ...defaultOptions, ...baseOptions }
     return Apollo.useMutation<UpdateSettingsMutation, UpdateSettingsMutationVariables>(UpdateSettingsDocument, options)
 }
-
 export type UpdateSettingsMutationHookResult = ReturnType<typeof useUpdateSettingsMutation>;
 export type UpdateSettingsMutationResult = Apollo.MutationResult<UpdateSettingsMutation>;
 export type UpdateSettingsMutationOptions = Apollo.BaseMutationOptions<UpdateSettingsMutation, UpdateSettingsMutationVariables>;
@@ -505,6 +517,38 @@ export function useRemoveParticipantMutation(baseOptions?: Apollo.MutationHookOp
 export type RemoveParticipantMutationHookResult = ReturnType<typeof useRemoveParticipantMutation>;
 export type RemoveParticipantMutationResult = Apollo.MutationResult<RemoveParticipantMutation>;
 export type RemoveParticipantMutationOptions = Apollo.BaseMutationOptions<RemoveParticipantMutation, RemoveParticipantMutationVariables>;
+export const ConfirmPaymentDocument = gql`
+    mutation ConfirmPayment($id: Int!) {
+        confirmPayment(id: $id)
+    }
+`
+export type ConfirmPaymentMutationFn = Apollo.MutationFunction<ConfirmPaymentMutation, ConfirmPaymentMutationVariables>;
+
+/**
+ * __useConfirmPaymentMutation__
+ *
+ * To run a mutation, you first call `useConfirmPaymentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useConfirmPaymentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [confirmPaymentMutation, { data, loading, error }] = useConfirmPaymentMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useConfirmPaymentMutation(baseOptions?: Apollo.MutationHookOptions<ConfirmPaymentMutation, ConfirmPaymentMutationVariables>) {
+    const options = { ...defaultOptions, ...baseOptions }
+    return Apollo.useMutation<ConfirmPaymentMutation, ConfirmPaymentMutationVariables>(ConfirmPaymentDocument, options)
+}
+
+export type ConfirmPaymentMutationHookResult = ReturnType<typeof useConfirmPaymentMutation>;
+export type ConfirmPaymentMutationResult = Apollo.MutationResult<ConfirmPaymentMutation>;
+export type ConfirmPaymentMutationOptions = Apollo.BaseMutationOptions<ConfirmPaymentMutation, ConfirmPaymentMutationVariables>;
 export const LoginDocument = gql`
     query Login($username: String!, $password: String!) {
         login(login: {username: $username, password: $password})
