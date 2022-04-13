@@ -18,6 +18,7 @@ type Mutation {
     addAdmin(login: LoginInfoInput!): Int!
     removeParticipant(id: Int!): Boolean!
     confirmPayment(id: Int!): Boolean!
+    confirmLateCancel(id: Int!): Boolean!
 }
 
 type Participant {

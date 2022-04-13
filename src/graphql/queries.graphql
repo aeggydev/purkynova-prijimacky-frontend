@@ -53,6 +53,9 @@ mutation RemoveParticipant($id: Int!) {
 mutation ConfirmPayment($id: Int!) {
     confirmPayment(id: $id)
 }
+mutation ConfirmLateCancel($id: Int!) {
+    confirmLateCancel(id: $id)
+}
 query Login($username: String!, $password: String!) {
     login(login: {username: $username, password: $password})
 }

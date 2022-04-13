@@ -29,6 +29,7 @@ export type Mutation = {
     __typename?: "Mutation";
     addAdmin: Scalars["Int"];
     addParticipant: Participant;
+    confirmLateCancel: Scalars["Boolean"];
     confirmPayment: Scalars["Boolean"];
     removeParticipant: Scalars["Boolean"];
     updateParticipant: Participant;
@@ -44,6 +45,11 @@ export type MutationAddAdminArgs = {
 
 export type MutationAddParticipantArgs = {
     newParticipant: NewParticipantInput;
+};
+
+
+export type MutationConfirmLateCancelArgs = {
+    id: Scalars["Int"];
 };
 
 
@@ -227,6 +233,13 @@ export type ConfirmPaymentMutationVariables = Exact<{
 
 
 export type ConfirmPaymentMutation = { __typename?: "Mutation", confirmPayment: boolean };
+
+export type ConfirmLateCancelMutationVariables = Exact<{
+    id: Scalars["Int"];
+}>;
+
+
+export type ConfirmLateCancelMutation = { __typename?: "Mutation", confirmLateCancel: boolean };
 
 export type LoginQueryVariables = Exact<{
     username: Scalars["String"];
@@ -513,7 +526,6 @@ export function useRemoveParticipantMutation(baseOptions?: Apollo.MutationHookOp
     const options = { ...defaultOptions, ...baseOptions }
     return Apollo.useMutation<RemoveParticipantMutation, RemoveParticipantMutationVariables>(RemoveParticipantDocument, options)
 }
-
 export type RemoveParticipantMutationHookResult = ReturnType<typeof useRemoveParticipantMutation>;
 export type RemoveParticipantMutationResult = Apollo.MutationResult<RemoveParticipantMutation>;
 export type RemoveParticipantMutationOptions = Apollo.BaseMutationOptions<RemoveParticipantMutation, RemoveParticipantMutationVariables>;
@@ -549,6 +561,38 @@ export function useConfirmPaymentMutation(baseOptions?: Apollo.MutationHookOptio
 export type ConfirmPaymentMutationHookResult = ReturnType<typeof useConfirmPaymentMutation>;
 export type ConfirmPaymentMutationResult = Apollo.MutationResult<ConfirmPaymentMutation>;
 export type ConfirmPaymentMutationOptions = Apollo.BaseMutationOptions<ConfirmPaymentMutation, ConfirmPaymentMutationVariables>;
+export const ConfirmLateCancelDocument = gql`
+    mutation ConfirmLateCancel($id: Int!) {
+        confirmLateCancel(id: $id)
+    }
+`
+export type ConfirmLateCancelMutationFn = Apollo.MutationFunction<ConfirmLateCancelMutation, ConfirmLateCancelMutationVariables>;
+
+/**
+ * __useConfirmLateCancelMutation__
+ *
+ * To run a mutation, you first call `useConfirmLateCancelMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useConfirmLateCancelMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [confirmLateCancelMutation, { data, loading, error }] = useConfirmLateCancelMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useConfirmLateCancelMutation(baseOptions?: Apollo.MutationHookOptions<ConfirmLateCancelMutation, ConfirmLateCancelMutationVariables>) {
+    const options = { ...defaultOptions, ...baseOptions }
+    return Apollo.useMutation<ConfirmLateCancelMutation, ConfirmLateCancelMutationVariables>(ConfirmLateCancelDocument, options)
+}
+
+export type ConfirmLateCancelMutationHookResult = ReturnType<typeof useConfirmLateCancelMutation>;
+export type ConfirmLateCancelMutationResult = Apollo.MutationResult<ConfirmLateCancelMutation>;
+export type ConfirmLateCancelMutationOptions = Apollo.BaseMutationOptions<ConfirmLateCancelMutation, ConfirmLateCancelMutationVariables>;
 export const LoginDocument = gql`
     query Login($username: String!, $password: String!) {
         login(login: {username: $username, password: $password})

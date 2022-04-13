@@ -1,4 +1,5 @@
 import {
+    ConfirmLateCancelDocument,
     ConfirmPaymentDocument,
     GetParticipantsDocument,
     Participant,
@@ -77,7 +78,16 @@ export function Resolve(participant: Participant): IResolved {
                 color: "#AC1821",
                 icon: UnpaidLate,
                 tooltip: "Účast nebyla včas zaplacena, čeká na posunutí datumu platby nebo zrušení",
-                execute: notImplemented
+                execute: async (participant, apollo) => {
+                    const data = await apollo.mutate({
+                        mutation: ConfirmLateCancelDocument,
+                        variables: {
+                            id: participant.id
+                        },
+                        refetchQueries: [GetParticipantsDocument]
+                    })
+                    return data.data as boolean
+                }
             }
     }
 }
