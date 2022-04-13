@@ -53,7 +53,7 @@ export function Settings() {
                     title="Přihlášení v provozu"
                     description="Zda je přihlášení veřejně přístupné."
                 >
-                    <Switch {...register("signUpAllowed", { required: true })} />
+                    <Switch {...register("signUpAllowed")} />
                 </Row>
                 <Row title="Datum zahájení"
                      description="Datum od kdy se berou přihlášky">
