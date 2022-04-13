@@ -47,6 +47,9 @@ mutation UpdateSettings($updateSettings: UpdateSettingsInput!) {
         ...Settings
     }
 }
+mutation RemoveParticipant($id: Int!) {
+    removeParticipant(id: $id)
+}
 query Login($username: String!, $password: String!) {
     login(login: {username: $username, password: $password})
 }

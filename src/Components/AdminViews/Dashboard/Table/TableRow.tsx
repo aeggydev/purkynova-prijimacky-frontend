@@ -1,4 +1,9 @@
-import { Participant, ParticipantStatus } from "../../../../graphql/graphql"
+import {
+    GetParticipantsDocument,
+    Participant,
+    ParticipantStatus,
+    useRemoveParticipantMutation
+} from "../../../../graphql/graphql"
 import React, { ChangeEvent, CSSProperties, PropsWithChildren, useContext, useEffect, useState } from "react"
 import styled from "styled-components"
 import { Box, Button, Menu, MenuButton, MenuItem, MenuList, useToast } from "@chakra-ui/react"
@@ -15,9 +20,16 @@ const RowContext = React.createContext<ContextType>({} as ContextType)
 
 export function TableRow({ i, participant }: { i: number, participant: Participant }) {
     const toast = useToast()
+    const [removeParticipantMutation] = useRemoveParticipantMutation({
+        refetchQueries: [GetParticipantsDocument]
+    })
 
     function notImplemented() {
         toast({ title: "Funkce není implementována", status: "error" })
+    }
+
+    function removeParticipant() {
+        removeParticipantMutation({ variables: { id: participant.id } })
     }
 
     let textColor = "black"
@@ -74,7 +86,7 @@ export function TableRow({ i, participant }: { i: number, participant: Participa
                     <MenuList zIndex={200}>
                         <MenuItem icon={<EditIcon />} onClick={notImplemented}>Ukázat poznámku</MenuItem>
                         <MenuItem icon={<CloseIcon />} onClick={notImplemented}>Zrušit přihlášku</MenuItem>
-                        <MenuItem icon={<DeleteIcon />} onClick={notImplemented}>Odstranit přihlášku</MenuItem>
+                        <MenuItem icon={<DeleteIcon />} onClick={removeParticipant}>Odstranit přihlášku</MenuItem>
                     </MenuList>
                 </Menu>
             </Cell>

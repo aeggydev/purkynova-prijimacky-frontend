@@ -29,6 +29,7 @@ export type Mutation = {
     __typename?: "Mutation";
     addAdmin: Scalars["Int"];
     addParticipant: Participant;
+    removeParticipant: Scalars["Boolean"];
     updateParticipant: Participant;
     updateParticipants: Array<Participant>;
     updateSettings: Settings;
@@ -42,6 +43,11 @@ export type MutationAddAdminArgs = {
 
 export type MutationAddParticipantArgs = {
     newParticipant: NewParticipantInput;
+};
+
+
+export type MutationRemoveParticipantArgs = {
+    id: Scalars["Int"];
 };
 
 
@@ -201,6 +207,13 @@ export type UpdateSettingsMutationVariables = Exact<{
 
 
 export type UpdateSettingsMutation = { __typename?: "Mutation", updateSettings: { __typename?: "Settings", allowedOver: number, capacity: number, signUpAllowed: boolean, signUpUntil: any, signUpFrom: any } };
+
+export type RemoveParticipantMutationVariables = Exact<{
+    id: Scalars["Int"];
+}>;
+
+
+export type RemoveParticipantMutation = { __typename?: "Mutation", removeParticipant: boolean };
 
 export type LoginQueryVariables = Exact<{
     username: Scalars["String"];
@@ -456,9 +469,42 @@ export function useUpdateSettingsMutation(baseOptions?: Apollo.MutationHookOptio
     const options = { ...defaultOptions, ...baseOptions }
     return Apollo.useMutation<UpdateSettingsMutation, UpdateSettingsMutationVariables>(UpdateSettingsDocument, options)
 }
+
 export type UpdateSettingsMutationHookResult = ReturnType<typeof useUpdateSettingsMutation>;
 export type UpdateSettingsMutationResult = Apollo.MutationResult<UpdateSettingsMutation>;
 export type UpdateSettingsMutationOptions = Apollo.BaseMutationOptions<UpdateSettingsMutation, UpdateSettingsMutationVariables>;
+export const RemoveParticipantDocument = gql`
+    mutation RemoveParticipant($id: Int!) {
+        removeParticipant(id: $id)
+    }
+`
+export type RemoveParticipantMutationFn = Apollo.MutationFunction<RemoveParticipantMutation, RemoveParticipantMutationVariables>;
+
+/**
+ * __useRemoveParticipantMutation__
+ *
+ * To run a mutation, you first call `useRemoveParticipantMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRemoveParticipantMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [removeParticipantMutation, { data, loading, error }] = useRemoveParticipantMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useRemoveParticipantMutation(baseOptions?: Apollo.MutationHookOptions<RemoveParticipantMutation, RemoveParticipantMutationVariables>) {
+    const options = { ...defaultOptions, ...baseOptions }
+    return Apollo.useMutation<RemoveParticipantMutation, RemoveParticipantMutationVariables>(RemoveParticipantDocument, options)
+}
+
+export type RemoveParticipantMutationHookResult = ReturnType<typeof useRemoveParticipantMutation>;
+export type RemoveParticipantMutationResult = Apollo.MutationResult<RemoveParticipantMutation>;
+export type RemoveParticipantMutationOptions = Apollo.BaseMutationOptions<RemoveParticipantMutation, RemoveParticipantMutationVariables>;
 export const LoginDocument = gql`
     query Login($username: String!, $password: String!) {
         login(login: {username: $username, password: $password})
