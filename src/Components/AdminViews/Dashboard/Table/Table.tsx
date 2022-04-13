@@ -28,7 +28,7 @@ export function Table() {
 
     return <TableRoot>
         <TableHeader />
-        <tbody>{participants.map((x, i) => <TableRow participant={x} key={i} i={i} />)}</tbody>
+        <tbody>{participants.map((x, i) => <TableRow participant={x} key={x.id} i={i} />)}</tbody>
     </TableRoot>
 }
 
