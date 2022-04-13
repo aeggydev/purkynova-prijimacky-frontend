@@ -78,7 +78,7 @@ export function RegisterParticipant({ isOpen, setStatus }: IProps) {
                         <InputGroup>
                             <InputLeftElement
                                 pointerEvents="none"
-                                children={<PhoneIcon color="gray.600" />}
+                                children={<EmailIcon color="gray.600" />}
                             />
                             <Input type="email" placeholder="E-Mail zákonného zástupce"
                                    {...register("email")} />
@@ -86,7 +86,7 @@ export function RegisterParticipant({ isOpen, setStatus }: IProps) {
                         <InputGroup>
                             <InputLeftElement
                                 pointerEvents="none"
-                                children={<EmailIcon color="gray.600" />}
+                                children={<PhoneIcon color="gray.600" />}
                             />
                             <Input placeholder="Telefonní číslo zákonného zástupce"
                                    {...register("phone")} />
