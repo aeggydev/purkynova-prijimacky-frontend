@@ -124,11 +124,13 @@ export function ButtonArea() {
                 <ButtonRowEl>
                     <Button color="white" bg="#CBBE4D" onClick={confirmPaid}
                             disabled={loading || canConfirmPaid}
+                            isLoading={loading}
                             leftIcon={<EmailConfirm color="white" />}>
                         Potvrdit uhrazené
                     </Button>
                     <Button color="white" bg="#AC1821" onClick={cancelLate}
                             disabled={loading || canCancelLate}
+                            isLoading={loading}
                             leftIcon={<EmailCancel color="white" />}>
                         Zrušit neuhrazené po termínu
                     </Button>
