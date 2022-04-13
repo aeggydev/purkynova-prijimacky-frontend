@@ -19,6 +19,7 @@ type Mutation {
     removeParticipant(id: Int!): Boolean!
     confirmPayment(id: Int!): Boolean!
     confirmLateCancel(id: Int!): Boolean!
+    forceCancelationStatus(id: Int!, value: Boolean!): Boolean!
 }
 
 type Participant {

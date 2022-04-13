@@ -56,6 +56,9 @@ mutation ConfirmPayment($id: Int!) {
 mutation ConfirmLateCancel($id: Int!) {
     confirmLateCancel(id: $id)
 }
+mutation ForceCancelationStatus($id: Int!, $value: Boolean!) {
+    forceCancelationStatus(id: $id, value: $value)
+}
 query Login($username: String!, $password: String!) {
     login(login: {username: $username, password: $password})
 }

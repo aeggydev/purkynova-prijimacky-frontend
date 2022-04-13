@@ -31,6 +31,7 @@ export type Mutation = {
     addParticipant: Participant;
     confirmLateCancel: Scalars["Boolean"];
     confirmPayment: Scalars["Boolean"];
+    forceCancelationStatus: Scalars["Boolean"];
     removeParticipant: Scalars["Boolean"];
     updateParticipant: Participant;
     updateParticipants: Array<Participant>;
@@ -55,6 +56,12 @@ export type MutationConfirmLateCancelArgs = {
 
 export type MutationConfirmPaymentArgs = {
     id: Scalars["Int"];
+};
+
+
+export type MutationForceCancelationStatusArgs = {
+    id: Scalars["Int"];
+    value: Scalars["Boolean"];
 };
 
 
@@ -240,6 +247,14 @@ export type ConfirmLateCancelMutationVariables = Exact<{
 
 
 export type ConfirmLateCancelMutation = { __typename?: "Mutation", confirmLateCancel: boolean };
+
+export type ForceCancelationStatusMutationVariables = Exact<{
+    id: Scalars["Int"];
+    value: Scalars["Boolean"];
+}>;
+
+
+export type ForceCancelationStatusMutation = { __typename?: "Mutation", forceCancelationStatus: boolean };
 
 export type LoginQueryVariables = Exact<{
     username: Scalars["String"];
@@ -557,7 +572,6 @@ export function useConfirmPaymentMutation(baseOptions?: Apollo.MutationHookOptio
     const options = { ...defaultOptions, ...baseOptions }
     return Apollo.useMutation<ConfirmPaymentMutation, ConfirmPaymentMutationVariables>(ConfirmPaymentDocument, options)
 }
-
 export type ConfirmPaymentMutationHookResult = ReturnType<typeof useConfirmPaymentMutation>;
 export type ConfirmPaymentMutationResult = Apollo.MutationResult<ConfirmPaymentMutation>;
 export type ConfirmPaymentMutationOptions = Apollo.BaseMutationOptions<ConfirmPaymentMutation, ConfirmPaymentMutationVariables>;
@@ -593,6 +607,39 @@ export function useConfirmLateCancelMutation(baseOptions?: Apollo.MutationHookOp
 export type ConfirmLateCancelMutationHookResult = ReturnType<typeof useConfirmLateCancelMutation>;
 export type ConfirmLateCancelMutationResult = Apollo.MutationResult<ConfirmLateCancelMutation>;
 export type ConfirmLateCancelMutationOptions = Apollo.BaseMutationOptions<ConfirmLateCancelMutation, ConfirmLateCancelMutationVariables>;
+export const ForceCancelationStatusDocument = gql`
+    mutation ForceCancelationStatus($id: Int!, $value: Boolean!) {
+        forceCancelationStatus(id: $id, value: $value)
+    }
+`
+export type ForceCancelationStatusMutationFn = Apollo.MutationFunction<ForceCancelationStatusMutation, ForceCancelationStatusMutationVariables>;
+
+/**
+ * __useForceCancelationStatusMutation__
+ *
+ * To run a mutation, you first call `useForceCancelationStatusMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useForceCancelationStatusMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [forceCancelationStatusMutation, { data, loading, error }] = useForceCancelationStatusMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      value: // value for 'value'
+ *   },
+ * });
+ */
+export function useForceCancelationStatusMutation(baseOptions?: Apollo.MutationHookOptions<ForceCancelationStatusMutation, ForceCancelationStatusMutationVariables>) {
+    const options = { ...defaultOptions, ...baseOptions }
+    return Apollo.useMutation<ForceCancelationStatusMutation, ForceCancelationStatusMutationVariables>(ForceCancelationStatusDocument, options)
+}
+
+export type ForceCancelationStatusMutationHookResult = ReturnType<typeof useForceCancelationStatusMutation>;
+export type ForceCancelationStatusMutationResult = Apollo.MutationResult<ForceCancelationStatusMutation>;
+export type ForceCancelationStatusMutationOptions = Apollo.BaseMutationOptions<ForceCancelationStatusMutation, ForceCancelationStatusMutationVariables>;
 export const LoginDocument = gql`
     query Login($username: String!, $password: String!) {
         login(login: {username: $username, password: $password})

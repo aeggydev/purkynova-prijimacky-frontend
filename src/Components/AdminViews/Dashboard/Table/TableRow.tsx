@@ -2,6 +2,7 @@ import {
     GetParticipantsDocument,
     Participant,
     ParticipantStatus,
+    useForceCancelationStatusMutation,
     useRemoveParticipantMutation
 } from "../../../../graphql/graphql"
 import React, { ChangeEvent, CSSProperties, PropsWithChildren, useContext, useEffect, useRef, useState } from "react"
@@ -28,7 +29,7 @@ import { RootState } from "../../../../store/store"
 import { setProperty } from "../../../../store/table"
 import { usePrevious } from "../../../../hooks/usePrevious"
 import { DateTime } from "luxon"
-import { CloseIcon, DeleteIcon, EditIcon, SettingsIcon } from "@chakra-ui/icons"
+import { CheckIcon, CloseIcon, DeleteIcon, EditIcon, SettingsIcon } from "@chakra-ui/icons"
 import { Resolve } from "./statusResolver"
 import { useApolloClient } from "@apollo/client"
 
@@ -43,6 +44,9 @@ export function TableRow({ i, participant }: { i: number, participant: Participa
     const [removeParticipantMutation] = useRemoveParticipantMutation({
         refetchQueries: [GetParticipantsDocument]
     })
+    const [forceCancelationMutation] = useForceCancelationStatusMutation({
+        refetchQueries: [GetParticipantsDocument]
+    })
 
     function notImplemented() {
         toast({ title: "Funkce není implementována", status: "error" })
@@ -50,6 +54,12 @@ export function TableRow({ i, participant }: { i: number, participant: Participa
 
     function removeParticipant() {
         removeParticipantMutation({ variables: { id: participant.id } })
+    }
+
+    const isCanceled = participant.status === "CANCELED"
+
+    function forceCancelationStatus() {
+        forceCancelationMutation({ variables: { id: participant.id, value: !isCanceled } })
     }
 
     let textColor = "black"
@@ -108,7 +118,11 @@ export function TableRow({ i, participant }: { i: number, participant: Participa
                     </MenuButton>
                     <MenuList zIndex={200}>
                         <MenuItem icon={<EditIcon />} onClick={notImplemented}>Ukázat poznámku</MenuItem>
-                        <MenuItem icon={<CloseIcon />} onClick={notImplemented}>Zrušit přihlášku</MenuItem>
+                        <MenuItem icon={isCanceled ? <CheckIcon /> : <CloseIcon />} onClick={forceCancelationStatus}>
+                            {isCanceled
+                                ? "Odstranit zrušení"
+                                : "Zrušit přihlášku"}
+                        </MenuItem>
                         <MenuItem icon={<DeleteIcon />} onClick={deleteOnOpen}>
                             Odstranit přihlášku
                             <AlertDialog leastDestructiveRef={deleteRef} isOpen={deleteIsOpen} onClose={deleteOnClose}>
