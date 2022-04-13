@@ -8,6 +8,7 @@ import DownloadExport from "../../../../Icons/DownloadExport"
 import {
     GetParticipantsDocument,
     UpdateParticipantsItemInput,
+    useConfirmLateCancelMutation,
     useConfirmPaymentMutation,
     useGetParticipantsQuery,
     useUpdateParticipantsMutation
@@ -32,6 +33,7 @@ export function ButtonArea() {
         ]
     })
     const [confirmPaymentMutation] = useConfirmPaymentMutation()
+    const [confirmLateCancelMutation] = useConfirmLateCancelMutation()
 
     const [registerOpen, setRegisterOpen] = useState(false)
 
@@ -51,6 +53,21 @@ export function ButtonArea() {
             .filter(x => x.status === "PAID_UNCONFIRMED")
             .map(x => x.id)
         const promises = ids.map(id => confirmPaymentMutation({
+            variables: { id }
+        }))
+        await Promise.all(promises)
+        apollo.refetchQueries({
+            include: [GetParticipantsDocument]
+        })
+    }
+
+    const canCancelLate = !data?.participants.some(x => x.status === "UNPAID_LATE")
+
+    async function cancelLate() {
+        const ids = data!.participants
+            .filter(x => x.status === "UNPAID_LATE")
+            .map(x => x.id)
+        const promises = ids.map(id => confirmLateCancelMutation({
             variables: { id }
         }))
         await Promise.all(promises)
@@ -110,7 +127,8 @@ export function ButtonArea() {
                             leftIcon={<EmailConfirm color="white" />}>
                         Potvrdit uhrazené
                     </Button>
-                    <Button color="white" bg="#AC1821" onClick={onClick}
+                    <Button color="white" bg="#AC1821" onClick={cancelLate}
+                            disabled={loading || canCancelLate}
                             leftIcon={<EmailCancel color="white" />}>
                         Zrušit neuhrazené po termínu
                     </Button>
