@@ -1,5 +1,4 @@
 import styled from "styled-components"
-import { Button } from "./Button"
 import Save from "../../../../Icons/Save"
 import Cancel from "../../../../Icons/Cancel"
 import EmailConfirm from "../../../../Icons/EmailConfirm"
@@ -9,6 +8,8 @@ import DownloadExport from "../../../../Icons/DownloadExport"
 import {
     GetParticipantsDocument,
     UpdateParticipantsItemInput,
+    useConfirmPaymentMutation,
+    useGetParticipantsQuery,
     useUpdateParticipantsMutation
 } from "../../../../graphql/graphql"
 import { useDispatch, useSelector } from "react-redux"
@@ -16,10 +17,13 @@ import { clear } from "../../../../store/table"
 import { RootState } from "../../../../store/store"
 import { useState } from "react"
 import { RegisterParticipant } from "./Modals/RegisterParticipant"
-import { useToast } from "@chakra-ui/react"
+import { Button, useToast } from "@chakra-ui/react"
+import { useApolloClient } from "@apollo/client"
 
 export function ButtonArea() {
     const tableChanges = useSelector((state: RootState) => state.table.changes)
+    const apollo = useApolloClient()
+    const { loading, data } = useGetParticipantsQuery()
     const toast = useToast()
     const dispatch = useDispatch()
     const [updateParticipantsMutation] = useUpdateParticipantsMutation({
@@ -27,6 +31,7 @@ export function ButtonArea() {
             GetParticipantsDocument
         ]
     })
+    const [confirmPaymentMutation] = useConfirmPaymentMutation()
 
     const [registerOpen, setRegisterOpen] = useState(false)
 
@@ -40,15 +45,28 @@ export function ButtonArea() {
         })
     }
 
+    async function confirmPaid() {
+        const ids = data!.participants
+            .filter(x => x.status === "PAID_UNCONFIRMED")
+            .map(x => x.id)
+        const promises = ids.map(id => confirmPaymentMutation({
+            variables: { id }
+        }))
+        await Promise.all(promises)
+        apollo.refetchQueries({
+            include: [GetParticipantsDocument]
+        })
+    }
+
     function saveChanges() {
         const entries = Object.entries(tableChanges)
         const updateData: UpdateParticipantsItemInput[] = entries.map(([id, data]) => ({ id: parseInt(id, 10), data }))
         const promise = updateParticipantsMutation({
-                variables: { updateParticipants: updateData },
-                onCompleted: () => {
-                    console.log("done syncing!", entries)
-                },
-                onError: error => toast({ title: "Problém při ukládání dat", status: "error" })
+            variables: { updateParticipants: updateData },
+            onCompleted: () => {
+                console.log("done syncing!", entries)
+            },
+            onError: error => toast({ title: "Problém při ukládání dat", status: "error" })
             }
         )
     }
@@ -76,20 +94,33 @@ export function ButtonArea() {
             <RegisterParticipant setStatus={setRegisterOpen} isOpen={registerOpen} />
             <ButtonAreaEl>
                 <ButtonRowEl>
-                    <Button text="Potvrdit změny" bg="#46BC87" click={saveChanges} icon={<Save color="white" />} />
-                    <Button text="Zahodit změny" bg="#AC1821" click={discardChanges} icon={<Cancel color="white" />} />
+                    <Button color="white" bg="#46BC87" onClick={saveChanges} leftIcon={<Save color="white" />}>
+                        Potvrdit změny
+                    </Button>
+                    <Button color="white" bg="#AC1821" onClick={discardChanges} leftIcon={<Cancel color="white" />}>
+                        Zahodit změny
+                    </Button>
                     <EditStatusEl>Do ukončení režimu úpravy zbývá 05:16. Úprava zahájena 28.11.2021
                         08:12.</EditStatusEl>
                 </ButtonRowEl>
                 <ButtonRowEl>
-                    <Button text="Potvrdit uhrazené" bg="#CBBE4D" click={onClick}
-                            icon={<EmailConfirm color="white" />} />
-                    <Button text="Zrušit neuhrazené po termínu" bg="#AC1821" click={onClick}
-                            icon={<EmailCancel color="white" />} />
-                    <Button text="Přidat přihlášku" bg="#46BC87" click={() => setRegisterOpen(true)}
-                            icon={<ForceAdd color="white" />} />
-                    <Button text="Stáhnout" bg="#46BC87" click={saveDatasheet}
-                            icon={<DownloadExport color="white" />} />
+                    <Button color="white" bg="#CBBE4D" onClick={confirmPaid}
+                            disabled={loading}
+                            leftIcon={<EmailConfirm color="white" />}>
+                        Potvrdit uhrazené
+                    </Button>
+                    <Button color="white" bg="#AC1821" onClick={onClick}
+                            leftIcon={<EmailCancel color="white" />}>
+                        Zrušit neuhrazené po termínu
+                    </Button>
+                    <Button color="white" bg="#46BC87" onClick={() => setRegisterOpen(true)}
+                            leftIcon={<ForceAdd color="white" />}>
+                        Přidat přihlášku
+                    </Button>
+                    <Button color="white" bg="#46BC87" onClick={saveDatasheet}
+                            leftIcon={<DownloadExport color="white" />}>
+                        Stáhnout
+                    </Button>
                 </ButtonRowEl>
                 <div />
             </ButtonAreaEl>
