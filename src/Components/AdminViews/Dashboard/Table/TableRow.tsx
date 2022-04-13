@@ -4,9 +4,24 @@ import {
     ParticipantStatus,
     useRemoveParticipantMutation
 } from "../../../../graphql/graphql"
-import React, { ChangeEvent, CSSProperties, PropsWithChildren, useContext, useEffect, useState } from "react"
+import React, { ChangeEvent, CSSProperties, PropsWithChildren, useContext, useEffect, useRef, useState } from "react"
 import styled from "styled-components"
-import { Box, Button, Menu, MenuButton, MenuItem, MenuList, useToast } from "@chakra-ui/react"
+import {
+    AlertDialog,
+    AlertDialogBody,
+    AlertDialogContent,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogOverlay,
+    Box,
+    Button,
+    Menu,
+    MenuButton,
+    MenuItem,
+    MenuList,
+    useDisclosure,
+    useToast
+} from "@chakra-ui/react"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "../../../../store/store"
 import { setProperty } from "../../../../store/table"
@@ -20,6 +35,8 @@ const RowContext = React.createContext<ContextType>({} as ContextType)
 
 export function TableRow({ i, participant }: { i: number, participant: Participant }) {
     const toast = useToast()
+    const { isOpen: deleteIsOpen, onOpen: deleteOnOpen, onClose: deleteOnClose } = useDisclosure()
+    const deleteRef = useRef<any>()
     const [removeParticipantMutation] = useRemoveParticipantMutation({
         refetchQueries: [GetParticipantsDocument]
     })
@@ -86,7 +103,26 @@ export function TableRow({ i, participant }: { i: number, participant: Participa
                     <MenuList zIndex={200}>
                         <MenuItem icon={<EditIcon />} onClick={notImplemented}>Ukázat poznámku</MenuItem>
                         <MenuItem icon={<CloseIcon />} onClick={notImplemented}>Zrušit přihlášku</MenuItem>
-                        <MenuItem icon={<DeleteIcon />} onClick={removeParticipant}>Odstranit přihlášku</MenuItem>
+                        <MenuItem icon={<DeleteIcon />} onClick={deleteOnOpen}>
+                            Odstranit přihlášku
+                            <AlertDialog leastDestructiveRef={deleteRef} isOpen={deleteIsOpen} onClose={deleteOnClose}>
+                                <AlertDialogOverlay>
+                                    <AlertDialogContent>
+                                        <AlertDialogHeader>Odstranit přihlášku</AlertDialogHeader>
+                                        <AlertDialogBody>
+                                            Jste si jisti? Odstranění přihlášky smaže všechny neuložené změny. Tato
+                                            změna nejde vrátit.
+                                        </AlertDialogBody>
+                                        <AlertDialogFooter>
+                                            <Button onClick={deleteOnClose} ref={deleteRef} mr="1rem">Zrušit</Button>
+                                            <Button onClick={removeParticipant} colorScheme="red">
+                                                Odstranit přihlášku
+                                            </Button>
+                                        </AlertDialogFooter>
+                                    </AlertDialogContent>
+                                </AlertDialogOverlay>
+                            </AlertDialog>
+                        </MenuItem>
                     </MenuList>
                 </Menu>
             </Cell>
