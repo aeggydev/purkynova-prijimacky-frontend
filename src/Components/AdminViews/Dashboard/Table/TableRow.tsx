@@ -19,6 +19,7 @@ import {
     MenuButton,
     MenuItem,
     MenuList,
+    Tooltip,
     useDisclosure,
     useToast
 } from "@chakra-ui/react"
@@ -91,9 +92,11 @@ export function TableRow({ i, participant }: { i: number, participant: Participa
             <BindCellDateStatic index="dueDate" />
             <BindCellDateStatic index="paidDate" />
             <Cell>
-                <Button size="sm" mx="1em" px="1.75em" bg={status.color}>
-                    {status.icon}
-                </Button>
+                <Tooltip hasArrow label={status.tooltip}>
+                    <Button size="sm" mx="1em" px="1.75em" bg={status.color}>
+                        {status.icon}
+                    </Button>
+                </Tooltip>
             </Cell>
             <Cell>
                 <Menu>
