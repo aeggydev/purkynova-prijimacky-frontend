@@ -45,6 +45,7 @@ export function ButtonArea() {
         })
     }
 
+    const canConfirmPaid = !data?.participants.some(x => x.status === "PAID_UNCONFIRMED")
     async function confirmPaid() {
         const ids = data!.participants
             .filter(x => x.status === "PAID_UNCONFIRMED")
@@ -105,7 +106,7 @@ export function ButtonArea() {
                 </ButtonRowEl>
                 <ButtonRowEl>
                     <Button color="white" bg="#CBBE4D" onClick={confirmPaid}
-                            disabled={loading}
+                            disabled={loading || canConfirmPaid}
                             leftIcon={<EmailConfirm color="white" />}>
                         Potvrdit uhrazené
                     </Button>
