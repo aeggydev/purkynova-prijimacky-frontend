@@ -1,10 +1,9 @@
 import {
-    ConfirmLateCancelDocument,
-    ConfirmPaymentDocument,
     GetEmailStatisticsDocument,
     GetParticipantsDocument,
     Participant,
-    ParticipantStatus
+    ParticipantStatus,
+    StatusActionDocument
 } from "../../../../graphql/graphql"
 import { Canceled, Confirmed, Normal, Paid, Unpaid, UnpaidLate } from "../../../../Icons/ParticipantStatus"
 import { ApolloClient } from "@apollo/client"
@@ -58,9 +57,10 @@ export function Resolve(participant: Participant): IResolved {
                 tooltip: "Email potvrzující platba ještě nebyl poslán",
                 execute: async (participant, apollo) => {
                     const data = await apollo.mutate({
-                        mutation: ConfirmPaymentDocument,
+                        mutation: StatusActionDocument,
                         variables: {
-                            id: participant.id
+                            id: participant.id,
+                            presumedStatus: participant.status
                         },
                         refetchQueries: [GetParticipantsDocument, GetEmailStatisticsDocument]
                     })
@@ -81,9 +81,10 @@ export function Resolve(participant: Participant): IResolved {
                 tooltip: "Účast nebyla včas zaplacena, čeká na posunutí datumu platby nebo zrušení",
                 execute: async (participant, apollo) => {
                     const data = await apollo.mutate({
-                        mutation: ConfirmLateCancelDocument,
+                        mutation: StatusActionDocument,
                         variables: {
-                            id: participant.id
+                            id: participant.id,
+                            presumedStatus: participant.status
                         },
                         refetchQueries: [GetParticipantsDocument, GetEmailStatisticsDocument]
                     })
