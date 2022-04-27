@@ -162,7 +162,6 @@ export function BindCellDateStatic({ index }: { index: keyof Participant }) {
 
     return <Cell
         style={{ textAlign: "center" }}>{dateString ?? emptyLine}</Cell>
-    // TODO: Center empty field
 }
 
 export function BindCell({ index, passedStyle }: { index: keyof Participant, passedStyle?: CSSProperties }) {
