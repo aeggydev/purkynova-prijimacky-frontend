@@ -61,14 +61,11 @@ mutation UpdateSettings($updateSettings: UpdateSettingsInput!) {
 mutation RemoveParticipant($id: Int!) {
     removeParticipant(id: $id)
 }
-mutation ConfirmPayment($id: Int!) {
-    confirmPayment(id: $id)
+mutation StatusAction($id: Int!, $presumedStatus: ParticipantStatus!) {
+    statusAction(id: $id, presumedStatus: $presumedStatus)
 }
-mutation ConfirmLateCancel($id: Int!) {
-    confirmLateCancel(id: $id)
-}
-mutation ForceCancelationStatus($id: Int!, $value: Boolean!) {
-    forceCancelationStatus(id: $id, value: $value)
+mutation StatusActionAllOfStatus($expectedStatus: ParticipantStatus!) {
+    statusActionAllOfStatus(expectedStatus: $expectedStatus)
 }
 query Login($username: String!, $password: String!) {
     login(login: {username: $username, password: $password})

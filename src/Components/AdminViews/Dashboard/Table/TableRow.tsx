@@ -4,7 +4,6 @@ import {
     GetStatisticsDocument,
     Participant,
     ParticipantStatus,
-    useForceCancelationStatusMutation,
     useRemoveParticipantMutation
 } from "../../../../graphql/graphql"
 import React, { ChangeEvent, CSSProperties, PropsWithChildren, useContext, useEffect, useRef, useState } from "react"
@@ -46,9 +45,6 @@ export function TableRow({ i, participant }: { i: number, participant: Participa
     const [removeParticipantMutation] = useRemoveParticipantMutation({
         refetchQueries: [GetParticipantsDocument, GetStatisticsDocument, GetEmailStatisticsDocument]
     })
-    const [forceCancelationMutation] = useForceCancelationStatusMutation({
-        refetchQueries: [GetParticipantsDocument, GetEmailStatisticsDocument]
-    })
 
     function notImplemented() {
         toast({ title: "Funkce není implementována", status: "error" })
@@ -61,7 +57,7 @@ export function TableRow({ i, participant }: { i: number, participant: Participa
     const isCanceled = participant.status === "CANCELED"
 
     function forceCancelationStatus() {
-        forceCancelationMutation({ variables: { id: participant.id, value: !isCanceled } })
+        //forceCancelationMutation({ variables: { id: participant.id, value: !isCanceled } })
     }
 
     let textColor = "black"

@@ -7,10 +7,10 @@ import ForceAdd from "../../../../Icons/ForceAdd"
 import DownloadExport from "../../../../Icons/DownloadExport"
 import {
     GetParticipantsDocument,
+    ParticipantStatus,
     UpdateParticipantsItemInput,
-    useConfirmLateCancelMutation,
-    useConfirmPaymentMutation,
     useGetParticipantsQuery,
+    useStatusActionAllOfStatusMutation,
     useUpdateParticipantsMutation
 } from "../../../../graphql/graphql"
 import { useDispatch, useSelector } from "react-redux"
@@ -32,8 +32,7 @@ export function ButtonArea() {
             GetParticipantsDocument
         ]
     })
-    const [confirmPaymentMutation] = useConfirmPaymentMutation()
-    const [confirmLateCancelMutation] = useConfirmLateCancelMutation()
+    const [statusActionAllOfStatus] = useStatusActionAllOfStatusMutation()
 
     const [registerOpen, setRegisterOpen] = useState(false)
 
@@ -48,14 +47,9 @@ export function ButtonArea() {
     }
 
     const canConfirmPaid = !data?.participants.some(x => x.status === "PAID_UNCONFIRMED")
-    async function confirmPaid() {
-        const ids = data!.participants
-            .filter(x => x.status === "PAID_UNCONFIRMED")
-            .map(x => x.id)
-        const promises = ids.map(id => confirmPaymentMutation({
-            variables: { id }
-        }))
-        await Promise.all(promises)
+
+    async function handleAllOf(status: ParticipantStatus) {
+        await statusActionAllOfStatus({ variables: { expectedStatus: status } })
         apollo.refetchQueries({
             include: [GetParticipantsDocument]
         })
@@ -63,28 +57,15 @@ export function ButtonArea() {
 
     const canCancelLate = !data?.participants.some(x => x.status === "UNPAID_LATE")
 
-    async function cancelLate() {
-        const ids = data!.participants
-            .filter(x => x.status === "UNPAID_LATE")
-            .map(x => x.id)
-        const promises = ids.map(id => confirmLateCancelMutation({
-            variables: { id }
-        }))
-        await Promise.all(promises)
-        apollo.refetchQueries({
-            include: [GetParticipantsDocument]
-        })
-    }
-
     function saveChanges() {
         const entries = Object.entries(tableChanges)
         const updateData: UpdateParticipantsItemInput[] = entries.map(([id, data]) => ({ id: parseInt(id, 10), data }))
         const promise = updateParticipantsMutation({
-            variables: { updateParticipants: updateData },
-            onCompleted: () => {
-                console.log("done syncing!", entries)
-            },
-            onError: error => toast({ title: "Problém při ukládání dat", status: "error" })
+                variables: { updateParticipants: updateData },
+                onCompleted: () => {
+                    console.log("done syncing!", entries)
+                },
+                onError: error => toast({ title: "Problém při ukládání dat", status: "error" })
             }
         )
     }
@@ -122,13 +103,13 @@ export function ButtonArea() {
                         08:12.</EditStatusEl>
                 </ButtonRowEl>
                 <ButtonRowEl>
-                    <Button color="white" bg="#CBBE4D" onClick={confirmPaid}
+                    <Button color="white" bg="#CBBE4D" onClick={() => handleAllOf(ParticipantStatus.PaidUnconfirmed)}
                             disabled={loading || canConfirmPaid}
                             isLoading={loading}
                             leftIcon={<EmailConfirm color="white" />}>
                         Potvrdit uhrazené
                     </Button>
-                    <Button color="white" bg="#AC1821" onClick={cancelLate}
+                    <Button color="white" bg="#AC1821" onClick={() => handleAllOf(ParticipantStatus.UnpaidLate)}
                             disabled={loading || canCancelLate}
                             isLoading={loading}
                             leftIcon={<EmailCancel color="white" />}>

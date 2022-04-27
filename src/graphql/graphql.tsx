@@ -20,6 +20,11 @@ export type Scalars = {
     DateTime: any;
 };
 
+export enum ApplyPolicy {
+    AfterResolver = "AFTER_RESOLVER",
+    BeforeResolver = "BEFORE_RESOLVER"
+}
+
 export type EmailStatistics = {
     __typename?: "EmailStatistics";
     accepted: Scalars["Int"];
@@ -39,10 +44,9 @@ export type Mutation = {
     __typename?: "Mutation";
     addAdmin: Scalars["Int"];
     addParticipant: Participant;
-    confirmLateCancel: Scalars["Boolean"];
-    confirmPayment: Scalars["Boolean"];
-    forceCancelationStatus: Scalars["Boolean"];
     removeParticipant: Scalars["Boolean"];
+    statusAction: Scalars["Boolean"];
+    statusActionAllOfStatus: Scalars["Boolean"];
     updateParticipant: Participant;
     updateParticipants: Array<Participant>;
     updateSettings: Settings;
@@ -50,7 +54,7 @@ export type Mutation = {
 
 
 export type MutationAddAdminArgs = {
-    login: LoginInfoInput;
+    login: RegistrationInfoInput;
 };
 
 
@@ -59,24 +63,19 @@ export type MutationAddParticipantArgs = {
 };
 
 
-export type MutationConfirmLateCancelArgs = {
-    id: Scalars["Int"];
-};
-
-
-export type MutationConfirmPaymentArgs = {
-    id: Scalars["Int"];
-};
-
-
-export type MutationForceCancelationStatusArgs = {
-    id: Scalars["Int"];
-    value: Scalars["Boolean"];
-};
-
-
 export type MutationRemoveParticipantArgs = {
     id: Scalars["Int"];
+};
+
+
+export type MutationStatusActionArgs = {
+    id: Scalars["Int"];
+    presumedStatus: ParticipantStatus;
+};
+
+
+export type MutationStatusActionAllOfStatusArgs = {
+    expectedStatus: ParticipantStatus;
 };
 
 
@@ -150,6 +149,12 @@ export type Query = {
 
 export type QueryLoginArgs = {
     login: LoginInfoInput;
+};
+
+export type RegistrationInfoInput = {
+    email: Scalars["String"];
+    password: Scalars["String"];
+    username: Scalars["String"];
 };
 
 export type Settings = {
@@ -252,27 +257,20 @@ export type RemoveParticipantMutationVariables = Exact<{
 
 export type RemoveParticipantMutation = { __typename?: "Mutation", removeParticipant: boolean };
 
-export type ConfirmPaymentMutationVariables = Exact<{
+export type StatusActionMutationVariables = Exact<{
     id: Scalars["Int"];
+    presumedStatus: ParticipantStatus;
 }>;
 
 
-export type ConfirmPaymentMutation = { __typename?: "Mutation", confirmPayment: boolean };
+export type StatusActionMutation = { __typename?: "Mutation", statusAction: boolean };
 
-export type ConfirmLateCancelMutationVariables = Exact<{
-    id: Scalars["Int"];
+export type StatusActionAllOfStatusMutationVariables = Exact<{
+    expectedStatus: ParticipantStatus;
 }>;
 
 
-export type ConfirmLateCancelMutation = { __typename?: "Mutation", confirmLateCancel: boolean };
-
-export type ForceCancelationStatusMutationVariables = Exact<{
-    id: Scalars["Int"];
-    value: Scalars["Boolean"];
-}>;
-
-
-export type ForceCancelationStatusMutation = { __typename?: "Mutation", forceCancelationStatus: boolean };
+export type StatusActionAllOfStatusMutation = { __typename?: "Mutation", statusActionAllOfStatus: boolean };
 
 export type LoginQueryVariables = Exact<{
     username: Scalars["String"];
@@ -367,12 +365,10 @@ export function useGetEmailStatisticsQuery(baseOptions?: Apollo.QueryHookOptions
     const options = { ...defaultOptions, ...baseOptions }
     return Apollo.useQuery<GetEmailStatisticsQuery, GetEmailStatisticsQueryVariables>(GetEmailStatisticsDocument, options)
 }
-
 export function useGetEmailStatisticsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetEmailStatisticsQuery, GetEmailStatisticsQueryVariables>) {
     const options = { ...defaultOptions, ...baseOptions }
     return Apollo.useLazyQuery<GetEmailStatisticsQuery, GetEmailStatisticsQueryVariables>(GetEmailStatisticsDocument, options)
 }
-
 export type GetEmailStatisticsQueryHookResult = ReturnType<typeof useGetEmailStatisticsQuery>;
 export type GetEmailStatisticsLazyQueryHookResult = ReturnType<typeof useGetEmailStatisticsLazyQuery>;
 export type GetEmailStatisticsQueryResult = Apollo.QueryResult<GetEmailStatisticsQuery, GetEmailStatisticsQueryVariables>;
@@ -605,103 +601,75 @@ export function useRemoveParticipantMutation(baseOptions?: Apollo.MutationHookOp
     const options = { ...defaultOptions, ...baseOptions }
     return Apollo.useMutation<RemoveParticipantMutation, RemoveParticipantMutationVariables>(RemoveParticipantDocument, options)
 }
+
 export type RemoveParticipantMutationHookResult = ReturnType<typeof useRemoveParticipantMutation>;
 export type RemoveParticipantMutationResult = Apollo.MutationResult<RemoveParticipantMutation>;
 export type RemoveParticipantMutationOptions = Apollo.BaseMutationOptions<RemoveParticipantMutation, RemoveParticipantMutationVariables>;
-export const ConfirmPaymentDocument = gql`
-    mutation ConfirmPayment($id: Int!) {
-        confirmPayment(id: $id)
+export const StatusActionDocument = gql`
+    mutation StatusAction($id: Int!, $presumedStatus: ParticipantStatus!) {
+        statusAction(id: $id, presumedStatus: $presumedStatus)
     }
 `
-export type ConfirmPaymentMutationFn = Apollo.MutationFunction<ConfirmPaymentMutation, ConfirmPaymentMutationVariables>;
+export type StatusActionMutationFn = Apollo.MutationFunction<StatusActionMutation, StatusActionMutationVariables>;
 
 /**
- * __useConfirmPaymentMutation__
+ * __useStatusActionMutation__
  *
- * To run a mutation, you first call `useConfirmPaymentMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useConfirmPaymentMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useStatusActionMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useStatusActionMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [confirmPaymentMutation, { data, loading, error }] = useConfirmPaymentMutation({
+ * const [statusActionMutation, { data, loading, error }] = useStatusActionMutation({
  *   variables: {
  *      id: // value for 'id'
+ *      presumedStatus: // value for 'presumedStatus'
  *   },
  * });
  */
-export function useConfirmPaymentMutation(baseOptions?: Apollo.MutationHookOptions<ConfirmPaymentMutation, ConfirmPaymentMutationVariables>) {
+export function useStatusActionMutation(baseOptions?: Apollo.MutationHookOptions<StatusActionMutation, StatusActionMutationVariables>) {
     const options = { ...defaultOptions, ...baseOptions }
-    return Apollo.useMutation<ConfirmPaymentMutation, ConfirmPaymentMutationVariables>(ConfirmPaymentDocument, options)
+    return Apollo.useMutation<StatusActionMutation, StatusActionMutationVariables>(StatusActionDocument, options)
 }
-export type ConfirmPaymentMutationHookResult = ReturnType<typeof useConfirmPaymentMutation>;
-export type ConfirmPaymentMutationResult = Apollo.MutationResult<ConfirmPaymentMutation>;
-export type ConfirmPaymentMutationOptions = Apollo.BaseMutationOptions<ConfirmPaymentMutation, ConfirmPaymentMutationVariables>;
-export const ConfirmLateCancelDocument = gql`
-    mutation ConfirmLateCancel($id: Int!) {
-        confirmLateCancel(id: $id)
+
+export type StatusActionMutationHookResult = ReturnType<typeof useStatusActionMutation>;
+export type StatusActionMutationResult = Apollo.MutationResult<StatusActionMutation>;
+export type StatusActionMutationOptions = Apollo.BaseMutationOptions<StatusActionMutation, StatusActionMutationVariables>;
+export const StatusActionAllOfStatusDocument = gql`
+    mutation StatusActionAllOfStatus($expectedStatus: ParticipantStatus!) {
+        statusActionAllOfStatus(expectedStatus: $expectedStatus)
     }
 `
-export type ConfirmLateCancelMutationFn = Apollo.MutationFunction<ConfirmLateCancelMutation, ConfirmLateCancelMutationVariables>;
+export type StatusActionAllOfStatusMutationFn = Apollo.MutationFunction<StatusActionAllOfStatusMutation, StatusActionAllOfStatusMutationVariables>;
 
 /**
- * __useConfirmLateCancelMutation__
+ * __useStatusActionAllOfStatusMutation__
  *
- * To run a mutation, you first call `useConfirmLateCancelMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useConfirmLateCancelMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useStatusActionAllOfStatusMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useStatusActionAllOfStatusMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [confirmLateCancelMutation, { data, loading, error }] = useConfirmLateCancelMutation({
+ * const [statusActionAllOfStatusMutation, { data, loading, error }] = useStatusActionAllOfStatusMutation({
  *   variables: {
- *      id: // value for 'id'
+ *      expectedStatus: // value for 'expectedStatus'
  *   },
  * });
  */
-export function useConfirmLateCancelMutation(baseOptions?: Apollo.MutationHookOptions<ConfirmLateCancelMutation, ConfirmLateCancelMutationVariables>) {
+export function useStatusActionAllOfStatusMutation(baseOptions?: Apollo.MutationHookOptions<StatusActionAllOfStatusMutation, StatusActionAllOfStatusMutationVariables>) {
     const options = { ...defaultOptions, ...baseOptions }
-    return Apollo.useMutation<ConfirmLateCancelMutation, ConfirmLateCancelMutationVariables>(ConfirmLateCancelDocument, options)
+    return Apollo.useMutation<StatusActionAllOfStatusMutation, StatusActionAllOfStatusMutationVariables>(StatusActionAllOfStatusDocument, options)
 }
-export type ConfirmLateCancelMutationHookResult = ReturnType<typeof useConfirmLateCancelMutation>;
-export type ConfirmLateCancelMutationResult = Apollo.MutationResult<ConfirmLateCancelMutation>;
-export type ConfirmLateCancelMutationOptions = Apollo.BaseMutationOptions<ConfirmLateCancelMutation, ConfirmLateCancelMutationVariables>;
-export const ForceCancelationStatusDocument = gql`
-    mutation ForceCancelationStatus($id: Int!, $value: Boolean!) {
-        forceCancelationStatus(id: $id, value: $value)
-    }
-`
-export type ForceCancelationStatusMutationFn = Apollo.MutationFunction<ForceCancelationStatusMutation, ForceCancelationStatusMutationVariables>;
 
-/**
- * __useForceCancelationStatusMutation__
- *
- * To run a mutation, you first call `useForceCancelationStatusMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useForceCancelationStatusMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [forceCancelationStatusMutation, { data, loading, error }] = useForceCancelationStatusMutation({
- *   variables: {
- *      id: // value for 'id'
- *      value: // value for 'value'
- *   },
- * });
- */
-export function useForceCancelationStatusMutation(baseOptions?: Apollo.MutationHookOptions<ForceCancelationStatusMutation, ForceCancelationStatusMutationVariables>) {
-    const options = { ...defaultOptions, ...baseOptions }
-    return Apollo.useMutation<ForceCancelationStatusMutation, ForceCancelationStatusMutationVariables>(ForceCancelationStatusDocument, options)
-}
-export type ForceCancelationStatusMutationHookResult = ReturnType<typeof useForceCancelationStatusMutation>;
-export type ForceCancelationStatusMutationResult = Apollo.MutationResult<ForceCancelationStatusMutation>;
-export type ForceCancelationStatusMutationOptions = Apollo.BaseMutationOptions<ForceCancelationStatusMutation, ForceCancelationStatusMutationVariables>;
+export type StatusActionAllOfStatusMutationHookResult = ReturnType<typeof useStatusActionAllOfStatusMutation>;
+export type StatusActionAllOfStatusMutationResult = Apollo.MutationResult<StatusActionAllOfStatusMutation>;
+export type StatusActionAllOfStatusMutationOptions = Apollo.BaseMutationOptions<StatusActionAllOfStatusMutation, StatusActionAllOfStatusMutationVariables>;
 export const LoginDocument = gql`
     query Login($username: String!, $password: String!) {
         login(login: {username: $username, password: $password})
