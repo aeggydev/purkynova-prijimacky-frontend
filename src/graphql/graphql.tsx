@@ -108,13 +108,13 @@ export type Participant = {
     __typename?: "Participant";
     cancelationNotified: Scalars["Boolean"];
     creationNotified: Scalars["Boolean"];
-    dueDate: Scalars["DateTime"];
+    dueDate: Scalars["Date"];
     email: Scalars["String"];
     id: Scalars["Int"];
     ip: Scalars["String"];
     isOver: Scalars["Boolean"];
     isPaid: Scalars["Boolean"];
-    paidDate?: Maybe<Scalars["DateTime"]>;
+    paidDate?: Maybe<Scalars["Date"]>;
     paidNotified: Scalars["Boolean"];
     parentName: Scalars["String"];
     parentSurname: Scalars["String"];
@@ -177,8 +177,9 @@ export type Statistics = {
 };
 
 export type UpdateParticipantInput = {
+    dueDate?: InputMaybe<Scalars["Date"]>;
     email?: InputMaybe<Scalars["String"]>;
-    paidDate?: InputMaybe<Scalars["DateTime"]>;
+    paidDate?: InputMaybe<Scalars["Date"]>;
     parentName?: InputMaybe<Scalars["String"]>;
     parentSurname?: InputMaybe<Scalars["String"]>;
     participantName?: InputMaybe<Scalars["String"]>;
@@ -601,7 +602,6 @@ export function useRemoveParticipantMutation(baseOptions?: Apollo.MutationHookOp
     const options = { ...defaultOptions, ...baseOptions }
     return Apollo.useMutation<RemoveParticipantMutation, RemoveParticipantMutationVariables>(RemoveParticipantDocument, options)
 }
-
 export type RemoveParticipantMutationHookResult = ReturnType<typeof useRemoveParticipantMutation>;
 export type RemoveParticipantMutationResult = Apollo.MutationResult<RemoveParticipantMutation>;
 export type RemoveParticipantMutationOptions = Apollo.BaseMutationOptions<RemoveParticipantMutation, RemoveParticipantMutationVariables>;
@@ -634,7 +634,6 @@ export function useStatusActionMutation(baseOptions?: Apollo.MutationHookOptions
     const options = { ...defaultOptions, ...baseOptions }
     return Apollo.useMutation<StatusActionMutation, StatusActionMutationVariables>(StatusActionDocument, options)
 }
-
 export type StatusActionMutationHookResult = ReturnType<typeof useStatusActionMutation>;
 export type StatusActionMutationResult = Apollo.MutationResult<StatusActionMutation>;
 export type StatusActionMutationOptions = Apollo.BaseMutationOptions<StatusActionMutation, StatusActionMutationVariables>;
@@ -666,7 +665,6 @@ export function useStatusActionAllOfStatusMutation(baseOptions?: Apollo.Mutation
     const options = { ...defaultOptions, ...baseOptions }
     return Apollo.useMutation<StatusActionAllOfStatusMutation, StatusActionAllOfStatusMutationVariables>(StatusActionAllOfStatusDocument, options)
 }
-
 export type StatusActionAllOfStatusMutationHookResult = ReturnType<typeof useStatusActionAllOfStatusMutation>;
 export type StatusActionAllOfStatusMutationResult = Apollo.MutationResult<StatusActionAllOfStatusMutation>;
 export type StatusActionAllOfStatusMutationOptions = Apollo.BaseMutationOptions<StatusActionAllOfStatusMutation, StatusActionAllOfStatusMutationVariables>;

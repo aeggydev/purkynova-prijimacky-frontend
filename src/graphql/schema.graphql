@@ -91,8 +91,8 @@ type Participant {
     ip: String!
     variableSymbol: String!
     signUpDate: DateTime!
-    dueDate: DateTime!
-    paidDate: DateTime
+    dueDate: Date!
+    paidDate: Date
     isPaid: Boolean!
     isOver: Boolean!
     creationNotified: Boolean!
@@ -150,7 +150,8 @@ input UpdateParticipantInput {
     school: String
     phone: String
     email: String
-    paidDate: DateTime
+    dueDate: Date
+    paidDate: Date
 }
 
 input UpdateParticipantsItemInput {

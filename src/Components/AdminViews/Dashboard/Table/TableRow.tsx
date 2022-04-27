@@ -17,6 +17,7 @@ import {
     AlertDialogOverlay,
     Box,
     Button,
+    Input,
     Menu,
     MenuButton,
     MenuItem,
@@ -27,7 +28,7 @@ import {
 } from "@chakra-ui/react"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "../../../../store/store"
-import { setProperty } from "../../../../store/table"
+import { nullProperty, setProperty } from "../../../../store/table"
 import { usePrevious } from "../../../../hooks/usePrevious"
 import { DateTime } from "luxon"
 import { CheckIcon, CloseIcon, DeleteIcon, EditIcon, SettingsIcon } from "@chakra-ui/icons"
@@ -99,8 +100,8 @@ export function TableRow({ i, participant }: { i: number, participant: Participa
             <BindCellStatic index="variableSymbol" style={{ fontWeight: 500, fontSize: "1.3em" }} />
 
             <BindCellDateStatic index="signUpDate" />
-            <BindCellDateStatic index="dueDate" />
-            <BindCellDateStatic index="paidDate" />
+            <BindCellDate index="dueDate" />
+            <BindCellDate index="paidDate" />
             <Cell>
                 <Tooltip hasArrow placement="left" label={status.tooltip}>
                     <Button size="sm" mx="1em" px="1.75em" bg={status.color}
@@ -148,6 +149,47 @@ export function TableRow({ i, participant }: { i: number, participant: Participa
     </RowContext.Provider>
 }
 
+export function BindCellDate({ index }: { index: keyof Participant }) {
+    // TODO: Remove duplicate code
+    const { participant } = useContext(RowContext)
+    const changes = useSelector((state: RootState) => state.table.changes)
+    const dispatch = useDispatch()
+    useEffect(() => {
+        if (changesValue) setLocalValue(changesValue)
+        else if (prevChangesValue && !changesValue) setLocalValue(staticValue)
+    }, [changes])
+
+    const changesValue = changes[participant.id]?.[index]
+    const prevChangesValue = usePrevious(changesValue as string)
+    const staticValue = participant[index]
+    const [localValue, setLocalValue] = useState(staticValue)
+    const edited = localValue != staticValue
+
+    function onChange(e: ChangeEvent<HTMLInputElement>) {
+        setLocalValue(e.target.value)
+    }
+
+    function onBlur() {
+        if (localValue == staticValue) return
+        dispatch(setProperty({ value: localValue, prop: index, id: participant.id }))
+    }
+
+    async function onClear() {
+        // TODO: Position the button correctly
+        // TODO: Make it actually work with the cache
+        //await clearPaidDate({ variables: { id: participant.id } })
+        dispatch(nullProperty({ id: participant.id, prop: "paidDate" }))
+        setLocalValue(null)
+    }
+
+    return <Cell style={{ background: edited ? "#fdfebc" : "inherit" }}>
+        <Input type="date" onChange={onChange} onBlur={onBlur} value={localValue} />
+        {index == "paidDate"
+            ? <Button onClick={onClear}>X</Button>
+            : null}
+    </Cell>
+}
+
 export function BindCellDateStatic({ index }: { index: keyof Participant }) {
     const context = useContext(RowContext)
     const participant = context.participant
@@ -165,6 +207,7 @@ export function BindCellDateStatic({ index }: { index: keyof Participant }) {
 }
 
 export function BindCell({ index, passedStyle }: { index: keyof Participant, passedStyle?: CSSProperties }) {
+    // TODO: Remove duplicate code
     const { participant } = useContext(RowContext)
     const changes = useSelector((state: RootState) => state.table.changes)
     const dispatch = useDispatch()
