@@ -99,8 +99,7 @@ export function ButtonArea() {
                     <Button color="white" bg="#AC1821" onClick={discardChanges} leftIcon={<Cancel color="white" />}>
                         Zahodit změny
                     </Button>
-                    <EditStatusEl>Do ukončení režimu úpravy zbývá 05:16. Úprava zahájena 28.11.2021
-                        08:12.</EditStatusEl>
+                    {/* <EditStatusEl>Do ukončení režimu úpravy zbývá 05:16. Úprava zahájena 28.11.2021 08:12.</EditStatusEl> */}
                 </ButtonRowEl>
                 <ButtonRowEl>
                     <Button color="white" bg="#CBBE4D" onClick={() => handleAllOf(ParticipantStatus.PaidUnconfirmed)}
