@@ -7,3 +7,7 @@ export function useIsMobile(): boolean {
 export function useIsMobileTernary<T1, T2>(mobile: T1, desktop: T2): T1 | T2 {
     return useIsMobile() ? mobile : desktop
 }
+
+export function useIsMobileProp<T>(value: T): T | undefined {
+    return useIsMobile() ? value : undefined
+}
