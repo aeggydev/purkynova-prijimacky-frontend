@@ -1,4 +1,3 @@
-import Header from "./Components/Layout/Header"
 import { Redirect, Route, Switch, useHistory } from "react-router-dom"
 import { createGlobalStyle } from "styled-components"
 import React, { useEffect } from "react"
@@ -8,6 +7,7 @@ import Reporter from "./Components/Error/Reporter"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "./store/store"
 import { setLoggedIn } from "./store/login"
+import Header from "./Components/Layout/Header"
 
 const GlobalStyle = createGlobalStyle`
     #root {

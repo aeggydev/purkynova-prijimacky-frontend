@@ -1,8 +1,8 @@
-import Welcome from "./Components/UserViews/Welcome"
 import { Dashboard } from "./Components/AdminViews/Dashboard/Dashboard"
-import Form from "./Components/UserViews/Form"
-import Contact from "./Components/UserViews/Contact"
 import { Settings } from "./Components/AdminViews/Settings"
+import Welcome from "./Components/UserViews/Welcome"
+import SignUpForm from "./Components/UserViews/SignUpForm"
+import Contact from "./Components/UserViews/Contact"
 
 export type Route = {
     path: string
@@ -22,10 +22,10 @@ export const UserRoutes: Route[] = [
     },
     {
         path: "/form",
-        text: "Elektronická přihláška",
+        text: "Přihláška",
         listed: true,
         shouldGenerateRoute: true,
-        component: <Form />
+        component: <SignUpForm />
     },
     {
         path: "/contact",

@@ -1,8 +1,8 @@
 import styled from "styled-components"
 import React from "react"
-import ContentContainer from "../Containers/ContentContainer"
-import ShadowBox from "../Containers/ShadowBox"
-import ApplicationCount from "./Reusable/ApplicationCount"
+import ContentContainer from "../../Containers/ContentContainer"
+import ShadowBox from "../../Containers/ShadowBox"
+import ApplicationCount from "../Reusable/ApplicationCount"
 
 const Paragraph = styled.p`
     margin-bottom: 1em;
@@ -10,8 +10,7 @@ const Paragraph = styled.p`
     line-height: 24px;
 `
 
-// TODO: Add support for narrower layouts
-export default function Welcome() {
+export default function DWelcome() {
     return <ContentContainer>
         <ApplicationCount />
         <ShadowBox>

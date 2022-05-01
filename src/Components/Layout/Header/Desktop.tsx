@@ -1,16 +1,16 @@
 // @ts-ignore
 import spsLogo from "url:/src/Icons/sspbrno.png"
 import React from "react"
-import { LightText, TopbarAdminBg, TopbarBg } from "../../theme"
-import Menubar from "./Menubar"
+import { LightText, TopbarAdminBg, TopbarBg } from "../../../theme"
+import DMenubar from "../Menubar/Desktop"
 import { Box, Link } from "@chakra-ui/react"
-import Sps from "../../Icons/Sps"
+import Sps from "../../../Icons/Sps"
 
-interface HeaderProps {
+export interface HeaderProps {
     isAdmin: boolean
 }
 
-function Header({ isAdmin }: HeaderProps) {
+export default function DHeader({ isAdmin }: HeaderProps) {
     const bg = isAdmin ? TopbarAdminBg : TopbarBg
 
     const AdminMode = <Box position="absolute" top="10px" right="50px" color={LightText}>ADMIN</Box>
@@ -36,9 +36,7 @@ function Header({ isAdmin }: HeaderProps) {
                 </Box>
                 {isAdmin ? AdminMode : ""}
             </Box>
-            <Menubar isAdmin={isAdmin} />
+            <DMenubar isAdmin={isAdmin} />
         </Box>
     )
 }
-
-export default Header

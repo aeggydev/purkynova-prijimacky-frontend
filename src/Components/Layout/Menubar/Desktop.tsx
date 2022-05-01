@@ -1,6 +1,4 @@
 import * as React from "react"
-// @ts-ignore
-import MenuIcon from "url:/src/Icons/menu.svg"
 import { NavLink } from "react-router-dom"
 import { Box as ChakraBox } from "@chakra-ui/react"
 import {
@@ -11,10 +9,14 @@ import {
     TopbarBg,
     TopbarDarkBg,
     TopbarLightBg
-} from "../../theme"
-import { AdminRoutes, Route, UserRoutes } from "../../Routes"
+} from "../../../theme"
+import { AdminRoutes, Route, UserRoutes } from "../../../Routes"
 import { useSelector } from "react-redux"
-import { RootState } from "../../store/store"
+import { RootState } from "../../../store/store"
+
+interface MenubarProps {
+    isAdmin: boolean
+}
 
 type Props = {
     route: Route
@@ -41,11 +43,7 @@ function MenubarItem({ route, isAdmin }: Props) {
     </NavLink>
 }
 
-interface MenubarProps {
-    isAdmin: boolean
-}
-
-function Menubar({ isAdmin }: MenubarProps) {
+function DMenubar({ isAdmin }: MenubarProps) {
     const [drawerState, setDrawerState] = React.useState(false)
     const loginState = useSelector((state: RootState) => state.login)
 
@@ -70,4 +68,4 @@ function Menubar({ isAdmin }: MenubarProps) {
     </ChakraBox>
 }
 
-export default Menubar
+export default DMenubar
