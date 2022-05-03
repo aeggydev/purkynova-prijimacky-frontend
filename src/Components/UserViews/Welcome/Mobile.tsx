@@ -1,5 +1,7 @@
-import { Box, Text } from "@chakra-ui/react"
+import { Box, Button, Text } from "@chakra-ui/react"
 import ApplicationCount from "../Reusable/ApplicationCount"
+import { NavLink } from "react-router-dom"
+import { TopbarBg } from "../../../theme"
 
 export default function MWelcome() {
     return (
@@ -13,6 +15,11 @@ export default function MWelcome() {
                     earum enim eos, expedita facilis illo inventore ipsa, ipsam nobis odio provident quam reprehenderit
                     repudiandae sequi similique.
                 </Text>
+
+
+                <NavLink to="/form">
+                    <Button bg={TopbarBg} color="white" mt="2em">Přejít na přihlášku</Button>
+                </NavLink>
             </Box>
         </Box>
     )

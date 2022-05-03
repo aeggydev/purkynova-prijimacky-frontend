@@ -16,9 +16,10 @@ import {
 import { FieldErrors, RegisterOptions, SubmitHandler, useForm, UseFormRegister } from "react-hook-form"
 import { NewParticipantInput, useNewParticipantMutation } from "../../../graphql/graphql"
 import { useIsMobile, useIsMobileTernary } from "../../../hooks/useIsMobile"
-import React, { useContext } from "react"
-import { FormSubmitBg, TopbarDarkBg } from "../../../theme"
+import React, { useContext, useState } from "react"
+import { FormSubmitBg, TopbarBg, TopbarDarkBg } from "../../../theme"
 import { EmailIcon } from "@chakra-ui/icons"
+import { NavLink } from "react-router-dom"
 
 const RequiredError = { value: true, message: "Prosím doplňte pole" }
 
@@ -32,6 +33,7 @@ const Context = React.createContext({} as IContext)
 export default function Form() {
     const isMobile = useIsMobile()
     const columnSpan = useIsMobileTernary(undefined, "1 / 3")
+    const [isDone, setIsDone] = useState(false)
 
     const { handleSubmit, register, formState: { isDirty, isValid, errors } } = useForm<NewParticipantInput>({
         mode: "onChange"
@@ -43,10 +45,12 @@ export default function Form() {
         const mutation = await addMutation({
             variables: { addParticipant: data }
         })
+
+        setIsDone(true)
         console.log("submitted data: ", data)
     }
 
-    return <Context.Provider value={{ register, errors }}>
+    const form = <Context.Provider value={{ register, errors }}>
         <SimpleGrid as="form" onSubmit={handleSubmit(submit)} my="1.5em">
             <SimpleGrid columns={isMobile ? 1 : 2} gridGap="1rem">
                 <Heading size="md" gridColumn={columnSpan}>Informace o účastníkovi</Heading>
@@ -81,6 +85,20 @@ export default function Form() {
             </Button>
         </SimpleGrid>
     </Context.Provider>
+
+    const done = <Box py="2em" px="5%" textAlign="center" display="grid" justifyContent="center">
+        Děkujeme za přihlášení. Na e-mail Vám byly odeslány informace o platbě a variabilní symbol, pod kterým uhradíte
+        požadovanou částku.<br /><br />
+
+        Pokud e-mail nevidíte, zkontrolujte složku na spam. Pokud Vám e-mail vůbec nepřišel, <u>kontaktujte nás
+        prosím.</u>
+
+        <NavLink to="/main">
+            <Button bg={TopbarBg} color="white" mt="1em">Zpět na hlavní stránku</Button>
+        </NavLink>
+    </Box>
+
+    return isDone ? done : form
 }
 
 interface ControlProps {
