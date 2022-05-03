@@ -6,7 +6,9 @@ import EmailCancel from "../../../../Icons/EmailCancel"
 import ForceAdd from "../../../../Icons/ForceAdd"
 import DownloadExport from "../../../../Icons/DownloadExport"
 import {
+    GetEmailStatisticsDocument,
     GetParticipantsDocument,
+    GetStatisticsDocument,
     ParticipantStatus,
     UpdateParticipantsItemInput,
     useGetParticipantsQuery,
@@ -29,7 +31,7 @@ export function ButtonArea() {
     const dispatch = useDispatch()
     const [updateParticipantsMutation] = useUpdateParticipantsMutation({
         refetchQueries: [
-            GetParticipantsDocument
+            GetParticipantsDocument, GetStatisticsDocument, GetEmailStatisticsDocument
         ]
     })
     const [statusActionAllOfStatus] = useStatusActionAllOfStatusMutation()

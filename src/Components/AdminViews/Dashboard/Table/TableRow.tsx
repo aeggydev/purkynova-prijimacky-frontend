@@ -4,6 +4,7 @@ import {
     GetStatisticsDocument,
     Participant,
     ParticipantStatus,
+    useClearPaidMutation,
     useRemoveParticipantMutation
 } from "../../../../graphql/graphql"
 import React, { ChangeEvent, CSSProperties, PropsWithChildren, useContext, useEffect, useRef, useState } from "react"
@@ -17,6 +18,7 @@ import {
     AlertDialogOverlay,
     Box,
     Button,
+    Grid,
     Input,
     Menu,
     MenuButton,
@@ -159,11 +161,20 @@ export function BindCellDate({ index }: { index: keyof Participant }) {
         else if (prevChangesValue && !changesValue) setLocalValue(staticValue)
     }, [changes])
 
+    const inputRef = useRef<HTMLInputElement>(null)
+
     const changesValue = changes[participant.id]?.[index]
     const prevChangesValue = usePrevious(changesValue as string)
     const staticValue = participant[index]
     const [localValue, setLocalValue] = useState(staticValue)
     const edited = localValue != staticValue
+    if (edited) {
+        console.log(`id ${participant.id}, local value: ${localValue}, static: ${staticValue}`)
+    }
+
+    const [clearPaid] = useClearPaidMutation({
+        refetchQueries: [GetParticipantsDocument, GetStatisticsDocument, GetEmailStatisticsDocument]
+    })
 
     function onChange(e: ChangeEvent<HTMLInputElement>) {
         setLocalValue(e.target.value)
@@ -175,18 +186,22 @@ export function BindCellDate({ index }: { index: keyof Participant }) {
     }
 
     async function onClear() {
-        // TODO: Position the button correctly
-        // TODO: Make it actually work with the cache
-        //await clearPaidDate({ variables: { id: participant.id } })
-        dispatch(nullProperty({ id: participant.id, prop: "paidDate" }))
+        await clearPaid({ variables: { id: participant.id } })
         setLocalValue(null)
+        dispatch(nullProperty({ id: participant.id, prop: "paidDate" }))
+        // @ts-ignore // TODO: Fix this
+        inputRef.current.value = ""
     }
 
-    return <Cell style={{ background: edited ? "#fdfebc" : "inherit" }}>
-        <Input type="date" onChange={onChange} onBlur={onBlur} value={localValue} />
-        {index == "paidDate"
-            ? <Button onClick={onClear}>X</Button>
-            : null}
+    return <Cell
+        style={{ background: edited ? "#fdfebc" : "inherit" }}>
+        <Grid gridTemplateColumns="9fr 1fr" alignItems="stretch">
+            <Input type="date" onChange={onChange} onBlur={onBlur} value={localValue} ref={inputRef} />
+            <Button variant="link"
+                    onClick={onClear} visibility={index == "paidDate" ? "visible" : "hidden"}>
+                <CloseIcon color="red.600" />
+            </Button>
+        </Grid>
     </Cell>
 }
 

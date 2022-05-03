@@ -20,11 +20,6 @@ export type Scalars = {
     DateTime: any;
 };
 
-export enum ApplyPolicy {
-    AfterResolver = "AFTER_RESOLVER",
-    BeforeResolver = "BEFORE_RESOLVER"
-}
-
 export type EmailStatistics = {
     __typename?: "EmailStatistics";
     accepted: Scalars["Int"];
@@ -44,6 +39,7 @@ export type Mutation = {
     __typename?: "Mutation";
     addAdmin: Scalars["Int"];
     addParticipant: Participant;
+    clearPaid: Scalars["Boolean"];
     removeParticipant: Scalars["Boolean"];
     statusAction: Scalars["Boolean"];
     statusActionAllOfStatus: Scalars["Boolean"];
@@ -60,6 +56,11 @@ export type MutationAddAdminArgs = {
 
 export type MutationAddParticipantArgs = {
     newParticipant: NewParticipantInput;
+};
+
+
+export type MutationClearPaidArgs = {
+    id: Scalars["Int"];
 };
 
 
@@ -272,6 +273,13 @@ export type StatusActionAllOfStatusMutationVariables = Exact<{
 
 
 export type StatusActionAllOfStatusMutation = { __typename?: "Mutation", statusActionAllOfStatus: boolean };
+
+export type ClearPaidMutationVariables = Exact<{
+    id: Scalars["Int"];
+}>;
+
+
+export type ClearPaidMutation = { __typename?: "Mutation", clearPaid: boolean };
 
 export type LoginQueryVariables = Exact<{
     username: Scalars["String"];
@@ -665,9 +673,42 @@ export function useStatusActionAllOfStatusMutation(baseOptions?: Apollo.Mutation
     const options = { ...defaultOptions, ...baseOptions }
     return Apollo.useMutation<StatusActionAllOfStatusMutation, StatusActionAllOfStatusMutationVariables>(StatusActionAllOfStatusDocument, options)
 }
+
 export type StatusActionAllOfStatusMutationHookResult = ReturnType<typeof useStatusActionAllOfStatusMutation>;
 export type StatusActionAllOfStatusMutationResult = Apollo.MutationResult<StatusActionAllOfStatusMutation>;
 export type StatusActionAllOfStatusMutationOptions = Apollo.BaseMutationOptions<StatusActionAllOfStatusMutation, StatusActionAllOfStatusMutationVariables>;
+export const ClearPaidDocument = gql`
+    mutation ClearPaid($id: Int!) {
+        clearPaid(id: $id)
+    }
+`
+export type ClearPaidMutationFn = Apollo.MutationFunction<ClearPaidMutation, ClearPaidMutationVariables>;
+
+/**
+ * __useClearPaidMutation__
+ *
+ * To run a mutation, you first call `useClearPaidMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useClearPaidMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [clearPaidMutation, { data, loading, error }] = useClearPaidMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useClearPaidMutation(baseOptions?: Apollo.MutationHookOptions<ClearPaidMutation, ClearPaidMutationVariables>) {
+    const options = { ...defaultOptions, ...baseOptions }
+    return Apollo.useMutation<ClearPaidMutation, ClearPaidMutationVariables>(ClearPaidDocument, options)
+}
+
+export type ClearPaidMutationHookResult = ReturnType<typeof useClearPaidMutation>;
+export type ClearPaidMutationResult = Apollo.MutationResult<ClearPaidMutation>;
+export type ClearPaidMutationOptions = Apollo.BaseMutationOptions<ClearPaidMutation, ClearPaidMutationVariables>;
 export const LoginDocument = gql`
     query Login($username: String!, $password: String!) {
         login(login: {username: $username, password: $password})

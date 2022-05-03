@@ -67,6 +67,10 @@ mutation StatusAction($id: Int!, $presumedStatus: ParticipantStatus!) {
 mutation StatusActionAllOfStatus($expectedStatus: ParticipantStatus!) {
     statusActionAllOfStatus(expectedStatus: $expectedStatus)
 }
+mutation ClearPaid($id: Int!) {
+    clearPaid(id: $id)
+}
+
 query Login($username: String!, $password: String!) {
     login(login: {username: $username, password: $password})
 }

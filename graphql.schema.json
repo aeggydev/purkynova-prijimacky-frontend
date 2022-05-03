@@ -8,60 +8,37 @@
         },
         "subscriptionType": null,
         "types": [
-          {
-            "kind": "ENUM",
-            "name": "ApplyPolicy",
-            "description": null,
-            "fields": null,
-            "inputFields": null,
-            "interfaces": null,
-            "enumValues": [
-              {
-                "name": "AFTER_RESOLVER",
-                "description": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "BEFORE_RESOLVER",
-                "description": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              }
-            ],
-            "possibleTypes": null
-          },
-          {
-            "kind": "SCALAR",
-            "name": "Boolean",
-            "description": "The `Boolean` scalar type represents `true` or `false`.",
-            "fields": null,
-            "inputFields": null,
-            "interfaces": null,
-            "enumValues": null,
-            "possibleTypes": null
-          },
-          {
-            "kind": "SCALAR",
-            "name": "Date",
-            "description": "The `Date` scalar represents an ISO-8601 compliant date type.",
-            "fields": null,
-            "inputFields": null,
-            "interfaces": null,
-            "enumValues": null,
-            "possibleTypes": null
-          },
-          {
-            "kind": "SCALAR",
-            "name": "DateTime",
-            "description": "The `DateTime` scalar represents an ISO-8601 compliant date time type.",
-            "fields": null,
-            "inputFields": null,
-            "interfaces": null,
-            "enumValues": null,
-            "possibleTypes": null
-          },
-          {
+            {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "description": "The `Boolean` scalar type represents `true` or `false`.",
+                "fields": null,
+                "inputFields": null,
+                "interfaces": null,
+                "enumValues": null,
+                "possibleTypes": null
+            },
+            {
+                "kind": "SCALAR",
+                "name": "Date",
+                "description": "The `Date` scalar represents an ISO-8601 compliant date type.",
+                "fields": null,
+                "inputFields": null,
+                "interfaces": null,
+                "enumValues": null,
+                "possibleTypes": null
+            },
+            {
+                "kind": "SCALAR",
+                "name": "DateTime",
+                "description": "The `DateTime` scalar represents an ISO-8601 compliant date time type.",
+                "fields": null,
+                "inputFields": null,
+                "interfaces": null,
+                "enumValues": null,
+                "possibleTypes": null
+            },
+            {
                 "kind": "OBJECT",
                 "name": "EmailStatistics",
                 "description": null,
@@ -237,9 +214,9 @@
                                     "kind": "NON_NULL",
                                     "name": null,
                                     "ofType": {
-                                      "kind": "INPUT_OBJECT",
-                                      "name": "RegistrationInfoInput",
-                                      "ofType": null
+                                        "kind": "INPUT_OBJECT",
+                                        "name": "RegistrationInfoInput",
+                                        "ofType": null
                                     }
                                 },
                                 "defaultValue": null,
@@ -280,136 +257,169 @@
                                 "deprecationReason": null
                             }
                         ],
-                      "type": {
-                        "kind": "NON_NULL",
-                        "name": null,
-                        "ofType": {
-                          "kind": "OBJECT",
-                          "name": "Participant",
-                          "ofType": null
-                        }
-                      },
-                      "isDeprecated": false,
-                      "deprecationReason": null
-                    },
-                  {
-                    "name": "removeParticipant",
-                    "description": null,
-                    "args": [
-                      {
-                        "name": "id",
-                        "description": null,
                         "type": {
-                          "kind": "NON_NULL",
-                          "name": null,
-                          "ofType": {
-                            "kind": "SCALAR",
-                            "name": "Int",
-                            "ofType": null
-                          }
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "OBJECT",
+                                "name": "Participant",
+                                "ofType": null
+                            }
                         },
-                        "defaultValue": null,
                         "isDeprecated": false,
                         "deprecationReason": null
-                      }
-                    ],
-                    "type": {
-                      "kind": "NON_NULL",
-                      "name": null,
-                      "ofType": {
-                        "kind": "SCALAR",
-                        "name": "Boolean",
-                        "ofType": null
-                      }
                     },
-                    "isDeprecated": false,
-                    "deprecationReason": null
-                  },
-                  {
-                    "name": "statusAction",
-                    "description": null,
-                    "args": [
-                      {
-                        "name": "id",
+                    {
+                        "name": "clearPaid",
                         "description": null,
+                        "args": [
+                            {
+                                "name": "id",
+                                "description": null,
+                                "type": {
+                                    "kind": "NON_NULL",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "SCALAR",
+                                        "name": "Int",
+                                        "ofType": null
+                                    }
+                                },
+                                "defaultValue": null,
+                                "isDeprecated": false,
+                                "deprecationReason": null
+                            }
+                        ],
                         "type": {
-                          "kind": "NON_NULL",
-                          "name": null,
-                          "ofType": {
-                            "kind": "SCALAR",
-                            "name": "Int",
-                            "ofType": null
-                          }
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "Boolean",
+                                "ofType": null
+                            }
                         },
-                        "defaultValue": null,
                         "isDeprecated": false,
                         "deprecationReason": null
-                      },
-                      {
-                        "name": "presumedStatus",
+                    },
+                    {
+                        "name": "removeParticipant",
                         "description": null,
+                        "args": [
+                            {
+                                "name": "id",
+                                "description": null,
+                                "type": {
+                                    "kind": "NON_NULL",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "SCALAR",
+                                        "name": "Int",
+                                        "ofType": null
+                                    }
+                                },
+                                "defaultValue": null,
+                                "isDeprecated": false,
+                                "deprecationReason": null
+                            }
+                        ],
                         "type": {
-                          "kind": "NON_NULL",
-                          "name": null,
-                          "ofType": {
-                            "kind": "ENUM",
-                            "name": "ParticipantStatus",
-                            "ofType": null
-                          }
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "Boolean",
+                                "ofType": null
+                            }
                         },
-                        "defaultValue": null,
                         "isDeprecated": false,
                         "deprecationReason": null
-                      }
-                    ],
-                    "type": {
-                      "kind": "NON_NULL",
-                      "name": null,
-                      "ofType": {
-                        "kind": "SCALAR",
-                        "name": "Boolean",
-                        "ofType": null
-                      }
                     },
-                    "isDeprecated": false,
-                    "deprecationReason": null
-                  },
-                  {
-                    "name": "statusActionAllOfStatus",
-                    "description": null,
-                    "args": [
-                      {
-                        "name": "expectedStatus",
+                    {
+                        "name": "statusAction",
                         "description": null,
+                        "args": [
+                            {
+                                "name": "id",
+                                "description": null,
+                                "type": {
+                                    "kind": "NON_NULL",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "SCALAR",
+                                        "name": "Int",
+                                        "ofType": null
+                                    }
+                                },
+                                "defaultValue": null,
+                                "isDeprecated": false,
+                                "deprecationReason": null
+                            },
+                            {
+                                "name": "presumedStatus",
+                                "description": null,
+                                "type": {
+                                    "kind": "NON_NULL",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "ENUM",
+                                        "name": "ParticipantStatus",
+                                        "ofType": null
+                                    }
+                                },
+                                "defaultValue": null,
+                                "isDeprecated": false,
+                                "deprecationReason": null
+                            }
+                        ],
                         "type": {
-                          "kind": "NON_NULL",
-                          "name": null,
-                          "ofType": {
-                            "kind": "ENUM",
-                            "name": "ParticipantStatus",
-                            "ofType": null
-                          }
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "Boolean",
+                                "ofType": null
+                            }
                         },
-                        "defaultValue": null,
                         "isDeprecated": false,
                         "deprecationReason": null
-                      }
-                    ],
-                    "type": {
-                      "kind": "NON_NULL",
-                      "name": null,
-                      "ofType": {
-                        "kind": "SCALAR",
-                        "name": "Boolean",
-                        "ofType": null
-                      }
                     },
-                    "isDeprecated": false,
-                    "deprecationReason": null
-                  },
-                  {
-                    "name": "updateParticipant",
-                    "description": null,
+                    {
+                        "name": "statusActionAllOfStatus",
+                        "description": null,
+                        "args": [
+                            {
+                                "name": "expectedStatus",
+                                "description": null,
+                                "type": {
+                                    "kind": "NON_NULL",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "ENUM",
+                                        "name": "ParticipantStatus",
+                                        "ofType": null
+                                    }
+                                },
+                                "defaultValue": null,
+                                "isDeprecated": false,
+                                "deprecationReason": null
+                            }
+                        ],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "Boolean",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "updateParticipant",
+                        "description": null,
                         "args": [
                             {
                                 "name": "id",
@@ -712,9 +722,9 @@
                             "kind": "NON_NULL",
                             "name": null,
                             "ofType": {
-                              "kind": "SCALAR",
-                              "name": "Date",
-                              "ofType": null
+                                "kind": "SCALAR",
+                                "name": "Date",
+                                "ofType": null
                             }
                         },
                         "isDeprecated": false,
@@ -805,9 +815,9 @@
                         "description": null,
                         "args": [],
                         "type": {
-                          "kind": "SCALAR",
-                          "name": "Date",
-                          "ofType": null
+                            "kind": "SCALAR",
+                            "name": "Date",
+                            "ofType": null
                         },
                         "isDeprecated": false,
                         "deprecationReason": null
@@ -1125,116 +1135,116 @@
                         "isDeprecated": false,
                         "deprecationReason": null
                     },
-                  {
-                    "name": "statistics",
-                    "description": null,
-                    "args": [],
-                    "type": {
-                      "kind": "NON_NULL",
-                      "name": null,
-                      "ofType": {
-                        "kind": "OBJECT",
-                        "name": "Statistics",
-                        "ofType": null
-                      }
-                    },
-                    "isDeprecated": false,
-                    "deprecationReason": null
-                  }
+                    {
+                        "name": "statistics",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "OBJECT",
+                                "name": "Statistics",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    }
                 ],
-              "inputFields": null,
-              "interfaces": [],
-              "enumValues": null,
-              "possibleTypes": null
+                "inputFields": null,
+                "interfaces": [],
+                "enumValues": null,
+                "possibleTypes": null
             },
-          {
-            "kind": "INPUT_OBJECT",
-            "name": "RegistrationInfoInput",
-            "description": null,
-            "fields": null,
-            "inputFields": [
-              {
-                "name": "email",
+            {
+                "kind": "INPUT_OBJECT",
+                "name": "RegistrationInfoInput",
                 "description": null,
-                "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  }
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "password",
+                "fields": null,
+                "inputFields": [
+                    {
+                        "name": "email",
+                        "description": null,
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            }
+                        },
+                        "defaultValue": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "password",
+                        "description": null,
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            }
+                        },
+                        "defaultValue": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "username",
+                        "description": null,
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            }
+                        },
+                        "defaultValue": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    }
+                ],
+                "interfaces": null,
+                "enumValues": null,
+                "possibleTypes": null
+            },
+            {
+                "kind": "OBJECT",
+                "name": "Settings",
                 "description": null,
-                "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  }
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "username",
-                "description": null,
-                "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  }
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              }
-            ],
-            "interfaces": null,
-            "enumValues": null,
-            "possibleTypes": null
-          },
-          {
-            "kind": "OBJECT",
-            "name": "Settings",
-            "description": null,
-            "fields": [
-              {
-                "name": "allowedOver",
-                "description": null,
-                "args": [],
-                "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "Int",
-                    "ofType": null
-                  }
-                },
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "capacity",
-                "description": null,
-                "args": [],
-                "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
+                "fields": [
+                    {
+                        "name": "allowedOver",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "Int",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "capacity",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
                                 "kind": "SCALAR",
                                 "name": "Int",
                                 "ofType": null
@@ -1420,37 +1430,37 @@
                 "description": null,
                 "fields": null,
                 "inputFields": [
-                  {
-                    "name": "dueDate",
-                    "description": null,
-                    "type": {
-                      "kind": "SCALAR",
-                      "name": "Date",
-                      "ofType": null
+                    {
+                        "name": "dueDate",
+                        "description": null,
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "Date",
+                            "ofType": null
+                        },
+                        "defaultValue": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
                     },
-                    "defaultValue": null,
-                    "isDeprecated": false,
-                    "deprecationReason": null
-                  },
-                  {
-                    "name": "email",
-                    "description": null,
-                    "type": {
-                      "kind": "SCALAR",
-                      "name": "String",
-                      "ofType": null
-                    },
-                    "defaultValue": null,
-                    "isDeprecated": false,
-                    "deprecationReason": null
+                    {
+                        "name": "email",
+                        "description": null,
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "String",
+                            "ofType": null
+                        },
+                        "defaultValue": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
                     },
                     {
                         "name": "paidDate",
                         "description": null,
                         "type": {
-                          "kind": "SCALAR",
-                          "name": "Date",
-                          "ofType": null
+                            "kind": "SCALAR",
+                            "name": "Date",
+                            "ofType": null
                         },
                         "defaultValue": null,
                         "isDeprecated": false,
@@ -2576,132 +2586,37 @@
             }
         ],
         "directives": [
-          {
-            "name": "authorize",
-            "description": null,
-            "isRepeatable": true,
-            "locations": [
-              "FIELD_DEFINITION",
-              "OBJECT",
-              "SCHEMA"
-            ],
-            "args": [
-              {
-                "name": "apply",
-                "description": "Defines when when the resolver shall be executed.By default the resolver is executed after the policy has determined that the current user is allowed to access the field.",
-                "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "ENUM",
-                    "name": "ApplyPolicy",
-                    "ofType": null
-                  }
-                },
-                "defaultValue": "BEFORE_RESOLVER",
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "policy",
-                "description": "The name of the authorization policy that determines access to the annotated resource.",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "roles",
-                "description": "Roles that are allowed to access the annotated resource.",
-                "type": {
-                  "kind": "LIST",
-                  "name": null,
-                  "ofType": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "SCALAR",
-                      "name": "String",
-                      "ofType": null
+            {
+                "name": "deprecated",
+                "description": "Marks an element of a GraphQL schema as no longer supported.",
+                "isRepeatable": false,
+                "locations": [
+                    "ARGUMENT_DEFINITION",
+                    "ENUM_VALUE",
+                    "FIELD_DEFINITION",
+                    "INPUT_FIELD_DEFINITION"
+                ],
+                "args": [
+                    {
+                        "name": "reason",
+                        "description": "Explains why this element was deprecated, usually also including a suggestion for how to access supported similar data. Formatted using the Markdown syntax, as specified by [CommonMark](https://commonmark.org/).",
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "String",
+                            "ofType": null
+                        },
+                        "defaultValue": "\"No longer supported\"",
+                        "isDeprecated": false,
+                        "deprecationReason": null
                     }
-                  }
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              }
-            ]
-          },
-          {
-            "name": "defer",
-            "description": "The `@defer` directive may be provided for fragment spreads and inline fragments to inform the executor to delay the execution of the current fragment to indicate deprioritization of the current fragment. A query with `@defer` directive will cause the request to potentially return multiple responses, where non-deferred data is delivered in the initial response and data deferred is delivered in a subsequent response. `@include` and `@skip` take precedence over `@defer`.",
-            "isRepeatable": false,
-            "locations": [
-              "FRAGMENT_SPREAD",
-              "INLINE_FRAGMENT"
-            ],
-            "args": [
-              {
-                "name": "if",
-                "description": "Deferred when true.",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Boolean",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "label",
-                "description": "If this argument label has a value other than null, it will be passed on to the result of this defer directive. This label is intended to give client applications a way to identify to which fragment a deferred result belongs to.",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              }
-            ]
-          },
-          {
-            "name": "deprecated",
-            "description": "Marks an element of a GraphQL schema as no longer supported.",
-            "isRepeatable": false,
-            "locations": [
-              "ARGUMENT_DEFINITION",
-              "ENUM_VALUE",
-              "FIELD_DEFINITION",
-              "INPUT_FIELD_DEFINITION"
-            ],
-            "args": [
-              {
-                "name": "reason",
-                "description": "Explains why this element was deprecated, usually also including a suggestion for how to access supported similar data. Formatted using the Markdown syntax, as specified by [CommonMark](https://commonmark.org/).",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                },
-                "defaultValue": "\"No longer supported\"",
-                "isDeprecated": false,
-                "deprecationReason": null
-              }
-            ]
-          },
-          {
-            "name": "include",
-            "description": "Directs the executor to include this field or fragment only when the `if` argument is true.",
-            "isRepeatable": false,
-            "locations": [
-              "FIELD",
+                ]
+            },
+            {
+                "name": "include",
+                "description": "Directs the executor to include this field or fragment only when the `if` argument is true.",
+                "isRepeatable": false,
+                "locations": [
+                    "FIELD",
                     "FRAGMENT_SPREAD",
                     "INLINE_FRAGMENT"
                 ],
@@ -2742,92 +2657,42 @@
                             "name": null,
                             "ofType": {
                                 "kind": "SCALAR",
-                              "name": "Boolean",
-                              "ofType": null
+                                "name": "Boolean",
+                                "ofType": null
                             }
                         },
-                      "defaultValue": null,
-                      "isDeprecated": false,
-                      "deprecationReason": null
+                        "defaultValue": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
                     }
                 ]
             },
-          {
-            "name": "specifiedBy",
-            "description": "Exposes a URL that specifies the behavior of this scalar.",
-            "isRepeatable": false,
-            "locations": [
-              "SCALAR"
-            ],
-            "args": [
-              {
-                "name": "url",
-                "description": "The URL that specifies the behavior of this scalar.",
-                "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  }
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              }
-            ]
-          },
-          {
-            "name": "stream",
-            "description": "The `@stream` directive may be provided for a field of `List` type so that the backend can leverage technology such as asynchronous iterators to provide a partial list in the initial response, and additional list items in subsequent responses. `@include` and `@skip` take precedence over `@stream`.",
-            "isRepeatable": false,
-            "locations": [
-              "FIELD"
-            ],
-            "args": [
-              {
-                "name": "if",
-                "description": "Streamed when true.",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Boolean",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "initialCount",
-                "description": "The initial elements that shall be send down to the consumer.",
-                "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "Int",
-                    "ofType": null
-                  }
-                },
-                "defaultValue": "0",
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "label",
-                "description": "If this argument label has a value other than null, it will be passed on to the result of this stream directive. This label is intended to give client applications a way to identify to which fragment a streamed result belongs to.",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              }
-            ]
-          }
+            {
+                "name": "specifiedBy",
+                "description": "Exposes a URL that specifies the behavior of this scalar.",
+                "isRepeatable": false,
+                "locations": [
+                    "SCALAR"
+                ],
+                "args": [
+                    {
+                        "name": "url",
+                        "description": "The URL that specifies the behavior of this scalar.",
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            }
+                        },
+                        "defaultValue": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    }
+                ]
+            }
         ]
     }
 }
