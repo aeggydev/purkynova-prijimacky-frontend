@@ -2,10 +2,11 @@ import { Participant } from "../../../../graphql/graphql"
 import { PropsWithChildren } from "react"
 import styled from "styled-components"
 import { SSplitDiv } from "./TableRow"
+import { Thead, Tr } from "@chakra-ui/react"
 
 export function TableHeader() {
-    return <SHead>
-        <tr>
+    return <Thead bg="#18AC6A" color="#fff" pos="sticky" top="0" fontSize="0.925em" zIndex={100}>
+        <Tr>
             <BindHeader index="id">ID</BindHeader>
             <SplitCell>
                 <BindHeader index="participantName">Jméno úč.</BindHeader>
@@ -18,20 +19,20 @@ export function TableHeader() {
                 <BindHeader index="parentSurname">Příjm. zást.</BindHeader>
             </SplitCell>
             <ThreeSplitDiv>
-                <BindHeader index="school" noRightBorder={true}>Základní škola, obec</BindHeader>
+                <BindHeader index="school" noRightBorder>Základní škola, obec</BindHeader>
                 <Separator />
-                <BindHeader index="phone" noLeftBorder={true} noRightBorder={true}>Telefon</BindHeader>
+                <BindHeader index="phone" noLeftBorder noRightBorder>Telefon</BindHeader>
                 <BindHeader index="email">E-mail zákonného zástupce</BindHeader>
-                <BindHeader index="ip" noRightBorder={true}>IP adresa</BindHeader>
+                <BindHeader index="ip" noRightBorder>IP adresa</BindHeader>
             </ThreeSplitDiv>
             <BindHeader index="variableSymbol">Variabilní symbol</BindHeader>
             <BindHeader index="signUpDate">Datum a čas přihlášení</BindHeader>
             <BindHeader index="dueDate">Datum splatnosti</BindHeader>
             <BindHeader index="paidDate">Datum uhrazení</BindHeader>
-            <SHeader noLeftBorder={false} noRightBorder={true} />
-            <SHeader noLeftBorder={true} noRightBorder={true} />
-        </tr>
-    </SHead>
+            <SHeader noLeftBorder noRightBorder />
+            <SHeader noLeftBorder noRightBorder />
+        </Tr>
+    </Thead>
 }
 
 interface BindHeaderProps {
@@ -85,12 +86,4 @@ const SHeader = styled.th<{ noLeftBorder?: boolean, noRightBorder?: boolean }>`
     &:first-child, &:last-child {
         border-left-width: 0;
     }
-`
-const SHead = styled.thead`
-    background: #18AC6A;
-    color: #FFFFFF;
-    position: sticky;
-    top: 0;
-    font-size: 0.925em;
-    z-index: 100;
 `

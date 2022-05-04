@@ -1,10 +1,9 @@
-import styled from "styled-components"
 import { Participant, useGetParticipantsQuery } from "../../../../graphql/graphql"
 import { TableRow } from "./TableRow"
 import { TableHeader } from "./TableHeader"
 import { useDispatch } from "react-redux"
 import { clear } from "../../../../store/table"
-import { useToast } from "@chakra-ui/react"
+import { Table as TableComponent, Tbody, useToast } from "@chakra-ui/react"
 
 export function Table() {
     const dispatch = useDispatch()
@@ -26,12 +25,8 @@ export function Table() {
     if (loading) return <div>Loading</div>
     const participants = data!.participants as Participant[]
 
-    return <TableRoot>
+    return <TableComponent>
         <TableHeader />
-        <tbody>{participants.map((x, i) => <TableRow participant={x} key={x.id} i={i} />)}</tbody>
-    </TableRoot>
+        <Tbody>{participants.map((x, i) => <TableRow participant={x} key={x.id} i={i} />)}</Tbody>
+    </TableComponent>
 }
-
-const TableRoot = styled.table`
-    table-layout: fixed;
-`
