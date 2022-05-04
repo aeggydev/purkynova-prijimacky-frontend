@@ -1,9 +1,8 @@
 import { Participant } from "../graphql/graphql"
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
-type StateParticipant = Omit<Participant, "__typename">
 interface TableState {
-    changes: { [id: number]: Partial<StateParticipant> }
+    changes: { [id: number]: Partial<Participant> }
 }
 
 const initialState: TableState = { changes: {} }
@@ -13,7 +12,7 @@ export const tableSlice = createSlice({
     initialState,
     reducers: {
         clear: (state) => ({ changes: {} }),
-        setProperty(state, action: PayloadAction<{ id: number, prop: keyof StateParticipant, value: string | null }>) {
+        setProperty(state, action: PayloadAction<{ id: number, prop: keyof Participant, value: string | null }>) {
             const payload = action.payload
             if (!state.changes[payload.id]) state.changes[payload.id] = {}
 
