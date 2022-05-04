@@ -1,20 +1,8 @@
 import ShadowBox from "../../Containers/ShadowBox"
-import { Box } from "@chakra-ui/react"
-import React, { PropsWithChildren } from "react"
+import React from "react"
 import ContentContainer from "../../Containers/ContentContainer"
 import ApplicationCount from "../Reusable/ApplicationCount"
 import Form from "./Form"
-
-interface RowProps {
-    row: number;
-}
-
-export const Row = ({ children, row }: PropsWithChildren<RowProps>) => (
-    <Box gridRow={row} gridColumn={1}
-         display="grid" gridGap="12px" gridAutoFlow="column">
-        {children}
-    </Box>
-)
 
 export default function DForm() {
     return (

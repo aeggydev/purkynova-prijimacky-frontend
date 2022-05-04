@@ -16,7 +16,6 @@ export default function MWelcome() {
                     repudiandae sequi similique.
                 </Text>
 
-
                 <NavLink to="/form">
                     <Button bg={TopbarBg} color="white" mt="2em">Přejít na přihlášku</Button>
                 </NavLink>

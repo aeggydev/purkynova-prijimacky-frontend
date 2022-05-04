@@ -3,7 +3,6 @@ import { createGlobalStyle } from "styled-components"
 import React, { useEffect } from "react"
 import { AdminRoutes, UserRoutes } from "./Routes"
 import { Box } from "@chakra-ui/react"
-import Reporter from "./Components/Error/Reporter"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "./store/store"
 import { setLoggedIn } from "./store/login"
@@ -36,21 +35,19 @@ function App() {
         : UserRoutes
 
     return (
-        <Reporter>
-            <Box h="100%">
-                <GlobalStyle />
-                <Box id="route-component" height="100%" display="flex" flexDir="column">
-                    <Header isAdmin={loginState.loggedIn} />
-                    <Switch>
-                        <Route path="/" exact>
-                            <Redirect to={"/main"} />
-                        </Route>
-                        {routes.filter(x => x.shouldGenerateRoute)
-                            .map((x, i) => <Route path={x.path} key={i}>{x.component}</Route>)}
-                    </Switch>
-                </Box>
+        <Box h="100%">
+            <GlobalStyle />
+            <Box id="route-component" height="100%" display="flex" flexDir="column">
+                <Header isAdmin={loginState.loggedIn} />
+                <Switch>
+                    <Route path="/" exact>
+                        <Redirect to={"/main"} />
+                    </Route>
+                    {routes.filter(x => x.shouldGenerateRoute)
+                        .map((x, i) => <Route path={x.path} key={i}>{x.component}</Route>)}
+                </Switch>
             </Box>
-        </Reporter>
+        </Box>
     )
 }
 

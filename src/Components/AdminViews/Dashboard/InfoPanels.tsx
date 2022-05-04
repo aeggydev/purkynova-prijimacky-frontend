@@ -1,8 +1,7 @@
-import { Box, Grid, GridItem, Skeleton } from "@chakra-ui/react"
+import { Box, Grid, GridItem, Skeleton, useToast } from "@chakra-ui/react"
 import React, { useContext } from "react"
 import ShadowBox from "../../Containers/ShadowBox"
 import { useGetEmailStatisticsQuery, useGetSettingsQuery, useGetStatisticsQuery } from "../../../graphql/graphql"
-import { ReporterContext } from "../../Error/Reporter"
 
 function InfoBoxRow({ left, right }: { left: string | number, right: string | number | undefined }) {
     const context = useContext(InfoContext)
@@ -22,7 +21,7 @@ interface IInfoContext {
 const InfoContext = React.createContext<IInfoContext>({} as IInfoContext)
 
 export function InfoPanels() {
-    const reporter = useContext(ReporterContext)
+    const toast = useToast()
 
     const {
         error: settingsError,
@@ -30,7 +29,7 @@ export function InfoPanels() {
         loading: settingsLoading
     } = useGetSettingsQuery({
         fetchPolicy: "cache-and-network",
-        onError: error => reporter.error("Problém při spojení", error.message)
+        onError: error => toast({ title: "Problém při spojení", description: error.message, status: "error" })
     })
     const {
         error: statisticsError,
@@ -38,7 +37,7 @@ export function InfoPanels() {
         loading: statisticsLoading
     } = useGetStatisticsQuery({
         fetchPolicy: "cache-and-network",
-        onError: error => reporter.error("Problém při spojení", error.message)
+        onError: error => toast({ title: "Problém při spojení", description: error.message, status: "error" })
     })
     const {
         error: emailError,
@@ -46,7 +45,7 @@ export function InfoPanels() {
         loading: emailLoading
     } = useGetEmailStatisticsQuery({
         fetchPolicy: "cache-and-network",
-        onError: error => reporter.error("Problém při spojení", error.message)
+        onError: error => toast({ title: "Problém při spojení", description: error.message, status: "error" })
     })
     const settings = settingsData?.settings
     const statistics = statisticsData?.statistics
@@ -61,7 +60,7 @@ export function InfoPanels() {
         : undefined
 
     return <InfoContext.Provider value={contextValue}>
-        <Box d="flex" flexDir="row" justifyContent="space-between" alignItems="start"
+        <Box display="flex" flexDir="row" justifyContent="space-between" alignItems="start"
              px="5rem">
             <ShadowBox p=".75rem">
                 <InfoBoxRow left="Maximální kapacita" right={settings?.capacity} />

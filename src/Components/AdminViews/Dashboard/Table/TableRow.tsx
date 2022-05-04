@@ -107,6 +107,7 @@ export function TableRow({ i, participant }: { i: number, participant: Participa
             <Cell>
                 <Tooltip hasArrow placement="left" label={status.tooltip}>
                     <Button size="sm" mx="1em" px="1.75em" bg={status.color}
+                            _hover={{ background: "gray" }}
                             onClick={() => status.execute(participant, apollo)}>
                         {status.icon}
                     </Button>
