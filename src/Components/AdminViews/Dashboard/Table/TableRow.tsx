@@ -30,7 +30,7 @@ import {
 } from "@chakra-ui/react"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "../../../../store/store"
-import { nullProperty, setProperty } from "../../../../store/table"
+import { setProperty } from "../../../../store/table"
 import { usePrevious } from "../../../../hooks/usePrevious"
 import { DateTime } from "luxon"
 import { CheckIcon, CloseIcon, DeleteIcon, EditIcon, SettingsIcon } from "@chakra-ui/icons"
@@ -189,7 +189,7 @@ export function BindCellDate({ index }: { index: keyof Participant }) {
     async function onClear() {
         await clearPaid({ variables: { id: participant.id } })
         setLocalValue(null)
-        dispatch(nullProperty({ id: participant.id, prop: "paidDate" }))
+        dispatch(setProperty({ id: participant.id, prop: "paidDate", value: null }))
         // @ts-ignore // TODO: Fix this
         inputRef.current.value = ""
     }
