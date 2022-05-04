@@ -21,6 +21,7 @@ type Mutation {
     statusAction(id: Int!, presumedStatus: ParticipantStatus!): Boolean!
     statusActionAllOfStatus(expectedStatus: ParticipantStatus!): Boolean!
     clearPaid(id: Int!): Boolean!
+    forceCancelationStatus(id: Int!, value: Boolean!): Boolean!
 }
 
 type Participant {
@@ -42,6 +43,7 @@ type Participant {
     creationNotified: Boolean!
     cancelationNotified: Boolean!
     paidNotified: Boolean!
+    forceCanceled: Boolean!
     status: ParticipantStatus!
 }
 
