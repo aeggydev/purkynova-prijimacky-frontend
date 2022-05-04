@@ -44,19 +44,9 @@ function MenubarItem({ route, isAdmin }: Props) {
 }
 
 function DMenubar({ isAdmin }: MenubarProps) {
-    const [drawerState, setDrawerState] = React.useState(false)
     const loginState = useSelector((state: RootState) => state.login)
 
     const bg = isAdmin ? TopbarAdminBg : TopbarBg
-
-    const toggleDrawer = (value?: boolean) => () => {
-        if (value) {
-            setDrawerState(value)
-        } else {
-            setDrawerState(!drawerState)
-        }
-    }
-
     const routes = loginState.loggedIn
         ? AdminRoutes
         : UserRoutes

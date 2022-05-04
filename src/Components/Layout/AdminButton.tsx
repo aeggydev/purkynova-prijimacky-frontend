@@ -16,7 +16,6 @@ import {
     useDisclosure,
     useToast
 } from "@chakra-ui/react"
-// @ts-ignore
 import { GrayText } from "../../theme"
 import { useDispatch, useSelector } from "react-redux"
 import { setLoggedIn } from "../../store/login"
