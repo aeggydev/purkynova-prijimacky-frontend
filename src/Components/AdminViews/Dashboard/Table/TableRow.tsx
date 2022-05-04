@@ -7,7 +7,7 @@ import {
     useClearPaidMutation,
     useRemoveParticipantMutation
 } from "../../../../graphql/graphql"
-import React, { ChangeEvent, CSSProperties, PropsWithChildren, useContext, useEffect, useRef, useState } from "react"
+import React, { ChangeEvent, CSSProperties, PropsWithChildren, useRef } from "react"
 import styled from "styled-components"
 import {
     AlertDialog,
@@ -28,17 +28,14 @@ import {
     useDisclosure,
     useToast
 } from "@chakra-ui/react"
-import { useDispatch, useSelector } from "react-redux"
-import { RootState } from "../../../../store/store"
-import { setProperty } from "../../../../store/table"
-import { usePrevious } from "../../../../hooks/usePrevious"
 import { DateTime } from "luxon"
 import { CheckIcon, CloseIcon, DeleteIcon, EditIcon, SettingsIcon } from "@chakra-ui/icons"
 import { Resolve } from "./statusResolver"
 import { useApolloClient } from "@apollo/client"
+import { useTableCell } from "../../../../hooks/useTableCell"
 
 type ContextType = { participant: Participant }
-const RowContext = React.createContext<ContextType>({} as ContextType)
+export const RowContext = React.createContext<ContextType>({} as ContextType)
 
 export function TableRow({ i, participant }: { i: number, participant: Participant }) {
     const toast = useToast()
@@ -153,25 +150,8 @@ export function TableRow({ i, participant }: { i: number, participant: Participa
 }
 
 export function BindCellDate({ index }: { index: keyof Participant }) {
-    // TODO: Remove duplicate code
-    const { participant } = useContext(RowContext)
-    const changes = useSelector((state: RootState) => state.table.changes)
-    const dispatch = useDispatch()
-    useEffect(() => {
-        if (changesValue) setLocalValue(changesValue)
-        else if (prevChangesValue && !changesValue) setLocalValue(staticValue)
-    }, [changes])
-
+    const { localValue, setLocalValue, storeChange, edited, staticParticipant } = useTableCell(index)
     const inputRef = useRef<HTMLInputElement>(null)
-
-    const changesValue = changes[participant.id]?.[index]
-    const prevChangesValue = usePrevious(changesValue as string)
-    const staticValue = participant[index]
-    const [localValue, setLocalValue] = useState(staticValue)
-    const edited = localValue != staticValue
-    if (edited) {
-        console.log(`id ${participant.id}, local value: ${localValue}, static: ${staticValue}`)
-    }
 
     const [clearPaid] = useClearPaidMutation({
         refetchQueries: [GetParticipantsDocument, GetStatisticsDocument, GetEmailStatisticsDocument]
@@ -180,18 +160,17 @@ export function BindCellDate({ index }: { index: keyof Participant }) {
     function onChange(e: ChangeEvent<HTMLInputElement>) {
         setLocalValue(e.target.value)
     }
-
     function onBlur() {
-        if (localValue == staticValue) return
-        dispatch(setProperty({ value: localValue, prop: index, id: participant.id }))
+        storeChange(localValue)
     }
 
     async function onClear() {
-        await clearPaid({ variables: { id: participant.id } })
+        await clearPaid({ variables: { id: staticParticipant.id } })
         setLocalValue(null)
-        dispatch(setProperty({ id: participant.id, prop: "paidDate", value: null }))
-        // @ts-ignore // TODO: Fix this
-        inputRef.current.value = ""
+        storeChange(null)
+        if (inputRef.current?.value) {
+            inputRef.current!.value = ""
+        }
     }
 
     return <Cell
@@ -207,45 +186,27 @@ export function BindCellDate({ index }: { index: keyof Participant }) {
 }
 
 export function BindCellDateStatic({ index }: { index: keyof Participant }) {
-    const context = useContext(RowContext)
-    const participant = context.participant
+    const { staticValue } = useTableCell(index)
+    const date = staticValue
+        ? DateTime.fromISO(staticValue)
+        : null
+    const dateString = date?.toLocaleString(DateTime.DATETIME_MED, { locale: "cs" })
+
     const emptyLine = <span style={{ display: "flex", placeContent: "center" }}>
         <Box width="7ex" borderBottom="1.75px solid black" paddingTop="1em" />
     </span>
 
-    const date = participant[index]
-        ? DateTime.fromISO(participant[index])
-        : null
-    const dateString = date?.toLocaleString(DateTime.DATETIME_MED, { locale: "cs" })
-
-    return <Cell
-        style={{ textAlign: "center" }}>{dateString ?? emptyLine}</Cell>
+    return <Cell style={{ textAlign: "center" }}>{dateString ?? emptyLine}</Cell>
 }
 
 export function BindCell({ index, passedStyle }: { index: keyof Participant, passedStyle?: CSSProperties }) {
-    // TODO: Remove duplicate code
-    const { participant } = useContext(RowContext)
-    const changes = useSelector((state: RootState) => state.table.changes)
-    const dispatch = useDispatch()
-
-    useEffect(() => {
-        if (changesValue) setLocalValue(changesValue)
-        else if (prevChangesValue && !changesValue) setLocalValue(staticValue)
-    }, [changes])
-
-    const changesValue = changes[participant.id]?.[index]
-    const prevChangesValue = usePrevious(changesValue as string)
-    const staticValue = participant[index]
-    const [localValue, setLocalValue] = useState(staticValue)
-    const edited = localValue != staticValue
+    const { localValue, setLocalValue, edited, storeChange } = useTableCell(index)
 
     function onChange(e: ChangeEvent<HTMLInputElement>) {
         setLocalValue(e.target.value)
     }
-
     function onBlur() {
-        if (localValue == staticValue) return
-        dispatch(setProperty({ value: localValue, prop: index, id: participant.id }))
+        storeChange(localValue)
     }
 
     return <Cell style={passedStyle}>
@@ -254,13 +215,13 @@ export function BindCell({ index, passedStyle }: { index: keyof Participant, pas
 }
 
 export function BindCellStatic({ index, style }: { index: keyof Participant, style?: CSSProperties }) {
-    const context = useContext(RowContext)
-    const participant = context.participant
+    const { staticValue } = useTableCell(index)
+
     const emptyLine = <span style={{ display: "flex", placeContent: "center" }}>
         <Box width="7ex" borderBottom="1.75px solid black" paddingTop="1em" />
     </span>
 
-    return <Cell style={{ textAlign: "center", ...style }}>{participant[index] ?? emptyLine}</Cell>
+    return <Cell style={{ textAlign: "center", ...style }}>{staticValue ?? emptyLine}</Cell>
     // TODO: Center empty field
 }
 
